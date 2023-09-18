@@ -50,12 +50,10 @@
           />
         </label>
 
-        <button
-          class="bg-red BodyM mt-4 h-12 text-pureWhite hover:bg-pureWhite hover:text-semiDarkBlue rounded-md"
-          type="submit"
-        >
-          Create an Account
-        </button>
+        <button-component
+          [buttonText]="'Create an Account'"
+          [buttonType]="'submit'"
+        ></button-component>
       </fieldset>
     </form>
     <div class="wrapper flex gap-2 mt-6">
