@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'login-pages',
-  templateUrl: './login.component.html',
+  selector: 'login-page',
+  templateUrl: './login.page.html',
 })
-export class LoginComponent {
+export class LoginPage {
   constructor(private router: Router) {}
 
   navigateToSignupRoute() {
