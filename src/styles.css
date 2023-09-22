@@ -1,4 +1,3 @@
-/* src/styles.css */
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
@@ -15,6 +14,9 @@
   box-sizing: border-box;
   transition: 0.2s ease-in-out;
   font-family: "Outfit", sans-serif;
+}
+body {
+  overflow-x: hidden;
 }
 html {
   scroll-behavior: smooth;
@@ -115,4 +117,19 @@ select {
   font-style: normal;
   font-weight: 300;
   line-height: normal;
+}
+
+.custom_scrollbar::-webkit-scrollbar {
+  width: 9px;
+  height: 9px; /* Altura da barra de rolagem horizontal */
+  background-color: #10141e !important; /* Cor de fundo da barra de rolagem */
+}
+
+.custom_scrollbar::-webkit-scrollbar-thumb {
+  background-color: #fc4747;
+  border-radius: 0.3125rem; /* Borda arredondada */
+}
+
+.custom_scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #fc4747;
 }
