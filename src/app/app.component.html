@@ -1,10 +1,18 @@
+<style>
+  @media (max-width: 768px) {
+    .wrapper-content {
+      flex-direction: column;
+    }
+  }
+</style>
+
 <!-- Verifica a rota atual e aplica o layout apropriado -->
 <ng-container *ngIf="isAuthLayoutRoute(); else defaultLayout">
   <auth-layout></auth-layout>
 </ng-container>
 
 <ng-template #defaultLayout>
-  <div class="flex bg-darkBlue">
+  <div class="wrapper-content flex bg-darkBlue">
     <header-component></header-component>
     <main class="w-full pt-16">
       <router-outlet></router-outlet>
