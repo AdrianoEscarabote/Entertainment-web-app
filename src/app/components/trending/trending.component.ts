@@ -13,10 +13,12 @@ export class TrendingComponent implements OnInit {
       movies
         .filter((movie) => movie.isTrending === true)
         .map((movie) => ({
-          title: movie.title,
-          year: movie.year,
-          category: movie.category,
-          rating: movie.rating,
+          movieData: {
+            title: movie.title,
+            year: movie.year.toString(),
+            type: movie.category,
+            rating: movie.rating,
+          },
           isBookmarked: movie.isBookmarked,
           isTrending: movie.isTrending,
           thumbnailLarge: movie.thumbnail.trending.large,

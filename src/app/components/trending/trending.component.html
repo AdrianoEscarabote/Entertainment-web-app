@@ -1,32 +1,20 @@
-<style>
-  .card {
-    background: center no-repeat;
-    background-size: cover;
-  }
-</style>
-
+<h2 class="HeadingL text-white mb-6">Trending</h2>
 <section
   class="custom_scrollbar rounded-lg flex flex-col items-start gap-6 w-full h-[254px] relative overflow-x-auto"
 >
-  <h2 class="HeadingL text-white">Trending</h2>
-
   <div class="flex gap-6 absolute pr-4">
     <div class="flex gap-6 absolute pr-4">
       <div
         *ngFor="let movie of movies$ | async"
-        class="flex pt-4 pb-6 px-6 relative card w-[470px] h-[230px] rounded-lg draggable-item"
+        class="flex pt-4 pb-6 px-6 relative bg-center bg-no-repeat bg-cover w-[470px] h-[230px] rounded-lg draggable-item"
         [style.background-image]="'url(' + movie.thumbnailLarge + ')'"
       >
         <bookmarkbutton-component></bookmarkbutton-component>
 
-        <div class="flex flex-col self-end">
-          <ul class="opacity-75 flex gap-6 list-disc BodyS text-pureWhite">
-            <li class="list-none">{{ movie.year }}</li>
-            <li>{{ movie.category }}</li>
-            <li>{{ movie.rating }}</li>
-          </ul>
-          <h4 class="HeadingS text-pureWhite">{{ movie.title }}</h4>
-        </div>
+        <movieInfo-component
+          class="self-end"
+          [movieData]="movie.movieData"
+        ></movieInfo-component>
       </div>
     </div>
   </div>
