@@ -1,0 +1,18 @@
+<div class="">
+  <input-component [placeholderText]="'Search for movies'"></input-component>
+  <h2 class="HeadingL text-white my-8">Movies</h2>
+  <div class="wrapper flex flex-wrap gap-10">
+    <div
+      *ngFor="let movie of movies$ | async"
+      class="relative rounded-lg flex gap-2 flex-col"
+    >
+      <div
+        class="image w-[280px] h-[174px] rounded-lg"
+        [style.background-image]="'url(' + movie.thumbnailLarge + ')'"
+      >
+        <bookmarkbutton-component></bookmarkbutton-component>
+      </div>
+      <movieInfo-component [movieData]="movie.movieData"></movieInfo-component>
+    </div>
+  </div>
+</div>

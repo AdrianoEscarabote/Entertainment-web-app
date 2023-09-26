@@ -1,0 +1,26 @@
+<style>
+  .image {
+    background: url("../../../assets/thumbnails/the-great-lands/regular/large.jpg")
+      no-repeat center;
+    background-size: contain;
+  }
+</style>
+
+<div class="flex flex-col items-start gap-6 relative">
+  <h3 class="HeadingL text-white">Recommended for you</h3>
+
+  <div class="wrapper flex flex-wrap gap-10">
+    <div
+      *ngFor="let movie of movies$ | async"
+      class="relative rounded-lg flex gap-2 flex-col"
+    >
+      <div
+        class="image w-[280px] h-[174px] rounded-lg"
+        [style.background-image]="'url(' + movie.thumbnailLarge + ')'"
+      >
+        <bookmarkbutton-component></bookmarkbutton-component>
+      </div>
+      <movieInfo-component [movieData]="movie.movieData"></movieInfo-component>
+    </div>
+  </div>
+</div>
