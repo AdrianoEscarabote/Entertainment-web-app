@@ -1,0 +1,118 @@
+<style>
+  .input::placeholder {
+    color: #fff;
+    opacity: 0.5;
+  }
+  .password {
+    background: url("../../../assets/icon-password.svg") no-repeat !important;
+  }
+  .input {
+    caret-color: #fc4747;
+    background: url("../../../assets/icon-email.svg") no-repeat;
+    background-position: 0.625rem 0.625rem !important;
+    padding-left: 2.25rem;
+  }
+  .input:focus {
+    background-position: -1.25rem !important;
+    padding-left: 1rem;
+  }
+</style>
+
+<div
+  class="min-h-screen flex flex-col gap-20 items-center justify-center bg-darkBlue"
+>
+  <img src="../../../assets/logo.svg" />
+  <main
+    class="flex w-full items-center flex-col max-w-[400px] rounded-[20px] bg-semiDarkBlue p-8"
+  >
+    <h1 class="HeadingL text-white self-start mb-10">Sign Up</h1>
+    <form class="w-full" (ngSubmit)="onSubmit(form)" #form="ngForm">
+      <fieldset
+        class="relative flex flex-col w-full justify-between h-full gap-6"
+      >
+        <legend class="sr-only">enter your information</legend>
+
+        <div *ngIf="showError" class="absolute right-0 -top-4">
+          <p class="text-red BodyS">{{ errorText }}</p>
+        </div>
+
+        <label for="email">
+          <input
+            class="BodyM input w-full bg-transparent border-b border-b-1 px-4 pt-2 pb-4 border-greyishBlue outline-none text-pureWhite focus:border-pureWhite cursor-pointer"
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email address"
+            [(ngModel)]="email"
+            required
+          />
+        </label>
+
+        <label for="password" class="relative">
+          <input
+            class="BodyM password input w-full bg-transparent border-b border-b-1 px-4 pt-2 pb-4 border-greyishBlue outline-none text-pureWhite focus:border-pureWhite cursor-pointer"
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password"
+            [(ngModel)]="password"
+            required
+          />
+          <button
+            class="absolute w-[22px] h-[22px] right-0 top-2"
+            type="button"
+            (click)="togglePasswordVisibility('password')"
+          >
+            <img
+              class="brightness-[0]"
+              *ngIf="passwordVisible"
+              src="../../../assets/eye.svg"
+            />
+            <img *ngIf="!passwordVisible" src="../../../assets/eye-block.png" />
+          </button>
+        </label>
+
+        <label for="confirmpassword" class="relative">
+          <input
+            class="BodyM password input w-full bg-transparent border-b border-b-1 px-4 pt-2 pb-4 border-greyishBlue outline-none text-pureWhite focus:border-pureWhite cursor-pointer"
+            type="password"
+            name="confirmpassword"
+            placeholder="Repeat Password"
+            id="confirmpassword"
+            [(ngModel)]="confirmpassword"
+            required
+          />
+          <button
+            class="absolute w-[22px] h-[22px] right-0 top-2"
+            type="button"
+            (click)="toggleConfirmPasswordVisibility('confirmpassword')"
+          >
+            <img
+              class="brightness-[0]"
+              *ngIf="confirmpasswordVisible"
+              src="../../../assets/eye.svg"
+            />
+            <img
+              *ngIf="!confirmpasswordVisible"
+              src="../../../assets/eye-block.png"
+            />
+          </button>
+        </label>
+
+        <button-component
+          [buttonText]="'Create an Account'"
+          [buttonType]="'submit'"
+        ></button-component>
+      </fieldset>
+    </form>
+    <div class="wrapper flex gap-2 mt-6">
+      <p class="BodyM text-pureWhite">Already have an account?</p>
+      <button
+        (click)="navigateToLoginRoute()"
+        class="BodyM text-red hover:underline"
+      >
+        Login
+      </button>
+    </div>
+  </main>
+</div>
