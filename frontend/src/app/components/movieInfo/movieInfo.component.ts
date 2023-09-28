@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 interface MovieType {
   title: string;
   year: string;
-  type: string;
+  category: string;
   rating: string;
 }
 
@@ -18,7 +18,7 @@ export class MovieInfoComponent {
     this.movieData = {
       title: '',
       year: '',
-      type: '',
+      category: '',
       rating: '',
     };
   }

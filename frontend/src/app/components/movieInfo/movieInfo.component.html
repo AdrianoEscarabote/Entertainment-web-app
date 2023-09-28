@@ -6,7 +6,7 @@
     <li>
       <div class="flex gap-[6px] items-center">
         <ng-container
-          *ngIf="movieData.type === 'Movie'; then movieImage; else tvImage"
+          *ngIf="movieData.category === 'Movie'; then movieImage; else tvImage"
         ></ng-container>
         <ng-template #movieImage>
           <img class="w-3 h-3" src="../../../assets/icon-category-movie.svg" />
@@ -15,7 +15,7 @@
           <img src="../../../assets/icon-category-tv.svg" />
         </ng-template>
         <p>
-          {{ movieData.type }}
+          {{ movieData.category }}
         </p>
       </div>
     </li>
