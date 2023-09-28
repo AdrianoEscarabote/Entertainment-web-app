@@ -1,0 +1,108 @@
+<style>
+  @media (max-width: 48rem) {
+    .header {
+      min-height: auto !important;
+      padding: 1.5625rem;
+      flex-direction: column;
+    }
+    .wrapper {
+      height: auto !important;
+    }
+    header div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: row;
+    }
+    .content {
+      justify-content: space-between !important;
+      width: 100% !important;
+    }
+    .content img {
+      margin: 0rem !important;
+    }
+    .header ul {
+      flex-direction: row;
+    }
+  }
+  @media (max-width: 26.25rem) {
+    .header {
+      padding: 0px !important;
+    }
+    .wrapper {
+      padding: 1rem;
+      border-radius: 0rem !important;
+    }
+    .logo {
+      width: 1.5625rem;
+      height: 1.25rem;
+    }
+    button {
+      width: 1rem;
+      height: 1rem;
+    }
+    .avatar-wrapper {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-width: 0.0063rem;
+    }
+    ul {
+      gap: 1.5rem !important;
+    }
+  }
+  button.active img {
+    filter: brightness(100%);
+  }
+</style>
+
+<header class="header flex p-8 min-h-screen">
+  <div
+    class="wrapper flex items-center flex-col justify-between bg-semiDarkBlue rounded-[20px] min-h-full py-8 px-7"
+  >
+    <div class="content flex justify-start flex-col items-center h-full">
+      <img src="../../../assets//logo.svg" class="logo mb-[75px]" />
+      <nav>
+        <ul class="flex flex-col items-center gap-10">
+          <li>
+            <button routerLink="/" [ngClass]="{ active: isRouteActive('') }">
+              <img src="../../../assets/icon-nav-home.svg" alt="" />
+            </button>
+          </li>
+          <li>
+            <button
+              routerLink="/movies"
+              [ngClass]="{ active: isRouteActive('movies') }"
+            >
+              <img src="../../../assets/icon-nav-movies.svg" alt="" />
+            </button>
+          </li>
+          <li>
+            <button
+              routerLink="/series"
+              [ngClass]="{ active: isRouteActive('series') }"
+            >
+              <img src="../../../assets/icon-nav-tv-series.svg" alt="" />
+            </button>
+          </li>
+          <li>
+            <button
+              routerLink="/bookmarked"
+              [ngClass]="{ active: isRouteActive('bookmarked') }"
+            >
+              <img src="../../../assets/icon-nav-bookmark.svg" alt="" />
+            </button>
+          </li>
+        </ul>
+      </nav>
+      <div class="flex items-end h-full">
+        <div
+          class="avatar-wrapper border-2 w-10 h-10 rounded-full border-white"
+        >
+          <img src="../../../assets/image-avatar.png" alt="" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <h2>{{ name }}</h2> -->
+</header>
