@@ -1,0 +1,11 @@
+<label for="search" class="cursor-pointer flex items-start gap-6 w-full">
+  <img class="w-8 h-8" src="../../../assets/icon-search.svg" />
+  <input
+    type="text"
+    class="caret-red placeholder:text-white placeholder:opacity-50 cursor-pointer border-b border-transparent mr-8 w-full pb-4 bg-transparent text-white HeadingM outline-none focus:border-greyishBlue"
+    placeholder="{{ placeholderText }}"
+    id="search"
+    [(ngModel)]="searchTerm"
+    (ngModelChange)="onInputChange()"
+  />
+</label>
