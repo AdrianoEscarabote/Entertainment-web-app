@@ -20,9 +20,10 @@ export class MongoRegisterUserRepository implements ISignupUserRepository {
     const salt = await genSalt(12)
     const passwordHash = await hash(params.password, salt)
 
-    const userData = {
+    const userData: MongoUser = {
       email: params.email,
       password: passwordHash,
+      bookmarkedShows: [],
     }
 
     const { insertedId } = await MongoClient.db

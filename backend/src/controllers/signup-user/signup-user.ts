@@ -19,7 +19,6 @@ export class SignupUserController implements IController {
   ): Promise<HttpResponse<RegisterUserReturn | string>> {
     try {
       const requiredFields = ["email", "password", "confirmpassword"]
-      console.log(httpRequest.body)
 
       for (const field of requiredFields) {
         if (!httpRequest?.body?.[field as keyof RegisterUserParams]?.length) {
