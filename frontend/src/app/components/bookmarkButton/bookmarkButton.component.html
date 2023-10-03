@@ -1,5 +1,10 @@
 <button
   class="w-8 h-8 absolute right-6 top-4 flex items-center justify-center bg-[#10141E] bg-opacity-50 rounded-full"
+  (click)="bookmarkFn()"
 >
-  <img src="../../../assets/icon-bookmark-empty.svg" />
+  <img
+    *ngIf="!showBookmarkedImg"
+    src="../../../assets/icon-bookmark-empty.svg"
+  />
+  <img *ngIf="showBookmarkedImg" src="../../../assets/icon-bookmark-full.svg" />
 </button>
