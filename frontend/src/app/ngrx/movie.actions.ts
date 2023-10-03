@@ -4,3 +4,8 @@ export const loadMoviesSuccess = createAction(
   '[Movie API] Load Movies Success',
   props<{ movies: any[] }>()
 );
+
+export const setSearchTerm = createAction(
+  '[Movies] Set Search Term',
+  props<{ searchTerm: string }>()
+);

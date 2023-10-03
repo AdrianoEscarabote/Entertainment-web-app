@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { loadMoviesSuccess } from './movie.actions';
+import { loadMoviesSuccess, setSearchTerm } from './movie.actions';
 
 interface Thumbnail {
   small: string;
@@ -28,10 +28,12 @@ export interface MovieTypes {
 
 export interface MovieState {
   movies: MovieTypes[];
+  searchTerm: string;
 }
 
 export const initialState: MovieState = {
   movies: [],
+  searchTerm: '',
 };
 
 export const movieReducer = createReducer(
@@ -39,5 +41,9 @@ export const movieReducer = createReducer(
   on(loadMoviesSuccess, (state, { movies }) => ({
     ...state,
     movies,
+  })),
+  on(setSearchTerm, (state, { searchTerm }) => ({
+    ...state,
+    searchTerm,
   }))
 );
