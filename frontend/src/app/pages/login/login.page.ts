@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import axios from 'axios';
@@ -7,7 +7,7 @@ import axios from 'axios';
   selector: 'login-page',
   templateUrl: './login.page.html',
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
   email: string = '';
   password: string = '';
   passwordVisible: boolean = false;
@@ -15,6 +15,19 @@ export class LoginPage {
 
   navigateToSignupRoute() {
     this.router.navigate(['/signup']);
+  }
+
+  ngOnInit(): void {
+    axios
+      .get('https://real-erin-cow-boot.cyclic.app/auth/checktoken')
+      .then((response) => {
+        if (response.status === 200) {
+          this.router.navigate(['/home']);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   togglePasswordVisibility(fieldId: string) {
@@ -32,7 +45,10 @@ export class LoginPage {
       const password = form.value.password;
 
       axios
-        .post('http://localhost:4000/auth/login', { email, password })
+        .post('https://real-erin-cow-boot.cyclic.app/auth/login', {
+          email,
+          password,
+        })
         .then((response) => {
           if (response.status === 200) {
             this.router.navigate(['/home']);

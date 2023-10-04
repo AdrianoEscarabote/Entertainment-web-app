@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import axios from 'axios';
@@ -7,7 +7,7 @@ import axios from 'axios';
   selector: 'signup-page',
   templateUrl: './signup.page.html',
 })
-export class SignupPage {
+export class SignupPage implements OnInit {
   showError: boolean = false;
   errorText: string = '';
   email: string = '';
@@ -19,6 +19,19 @@ export class SignupPage {
 
   navigateToLoginRoute() {
     this.router.navigate(['/login']);
+  }
+
+  ngOnInit(): void {
+    axios
+      .get('https://real-erin-cow-boot.cyclic.app/auth/checktoken')
+      .then((response) => {
+        if (response.status === 200) {
+          this.router.navigate(['/home']);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   togglePasswordVisibility(fieldId: string) {
@@ -46,7 +59,7 @@ export class SignupPage {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (form.valid && password === confirmpassword && emailRegex.test(email)) {
       axios
-        .post('http://localhost:4000/auth/signup', {
+        .post('https://real-erin-cow-boot.cyclic.app/auth/signup', {
           email,
           password,
           confirmpassword,
