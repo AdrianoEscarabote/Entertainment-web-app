@@ -1,7 +1,22 @@
-<div class="flex flex-col gap-8">
-  <input-component
-    [placeholderText]="'Search for movies or TV series'"
-  ></input-component>
+<style>
+  @media (max-width: 48rem) {
+    .wrapper_input {
+      padding-left: 1.5625rem;
+    }
+  }
+  @media (max-width: 26.25rem) {
+    .wrapper_input {
+      padding-left: 1rem;
+    }
+  }
+</style>
+
+<div class="wrapper flex flex-col gap-8">
+  <div class="wrapper_input">
+    <input-component
+      [placeholderText]="'Search for movies or TV series'"
+    ></input-component>
+  </div>
   <trending-component></trending-component>
   <recommended-component></recommended-component>
 </div>
