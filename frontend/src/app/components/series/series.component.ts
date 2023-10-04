@@ -1,40 +1,59 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { map } from 'rxjs';
+import axios from 'axios';
 import { MovieState, MovieTypes } from 'src/app/ngrx/movie.reducer';
-import { selectMovies } from 'src/app/ngrx/movie.selectors';
+import { selectMovies, selectSearchTerm } from 'src/app/ngrx/movie.selectors';
+import { SearchTermService } from 'src/app/service/search-term.service';
 
 @Component({
   selector: 'series-component',
   templateUrl: './series.component.html',
 })
 export class SeriesComponent implements OnInit {
+  searchTerm: string = '';
+  filteredSeries: MovieTypes[] = [];
   movies: MovieTypes[] = [];
 
-  constructor(private store: Store<MovieState>) {}
+  constructor(
+    private store: Store<MovieState>,
+    private router: Router,
+    private searchTermService: SearchTermService
+  ) {}
 
   ngOnInit(): void {
+    this.store.select(selectSearchTerm).subscribe((searchTerm) => {
+      this.searchTerm = searchTerm;
+      this.filterSeries();
+    });
+
+    // Retrieve the initial value of the service's searchTerm
+    this.searchTermService.getSearchTerm().subscribe((searchTerm) => {
+      this.searchTerm = searchTerm;
+      this.filterSeries();
+    });
+
     this.store.select(selectMovies).subscribe((movies) => {
       this.movies = movies;
+      this.filterSeries();
     });
+    axios
+      .get('https://real-erin-cow-boot.cyclic.app/auth/checktoken')
+      .then((response) => {
+        if (response.status === 200) {
+          return;
+        }
+      })
+      .catch((error) => {
+        this.router.navigate(['/login']);
+      });
   }
 
-  movies$ = this.store.select(selectMovies).pipe(
-    map((movies) =>
-      movies
-        .filter((movie) => movie.category === 'TV Series')
-        .map((movie) => ({
-          /* 
-        thumbnailLarge: movie.thumbnail.trending.large,
-        thumbnailSmall: movie.thumbnail.trending.small, */
-          thumbnailLarge: movie.thumbnail.regular.large,
-          movieData: {
-            title: movie.title,
-            year: movie.year.toString(),
-            type: movie.category,
-            rating: movie.rating,
-          },
-        }))
-    )
-  );
+  filterSeries(): void {
+    this.filteredSeries = this.movies.filter(
+      (movie) =>
+        movie.category === 'TV Series' &&
+        movie.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
 }
