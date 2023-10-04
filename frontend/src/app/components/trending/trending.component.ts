@@ -16,7 +16,7 @@ export class TrendingComponent implements OnInit {
           movieData: {
             title: movie.title,
             year: movie.year.toString(),
-            type: movie.category,
+            category: movie.category,
             rating: movie.rating,
           },
           isBookmarked: movie.isBookmarked,
