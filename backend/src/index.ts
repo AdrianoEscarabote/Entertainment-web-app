@@ -19,7 +19,7 @@ import bookmarkRouter from "./routes/bookmark/bookmark"
 // configures the cors to allow only one origin
 const corsOptions = {
   credentials: true,
-  origin: "https://entertainment-web-app-sigma.vercel.app/",
+  origin: "https://entertainment-web-app-sigma.vercel.app",
 }
 
 const main = async () => {
@@ -34,7 +34,7 @@ const main = async () => {
   app.use(function (req: Request, res: Response, next: NextFunction) {
     res.header(
       "Access-Control-Allow-Origin",
-      "https://link-sharing-app-alpha.vercel.app",
+      "https://entertainment-web-app-sigma.vercel.app",
     )
     res.header("Access-Control-Allow-Credentials", "true")
     next()
