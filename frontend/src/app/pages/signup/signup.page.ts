@@ -59,11 +59,17 @@ export class SignupPage implements OnInit {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (form.valid && password === confirmpassword && emailRegex.test(email)) {
       axios
-        .post('https://real-erin-cow-boot.cyclic.app/auth/signup', {
-          email,
-          password,
-          confirmpassword,
-        })
+        .post(
+          'https://real-erin-cow-boot.cyclic.app/auth/signup',
+          {
+            email,
+            password,
+            confirmpassword,
+          },
+          {
+            withCredentials: true,
+          }
+        )
         .then((response) => {
           if (response.status === 201) {
             this.router.navigate(['/home']);

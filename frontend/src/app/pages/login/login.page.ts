@@ -45,10 +45,16 @@ export class LoginPage implements OnInit {
       const password = form.value.password;
 
       axios
-        .post('https://real-erin-cow-boot.cyclic.app/auth/login', {
-          email,
-          password,
-        })
+        .post(
+          'https://real-erin-cow-boot.cyclic.app/auth/login',
+          {
+            email,
+            password,
+          },
+          {
+            withCredentials: true,
+          }
+        )
         .then((response) => {
           if (response.status === 200) {
             this.router.navigate(['/home']);
