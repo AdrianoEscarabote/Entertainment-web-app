@@ -23,6 +23,7 @@ import { BookmarkButtonComponent } from './components/bookmarkButton/BookmarkBut
 import { HttpClientModule } from '@angular/common/http';
 import { movieReducer } from './ngrx/movie.reducer';
 import { FormsModule } from '@angular/forms';
+import { LogoutButtonComponent } from './components/logout-button/logout-button.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { FormsModule } from '@angular/forms';
     RecommendedComponent,
     MovieInfoComponent,
     BookmarkButtonComponent,
+    LogoutButtonComponent,
   ],
   imports: [
     BrowserModule,

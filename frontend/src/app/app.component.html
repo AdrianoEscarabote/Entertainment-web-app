@@ -1,12 +1,15 @@
 <style>
-  @media (max-width: 768px) {
+  @media (max-width: 48rem) {
     .wrapper-content {
       flex-direction: column;
+    }
+    main {
+      padding-top: 0.75rem;
     }
   }
 </style>
 
-<!-- Verifica a rota atual e aplica o layout apropriado -->
+<!-- Checks the current route and applies the appropriate layout -->
 <ng-container *ngIf="isAuthLayoutRoute(); else defaultLayout">
   <auth-layout></auth-layout>
 </ng-container>
