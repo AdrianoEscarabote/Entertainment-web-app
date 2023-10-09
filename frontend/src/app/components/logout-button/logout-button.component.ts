@@ -23,7 +23,7 @@ export class LogoutButtonComponent {
 
   logoutFn() {
     axios
-      .get('https://real-erin-cow-boot.cyclic.app/auth/logout', {
+      .post('https://real-erin-cow-boot.cyclic.app/auth/logout', {
         withCredentials: true,
       })
       .then((response) => {
