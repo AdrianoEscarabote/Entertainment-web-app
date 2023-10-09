@@ -11,9 +11,15 @@ export class BookmarkButtonComponent {
 
   async bookmarkFn() {
     const response = await axios
-      .post('https://real-erin-cow-boot.cyclic.app/bookmark/set', {
-        title: this.showTitle,
-      })
+      .post(
+        'https://real-erin-cow-boot.cyclic.app/bookmark/set',
+        {
+          title: this.showTitle,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) => res.data);
     this.showBookmarkedImg = response.ok;
   }
