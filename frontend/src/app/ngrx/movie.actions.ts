@@ -9,3 +9,5 @@ export const setSearchTerm = createAction(
   '[Movies] Set Search Term',
   props<{ searchTerm: string }>()
 );
+
+export const resetMovies = createAction('[Movies] Reset Movies');
