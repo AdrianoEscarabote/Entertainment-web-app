@@ -9,6 +9,9 @@
       padding: 0rem 1rem 1rem 1rem;
     }
   }
+  .card {
+    animation: fadeInOut 0.6s ease-in-out;
+  }
 </style>
 
 <div class="wrapper">
@@ -16,23 +19,24 @@
   <h2 class="HeadingL text-white my-8">TV Series</h2>
   <div class="flex flex-wrap gap-10">
     <div
-      *ngFor="let movie of filteredSeries"
-      class="relative rounded-lg flex gap-2 flex-col"
+      *ngFor="let series of filteredSeries"
+      class="card relative rounded-lg flex gap-2 flex-col"
     >
       <div
         class="image w-[280px] h-[174px] rounded-lg"
-        [style.background-image]="'url(' + movie.thumbnail.regular.large + ')'"
+        [style.background-image]="'url(' + series.thumbnail.regular.large + ')'"
       >
         <bookmarkbutton-component
-          [showTitle]="movie.title"
+          [showTitle]="series.title"
+          [showBookmarkedImg]="series.isBookmarked"
         ></bookmarkbutton-component>
       </div>
       <movieInfo-component
         [movieData]="{ 
-          title: movie.title, 
-          year: movie.year.toString(), 
-          category: movie.category,
-          rating: movie.rating, 
+          title: series.title, 
+          year: series.year.toString(), 
+          category: series.category,
+          rating: series.rating, 
         }"
       ></movieInfo-component>
     </div>

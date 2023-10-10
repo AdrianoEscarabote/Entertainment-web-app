@@ -9,6 +9,9 @@
       padding-left: 1rem;
     }
   }
+  .card {
+    animation: fadeInOut 0.6s ease-in-out;
+  }
 </style>
 
 <div class="wrapper">
@@ -16,7 +19,7 @@
   <section
     class="custom_scrollbar rounded-lg flex flex-col items-start gap-6 w-full h-[254px] relative overflow-x-auto"
   >
-    <div class="flex gap-6 absolute pr-4">
+    <div class="card flex gap-6 absolute pr-4">
       <div class="flex gap-6 absolute pr-4">
         <div
           *ngFor="let movie of movies$ | async"
@@ -25,6 +28,7 @@
         >
           <bookmarkbutton-component
             [showTitle]="movie.movieData.title"
+            [showBookmarkedImg]="movie.isBookmarked"
           ></bookmarkbutton-component>
 
           <movieInfo-component

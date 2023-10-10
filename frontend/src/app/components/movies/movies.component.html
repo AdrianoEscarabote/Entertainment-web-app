@@ -9,6 +9,9 @@
       padding: 0rem 1rem 1rem 1rem;
     }
   }
+  .card {
+    animation: fadeInOut 0.6s ease-in-out;
+  }
 </style>
 
 <div class="wrapper">
@@ -18,7 +21,7 @@
   <div class="flex flex-wrap gap-10">
     <div
       *ngFor="let movie of filteredMovies"
-      class="relative rounded-lg flex gap-2 flex-col"
+      class="card relative rounded-lg flex gap-2 flex-col"
     >
       <div
         class="image w-[280px] h-[174px] rounded-lg"
