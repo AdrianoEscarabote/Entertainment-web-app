@@ -21,6 +21,7 @@ export class BookmarkButtonComponent {
         }
       )
       .then((res) => res.data);
-    this.showBookmarkedImg = response.ok;
+
+    this.showBookmarkedImg = response;
   }
 }
