@@ -58,14 +58,16 @@
 
   <div
     *ngIf="logoutOptionOpen === true"
-    class="wrapper-button-logout absolute left-14 p-5 bg-red z-50"
+    class="wrapper-button-logout absolute left-14 p-5 bg-red z-50 w-[115px] h-[70px] flex items-center justify-center"
   >
     <div class="arrow"></div>
     <button
+      *ngIf="!loading"
       (click)="logoutFn()"
       class="button cursor-pointer HeadingS text-white"
     >
       Logout
     </button>
+    <div *ngIf="loading" class="loader-circle w-10 h-10"></div>
   </div>
 </div>

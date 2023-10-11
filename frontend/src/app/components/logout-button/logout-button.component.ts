@@ -9,6 +9,7 @@ import { resetMovies } from 'src/app/ngrx/movie.actions';
   templateUrl: './logout-button.component.html',
 })
 export class LogoutButtonComponent {
+  loading: boolean = false;
   logoutOptionOpen: boolean = false;
 
   constructor(private router: Router, private store: Store) {}
@@ -22,14 +23,11 @@ export class LogoutButtonComponent {
   }
 
   logoutFn() {
+    this.loading = true;
     axios
-      .post(
-        'https://real-erin-cow-boot.cyclic.app/auth/logout',
-        {},
-        {
-          withCredentials: true,
-        }
-      )
+      .post('https://real-erin-cow-boot.cyclic.app/auth/logout', {
+        withCredentials: true,
+      })
       .then((response) => {
         if (response.status === 200) {
           this.store.dispatch(resetMovies());
