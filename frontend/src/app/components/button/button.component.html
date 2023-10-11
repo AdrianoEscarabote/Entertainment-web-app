@@ -1,6 +1,9 @@
 <button
-  class="bg-red BodyM w-full mt-4 h-12 text-pureWhite hover:bg-pureWhite hover:text-semiDarkBlue rounded-md"
+  class="bg-red BodyM w-full mt-4 h-12 text-pureWhite hover:bg-pureWhite hover:text-semiDarkBlue rounded-md flex items-center justify-center"
   type="{{ buttonType }}"
 >
-  {{ buttonText }}
+  <div *ngIf="loading" class="loader-circle w-8 h-8"></div>
+  <span *ngIf="!loading">
+    {{ buttonText }}
+  </span>
 </button>

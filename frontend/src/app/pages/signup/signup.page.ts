@@ -8,6 +8,7 @@ import axios from 'axios';
   templateUrl: './signup.page.html',
 })
 export class SignupPage implements OnInit {
+  loading: boolean = false;
   showError: boolean = false;
   errorText: string = '';
   email: string = '';
@@ -58,6 +59,7 @@ export class SignupPage implements OnInit {
     const confirmpassword = form.value.confirmpassword;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (form.valid && password === confirmpassword && emailRegex.test(email)) {
+      this.loading = true;
       axios
         .post(
           'https://real-erin-cow-boot.cyclic.app/auth/signup',
@@ -76,6 +78,7 @@ export class SignupPage implements OnInit {
           }
         })
         .catch((error) => {
+          this.loading = false;
           this.showError = true;
           this.errorText = error.response.data as string;
         });

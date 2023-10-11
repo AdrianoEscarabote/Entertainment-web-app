@@ -8,6 +8,7 @@ import axios from 'axios';
   templateUrl: './login.page.html',
 })
 export class LoginPage implements OnInit {
+  loading: boolean = false;
   showError: boolean = false;
   email: string = '';
   password: string = '';
@@ -46,6 +47,7 @@ export class LoginPage implements OnInit {
     if (form.valid) {
       const email = form.value.email;
       const password = form.value.password;
+      this.loading = true;
 
       axios
         .post(
@@ -65,6 +67,7 @@ export class LoginPage implements OnInit {
           }
         })
         .catch((error) => {
+          this.loading = false;
           this.showError = true;
           console.error(error);
         });
