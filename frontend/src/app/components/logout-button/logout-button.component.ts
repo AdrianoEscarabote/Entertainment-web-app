@@ -25,9 +25,13 @@ export class LogoutButtonComponent {
   logoutFn() {
     this.loading = true;
     axios
-      .post('https://real-erin-cow-boot.cyclic.app/auth/logout', {
-        withCredentials: true,
-      })
+      .post(
+        'https://real-erin-cow-boot.cyclic.app/auth/logout',
+        {},
+        {
+          withCredentials: true,
+        }
+      )
       .then((response) => {
         if (response.status === 200) {
           this.store.dispatch(resetMovies());
