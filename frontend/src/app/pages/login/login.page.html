@@ -1,8 +1,4 @@
 <style>
-  .input::placeholder {
-    color: #fff;
-    opacity: 0.5;
-  }
   .password {
     background: url("../../../assets/icon-password.svg") no-repeat !important;
   }
@@ -16,10 +12,18 @@
     background-position: -1.25rem !important;
     padding-left: 1rem;
   }
+  @media (max-width: 26.25rem) {
+    .wrapper-content {
+      padding: 1.5rem;
+    }
+    main {
+      padding: 1.5rem;
+    }
+  }
 </style>
 
 <div
-  class="min-h-screen flex flex-col gap-20 items-center justify-center bg-darkBlue"
+  class="wrapper-content min-h-screen flex flex-col gap-20 items-center justify-center bg-darkBlue"
 >
   <img src="../../../assets/logo.svg" />
   <main
@@ -30,9 +34,9 @@
       <fieldset class="flex flex-col w-full justify-between h-full gap-6">
         <legend class="sr-only">enter your information</legend>
 
-        <label for="email">
+        <label for="email" class="relative">
           <input
-            class="BodyM input w-full bg-transparent border-b border-b-1 pr-4 pt-2 pb-4 border-greyishBlue outline-none text-pureWhite focus:border-pureWhite cursor-pointer"
+            class="BodyM input w-full bg-transparent border-b border-b-1 pr-4 pt-2 pb-4 border-greyishBlue outline-none text-pureWhite focus:border-pureWhite cursor-pointer placeholder:text-white placeholder:opacity-50"
             type="email"
             placeholder="Email address"
             name="email"
@@ -40,11 +44,14 @@
             [(ngModel)]="email"
             required
           />
+          <span class="absolute right-0 text-red BodyS -top-2" *ngIf="showError"
+            >User does not exist</span
+          >
         </label>
 
         <label for="password" class="relative">
           <input
-            class="BodyM password input w-full bg-transparent border-b border-b-1 pr-4 pt-2 pb-4 border-greyishBlue outline-none text-pureWhite focus:border-pureWhite cursor-pointer"
+            class="BodyM password input w-full bg-transparent border-b border-b-1 pr-4 pt-2 pb-4 border-greyishBlue outline-none text-pureWhite focus:border-pureWhite cursor-pointer placeholder:text-white placeholder:opacity-50"
             type="password"
             name="password"
             placeholder="Password"
@@ -76,7 +83,7 @@
         ></button-component>
       </fieldset>
     </form>
-    <div class="wrapper flex gap-2 mt-6">
+    <div class="wrapper flex gap-2 mt-6 flex-wrap">
       <p class="BodyM text-pureWhite">Don’t have an account?</p>
       <button
         type="button"

@@ -8,6 +8,7 @@ import axios from 'axios';
   templateUrl: './login.page.html',
 })
 export class LoginPage implements OnInit {
+  showError: boolean = false;
   email: string = '';
   password: string = '';
   passwordVisible: boolean = false;
@@ -19,7 +20,9 @@ export class LoginPage implements OnInit {
 
   ngOnInit(): void {
     axios
-      .get('https://real-erin-cow-boot.cyclic.app/auth/checktoken')
+      .get('https://real-erin-cow-boot.cyclic.app/auth/checktoken', {
+        withCredentials: true,
+      })
       .then((response) => {
         if (response.status === 200) {
           this.router.navigate(['/home']);
@@ -57,10 +60,12 @@ export class LoginPage implements OnInit {
         )
         .then((response) => {
           if (response.status === 200) {
+            this.showError = false;
             this.router.navigate(['/home']);
           }
         })
         .catch((error) => {
+          this.showError = true;
           console.error(error);
         });
     }
