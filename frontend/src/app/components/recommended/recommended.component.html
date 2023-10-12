@@ -8,16 +8,47 @@
     .wrapper {
       padding: 1.5625rem;
     }
+    .wrapper-content {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: center;
+      gap: 1.5rem;
+      width: 100%;
+    }
+    .card .image {
+      width: 100%;
+      background-size: cover;
+      background-position: center;
+      height: 8.75rem;
+    }
   }
   .card {
     animation: fadeInOut 0.6s ease-in-out;
+  }
+  @media (max-width: 37.25rem) {
+    h3 {
+      font-size: 1.25rem;
+    }
+    .wrapper {
+      padding: 1rem;
+    }
+    .wrapper-content {
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9375rem;
+    }
+    .card {
+      width: 100% !important;
+    }
+    .card .image {
+      height: 6.875rem;
+    }
   }
 </style>
 
 <div class="wrapper flex flex-col items-start gap-6 relative">
   <h3 class="HeadingL text-white">Recommended for you</h3>
 
-  <div class="flex flex-wrap gap-10">
+  <div class="wrapper-content flex flex-wrap gap-10">
     <div
       *ngFor="let movie of movies$ | async"
       class="card relative rounded-lg flex gap-2 flex-col"

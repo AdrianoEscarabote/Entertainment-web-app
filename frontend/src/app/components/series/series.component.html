@@ -1,9 +1,4 @@
 <style>
-  @media (max-width: 48rem) {
-    .wrapper {
-      padding: 0rem 1.5625rem 1.5625rem 1.5625rem;
-    }
-  }
   @media (max-width: 26.25rem) {
     .wrapper {
       padding: 0rem 1rem 1rem 1rem;
@@ -12,12 +7,48 @@
   .card {
     animation: fadeInOut 0.6s ease-in-out;
   }
+  @media (max-width: 48rem) {
+    .wrapper {
+      padding: 0rem 1.5625rem 1.5625rem 1.5625rem;
+    }
+    .wrapper-content {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 1.5rem;
+      width: 100%;
+    }
+    .card .image {
+      width: 100%;
+      background-size: cover;
+      background-position: center;
+      height: 8.75rem;
+    }
+    .card {
+      width: 100% !important;
+    }
+  }
+  @media (max-width: 37.25rem) {
+    h2 {
+      font-size: 1.25rem;
+      margin: 1rem 0rem;
+    }
+    .wrapper {
+      padding: 1rem;
+    }
+    .wrapper-content {
+      gap: 0.9375rem;
+    }
+    .card .image {
+      height: 6.875rem;
+    }
+  }
 </style>
 
 <div class="wrapper">
   <input-component [placeholderText]="'Search for TV series'"></input-component>
   <h2 class="HeadingL text-white my-8">TV Series</h2>
-  <div class="flex flex-wrap gap-10">
+  <div class="wrapper-content flex flex-wrap gap-10">
     <div
       *ngFor="let series of filteredSeries"
       class="card relative rounded-lg flex gap-2 flex-col"

@@ -8,6 +8,17 @@
     .wrapper {
       padding-left: 1rem;
     }
+    .card-item {
+      width: 15rem;
+      height: 8.75rem;
+      padding: 1rem;
+    }
+    section {
+      height: 10.25rem;
+    }
+  }
+  h2 {
+    font-size: 1.25rem;
   }
   .card {
     animation: fadeInOut 0.6s ease-in-out;
@@ -23,7 +34,7 @@
       <div class="flex gap-6 absolute pr-4">
         <div
           *ngFor="let movie of movies$ | async"
-          class="flex pt-4 pb-6 px-6 relative bg-center bg-no-repeat bg-cover w-[470px] h-[230px] rounded-lg draggable-item"
+          class="card-item flex pt-4 pb-6 px-6 relative bg-center bg-no-repeat bg-cover w-[470px] h-[230px] rounded-lg draggable-item"
           [style.background-image]="'url(' + movie.thumbnailLarge + ')'"
         >
           <bookmarkbutton-component
