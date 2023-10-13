@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.movieService.getMovies();
     axios
-      .get('http://localhost:4000/auth/checktoken', {
+      .get('https://real-erin-cow-boot.cyclic.app/auth/checktoken', {
         withCredentials: true,
       })
       .then((response) => {
