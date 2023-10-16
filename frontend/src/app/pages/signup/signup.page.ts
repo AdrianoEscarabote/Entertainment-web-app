@@ -24,7 +24,9 @@ export class SignupPage implements OnInit {
 
   ngOnInit(): void {
     axios
-      .get('https://real-erin-cow-boot.cyclic.app/auth/checktoken')
+      .get('https://real-erin-cow-boot.cyclic.app/auth/checktoken', {
+        withCredentials: true,
+      })
       .then((response) => {
         if (response.status === 200) {
           this.router.navigate(['/home']);
