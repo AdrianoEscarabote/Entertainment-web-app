@@ -59,6 +59,7 @@
       >
         <bookmarkbutton-component
           [showTitle]="movie.movieData.title"
+          [showBookmarkedImg]="movie.isBookmarked"
         ></bookmarkbutton-component>
       </div>
       <movieInfo-component [movieData]="movie.movieData"></movieInfo-component>

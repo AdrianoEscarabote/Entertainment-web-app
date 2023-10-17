@@ -18,6 +18,7 @@ export class RecommendedComponent implements OnInit {
         .filter((movie) => movie.isTrending !== true)
         .map((movie) => ({
           thumbnailLarge: movie.thumbnail.regular.large,
+          isBookmarked: movie.isBookmarked,
           movieData: {
             title: movie.title,
             year: movie.year.toString(),
