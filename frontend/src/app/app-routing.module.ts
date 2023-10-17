@@ -15,14 +15,15 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginPage,
-    data: { layout: 'auth' }, // Define o layout 'auth' para a página de login
+    data: { layout: 'auth' },
   },
   {
     path: 'signup',
     component: SignupPage,
-    data: { layout: 'auth' }, // Define o layout 'auth' para a página de signup
+    data: { layout: 'auth' },
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', redirectTo: '/home' },
 ];
 
 @NgModule({
