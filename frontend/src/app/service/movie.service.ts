@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
+import { mergeMap } from 'rxjs/operators';
 import { loadMoviesSuccess } from '../ngrx/movie.actions';
+import { forkJoin, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,27 +14,30 @@ export class MovieService {
     'https://real-erin-cow-boot.cyclic.app/bookmark/get';
   constructor(private http: HttpClient, private store: Store) {}
 
-  getMovies(): void {
-    let bookmarkedShows: string[] = [];
-
-    this.http
-      .get<string[]>(this.getBookmarkedShowsUrl, {
+  async getMovies(): Promise<void> {
+    const bookmarkedShowsRequest = this.http.get<string[]>(
+      this.getBookmarkedShowsUrl,
+      {
         withCredentials: true,
-      })
-      .subscribe((data) => {
-        bookmarkedShows = data;
-        console.log(bookmarkedShows);
-      });
+      }
+    );
+    const moviesDataRequest = this.http.get<any[]>(this.movieDataUrl);
 
-    this.http.get<any[]>(this.movieDataUrl).subscribe((data) => {
-      const moviesWithBookmark = data.map((movie) => ({
-        ...movie,
-        isBookmarked: bookmarkedShows.includes(movie.title),
-      }));
+    forkJoin([bookmarkedShowsRequest, moviesDataRequest])
+      .pipe(
+        mergeMap(([bookmarkedShows, moviesData]) => {
+          const moviesWithBookmark = moviesData.map((movie) => ({
+            ...movie,
+            isBookmarked: bookmarkedShows.includes(movie.title),
+          }));
 
-      console.log(moviesWithBookmark);
-
-      this.store.dispatch(loadMoviesSuccess({ movies: moviesWithBookmark }));
-    });
+          // Dispatch the action and return it as an Observable
+          this.store.dispatch(
+            loadMoviesSuccess({ movies: moviesWithBookmark })
+          );
+          return of(null);
+        })
+      )
+      .subscribe();
   }
 }
