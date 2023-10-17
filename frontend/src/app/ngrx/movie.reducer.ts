@@ -1,5 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
-import { loadMoviesSuccess, resetMovies, setSearchTerm } from './movie.actions';
+import {
+  loadMoviesSuccess,
+  resetMovies,
+  setBookmarkedShow,
+  setSearchTerm,
+} from './movie.actions';
 
 interface Thumbnail {
   small: string;
@@ -46,5 +51,17 @@ export const movieReducer = createReducer(
     ...state,
     searchTerm,
   })),
-  on(resetMovies, () => initialState)
+  on(resetMovies, () => initialState),
+  on(setBookmarkedShow, (state, { isBookmarked, title }) => ({
+    ...state,
+    movies: state.movies.map((movie) => {
+      if (movie.title === title) {
+        return {
+          ...movie,
+          isBookmarked,
+        };
+      }
+      return movie;
+    }),
+  }))
 );
