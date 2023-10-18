@@ -149,7 +149,9 @@ select {
   border-top-color: #10141e;
   animation: loader-circle 1s linear infinite;
 }
-
+body {
+  background-color: #10141e;
+}
 @keyframes loader-circle {
   0% {
     transform: rotate(0);
