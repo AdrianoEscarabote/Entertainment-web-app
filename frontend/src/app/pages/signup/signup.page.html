@@ -16,10 +16,21 @@
     background-position: -1.25rem !important;
     padding-left: 1rem;
   }
+  @media (max-width: 26.25rem) {
+    .wrapper-content {
+      padding: 1.5rem;
+    }
+    main {
+      padding: 1.5rem;
+    }
+    .wrapper {
+      flex-wrap: wrap;
+    }
+  }
 </style>
 
 <div
-  class="min-h-screen flex flex-col gap-20 items-center justify-center bg-darkBlue"
+  class="wrapper-content min-h-screen flex flex-col gap-20 items-center justify-center bg-darkBlue"
 >
   <img src="../../../assets/logo.svg" />
   <main
