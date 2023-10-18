@@ -29,6 +29,11 @@
     }
   }
   @media (max-width: 37.25rem) {
+    .result {
+      font-size: 1.25rem;
+      letter-spacing: -0.0195rem;
+      margin: 1rem 0rem;
+    }
     h2 {
       font-size: 1.25rem;
       margin: 1rem 0rem;
@@ -47,7 +52,14 @@
 
 <div class="wrapper">
   <input-component [placeholderText]="'Search for TV series'"></input-component>
-  <h2 class="HeadingL text-white my-8">TV Series</h2>
+
+  <p class="result HeadingL my-8 text-white" *ngIf="searchTerm.length !== 0">
+    Found {{ filteredSeries.length }} results for '{{ searchTerm }}'
+  </p>
+
+  <h2 *ngIf="searchTerm.length === 0" class="HeadingL text-white my-8">
+    TV Series
+  </h2>
   <div class="wrapper-content flex flex-wrap gap-10">
     <div
       *ngFor="let series of filteredSeries"
