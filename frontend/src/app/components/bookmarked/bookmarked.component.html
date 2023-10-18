@@ -29,12 +29,17 @@
     }
   }
   @media (max-width: 37.25rem) {
+    .result {
+      font-size: 1.25rem;
+      letter-spacing: -0.0195rem;
+      margin: 1rem 0rem;
+    }
     h2 {
       font-size: 1.25rem;
       margin: 1rem 0rem;
     }
     .wrapper {
-      padding: 1rem;
+      padding: 0rem 1rem 1rem 1rem;
     }
     .wrapper-content {
       gap: 0.9375rem;
@@ -49,56 +54,95 @@
   <input-component
     [placeholderText]="'Search for bookmarked shows'"
   ></input-component>
-  <h2 class="HeadingL text-white my-8">Bookmarked Movies</h2>
-  <div class="wrapper-content flex flex-wrap gap-10">
+
+  <p class="result HeadingL my-8 text-white" *ngIf="searchTerm.length !== 0">
+    Found {{ filteredShows.length }} results for '{{ searchTerm }}'
+  </p>
+
+  <div
+    *ngIf="searchTerm.length !== 0"
+    class="wrapper-content flex flex-wrap gap-10"
+  >
     <div
-      *ngFor="let movie of movies"
+      *ngFor="let show of filteredShows"
       class="card relative rounded-lg flex gap-2 flex-col"
     >
       <div
         class="image w-[280px] h-[174px] rounded-lg bg-center bg-cover"
-        [style.background-image]="'url(' + movie.thumbnail.regular.large + ')'"
+        [style.background-image]="'url(' + show.thumbnail.regular.large + ')'"
       >
         <bookmarkbutton-component
-          [showTitle]="movie.title"
-          [showBookmarkedImg]="movie.isBookmarked"
+          [showTitle]="show.title"
+          [showBookmarkedImg]="show.isBookmarked"
         ></bookmarkbutton-component>
       </div>
       <movieInfo-component
         [movieData]="{ 
-          title: movie.title, 
-          year: movie.year.toString(), 
-          category: movie.category,
-          rating: movie.rating, 
+          title: show.title, 
+          year: show.year.toString(), 
+          category: show.category,
+          rating: show.rating, 
         }"
       ></movieInfo-component>
     </div>
   </div>
 
-  <h2 class="text-white HeadingL my-8">Bookmarked TV Series</h2>
-
-  <div class="wrapper-content flex flex-wrap gap-10">
-    <div
-      *ngFor="let serie of series"
-      class="card relative rounded-lg flex gap-2 flex-col"
-    >
+  <div *ngIf="searchTerm.length === 0">
+    <h2 class="HeadingL text-white my-8">Bookmarked Movies</h2>
+    <div class="wrapper-content flex flex-wrap gap-10">
       <div
-        class="image w-[280px] h-[174px] rounded-lg bg-center bg-cover"
-        [style.background-image]="'url(' + serie.thumbnail.regular.large + ')'"
+        *ngFor="let movie of movies"
+        class="card relative rounded-lg flex gap-2 flex-col"
       >
-        <bookmarkbutton-component
-          [showTitle]="serie.title"
-          [showBookmarkedImg]="serie.isBookmarked"
-        ></bookmarkbutton-component>
+        <div
+          class="image w-[280px] h-[174px] rounded-lg bg-center bg-cover"
+          [style.background-image]="
+            'url(' + movie.thumbnail.regular.large + ')'
+          "
+        >
+          <bookmarkbutton-component
+            [showTitle]="movie.title"
+            [showBookmarkedImg]="movie.isBookmarked"
+          ></bookmarkbutton-component>
+        </div>
+        <movieInfo-component
+          [movieData]="{ 
+            title: movie.title, 
+            year: movie.year.toString(), 
+            category: movie.category,
+            rating: movie.rating, 
+          }"
+        ></movieInfo-component>
       </div>
-      <movieInfo-component
-        [movieData]="{ 
-          title: serie.title, 
-          year: serie.year.toString(), 
-          category: serie.category,
-          rating: serie.rating, 
-        }"
-      ></movieInfo-component>
+    </div>
+
+    <h2 class="text-white HeadingL my-8">Bookmarked TV Series</h2>
+
+    <div class="wrapper-content flex flex-wrap gap-10">
+      <div
+        *ngFor="let serie of series"
+        class="card relative rounded-lg flex gap-2 flex-col"
+      >
+        <div
+          class="image w-[280px] h-[174px] rounded-lg bg-center bg-cover"
+          [style.background-image]="
+            'url(' + serie.thumbnail.regular.large + ')'
+          "
+        >
+          <bookmarkbutton-component
+            [showTitle]="serie.title"
+            [showBookmarkedImg]="serie.isBookmarked"
+          ></bookmarkbutton-component>
+        </div>
+        <movieInfo-component
+          [movieData]="{ 
+            title: serie.title, 
+            year: serie.year.toString(), 
+            category: serie.category,
+            rating: serie.rating, 
+          }"
+        ></movieInfo-component>
+      </div>
     </div>
   </div>
 </div>

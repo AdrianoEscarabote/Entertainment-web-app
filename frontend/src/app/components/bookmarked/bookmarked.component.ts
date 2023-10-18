@@ -2,20 +2,42 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { MovieState, MovieTypes } from 'src/app/ngrx/movie.reducer';
-import { selectMovies } from 'src/app/ngrx/movie.selectors';
+import { selectMovies, selectSearchTerm } from 'src/app/ngrx/movie.selectors';
 import { Store } from '@ngrx/store';
+import { SearchTermService } from 'src/app/service/search-term.service';
 
 @Component({
   selector: 'bookmarked-component',
   templateUrl: './bookmarked.component.html',
 })
 export class BookmarkedComponent implements OnInit {
+  searchTerm: string = '';
+  filteredShows: MovieTypes[] = [];
   movies: MovieTypes[] = [];
   series: MovieTypes[] = [];
 
-  constructor(private router: Router, private store: Store<MovieState>) {}
+  constructor(
+    private router: Router,
+    private store: Store<MovieState>,
+    private searchTermService: SearchTermService
+  ) {}
 
   async ngOnInit(): Promise<void> {
+    this.store.select(selectSearchTerm).subscribe((searchTerm) => {
+      this.searchTerm = searchTerm;
+      this.filterShows();
+    });
+
+    this.searchTermService.getSearchTerm().subscribe((searchTerm) => {
+      this.searchTerm = searchTerm;
+      this.filterShows();
+    });
+
+    this.store.select(selectMovies).subscribe((movies) => {
+      this.movies = movies;
+      this.filterShows();
+    });
+
     this.store.select(selectMovies).subscribe((shows) => {
       this.movies = shows.filter(
         (movie) => movie.isBookmarked && movie.category === 'Movie'
@@ -37,5 +59,21 @@ export class BookmarkedComponent implements OnInit {
       .catch((error) => {
         this.router.navigate(['/login']);
       });
+  }
+
+  filterShows(): void {
+    const filteredMovies = this.movies.filter(
+      (movie) =>
+        movie.isBookmarked &&
+        movie.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+
+    const filteredSeries = this.series.filter(
+      (serie) =>
+        serie.isBookmarked &&
+        serie.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+
+    this.filteredShows = [...filteredMovies, ...filteredSeries];
   }
 }
