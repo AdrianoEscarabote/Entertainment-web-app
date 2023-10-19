@@ -33,7 +33,7 @@
 <div class="flex flex-col self-end">
   <ul class="opacity-75 flex gap-6 list-disc BodyS text-pureWhite">
     <li class="list-none">
-      <p>{{ movieData.year }}</p>
+      <p class="year">{{ movieData.year }}</p>
     </li>
     <li>
       <div class="relative flex gap-[6px] items-center">
@@ -47,7 +47,7 @@
         <ng-template #tvImage>
           <img src="../../../assets/icon-category-tv.svg" />
         </ng-template>
-        <p>
+        <p class="category">
           {{ movieData.category }}
         </p>
       </div>
@@ -55,7 +55,9 @@
     <li class="relative">
       <div class="flex items-center">
         <div class="dot"></div>
-        {{ movieData.rating }}
+        <p class="rating">
+          {{ movieData.rating }}
+        </p>
       </div>
     </li>
   </ul>
