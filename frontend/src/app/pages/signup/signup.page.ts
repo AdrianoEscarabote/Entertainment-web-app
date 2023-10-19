@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import axios from 'axios';
+import { MovieService } from 'src/app/service/movie.service';
 
 @Component({
   selector: 'signup-page',
@@ -16,7 +17,7 @@ export class SignupPage implements OnInit {
   confirmpassword: string = '';
   passwordVisible: boolean = false;
   confirmpasswordVisible: boolean = false;
-  constructor(private router: Router) {}
+  constructor(private router: Router, private movieService: MovieService) {}
 
   navigateToLoginRoute() {
     this.router.navigate(['/login']);
@@ -76,9 +77,8 @@ export class SignupPage implements OnInit {
         )
         .then((response) => {
           if (response.status === 201) {
-            setTimeout(() => {
-              this.router.navigate(['/home']);
-            }, 500);
+            this.movieService.getMovies();
+            this.router.navigate(['/home']);
           }
         })
         .catch((error) => {
