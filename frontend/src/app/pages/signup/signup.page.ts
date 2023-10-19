@@ -76,7 +76,9 @@ export class SignupPage implements OnInit {
         )
         .then((response) => {
           if (response.status === 201) {
-            this.router.navigate(['/home']);
+            setTimeout(() => {
+              this.router.navigate(['/home']);
+            }, 500);
           }
         })
         .catch((error) => {
