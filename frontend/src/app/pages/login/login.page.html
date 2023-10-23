@@ -42,6 +42,7 @@
             name="email"
             id="email"
             [(ngModel)]="email"
+            aria-label="enter your email"
             required
           />
           <span class="absolute right-0 text-red BodyS -top-2" *ngIf="showError"
@@ -57,6 +58,7 @@
             placeholder="Password"
             id="password"
             [(ngModel)]="password"
+            aria-label="enter your password"
             required
           />
           <button
@@ -90,6 +92,7 @@
         type="button"
         (click)="navigateToSignupRoute()"
         class="BodyM text-red hover:underline"
+        aria-label="go to signup page"
       >
         Sign Up
       </button>

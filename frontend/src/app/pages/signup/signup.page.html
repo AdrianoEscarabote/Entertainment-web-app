@@ -32,7 +32,7 @@
 <div
   class="wrapper-content min-h-screen flex flex-col gap-20 items-center justify-center bg-darkBlue"
 >
-  <img src="../../../assets/logo.svg" />
+  <img src="../../../assets/logo.svg" aria-hidden="true" />
   <main
     class="flex w-full items-center flex-col max-w-[400px] rounded-[20px] bg-semiDarkBlue p-8"
   >
@@ -55,6 +55,7 @@
             id="email"
             placeholder="Email address"
             [(ngModel)]="email"
+            aria-label="enter your email"
             required
           />
         </label>
@@ -67,19 +68,30 @@
             id="password"
             placeholder="Password"
             [(ngModel)]="password"
+            aria-label="enter your password"
             required
           />
           <button
             class="absolute w-[22px] h-[22px] right-0 top-2"
             type="button"
             (click)="togglePasswordVisibility('password')"
+            [attr.aria-label]="
+              passwordVisible
+                ? 'hide password'
+                : 'show password'
+            "
           >
             <img
               class="brightness-[0]"
               *ngIf="passwordVisible"
               src="../../../assets/eye.svg"
+              aria-hidden="true"
             />
-            <img *ngIf="!passwordVisible" src="../../../assets/eye-block.png" />
+            <img
+              *ngIf="!passwordVisible"
+              src="../../../assets/eye-block.png"
+              aria-hidden="true"
+            />
           </button>
         </label>
 
@@ -91,21 +103,29 @@
             placeholder="Repeat Password"
             id="confirmpassword"
             [(ngModel)]="confirmpassword"
+            aria-label="confirm your password"
             required
           />
           <button
             class="absolute w-[22px] h-[22px] right-0 top-2"
             type="button"
             (click)="toggleConfirmPasswordVisibility('confirmpassword')"
+            [attr.aria-label]="
+              confirmpasswordVisible
+                ? 'hide password'
+                : 'show password'
+            "
           >
             <img
               class="brightness-[0]"
               *ngIf="confirmpasswordVisible"
               src="../../../assets/eye.svg"
+              aria-hidden="true"
             />
             <img
               *ngIf="!confirmpasswordVisible"
               src="../../../assets/eye-block.png"
+              aria-hidden="true"
             />
           </button>
         </label>
@@ -122,6 +142,7 @@
       <button
         (click)="navigateToLoginRoute()"
         class="BodyM text-red hover:underline"
+        aria-label="go to login page"
       >
         Login
       </button>
