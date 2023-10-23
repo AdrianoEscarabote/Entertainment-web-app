@@ -1,3 +1,5 @@
+## Deploy ([click here](https://entertainment-web-app-sigma.vercel.app/))
+
 # Entertainment web app solution
 
 This is a solution to the [Entertainment web app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/entertainment-web-app-J-UhgAW1X). Frontend Mentor challenges help you improve your coding skills by building realistic project.
@@ -24,7 +26,9 @@ Users should be able to:
 
 ## Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+In this challenge, I concentrated on mastering new technologies like Angular and incorporating unit tests into the frontend using Jasmine, among other tools. As this was my inaugural venture with Angular, I am exceptionally content with the results, and I believe I delivered a commendable performance.
+
+I am deeply committed to learning new technologies and continuously enhancing my skills as a developer. This project significantly embodies that commitment.
 
 ## MyAngularApp
 
