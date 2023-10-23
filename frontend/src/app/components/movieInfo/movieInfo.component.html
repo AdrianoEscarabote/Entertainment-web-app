@@ -42,7 +42,11 @@
           *ngIf="movieData.category === 'Movie'; then movieImage; else tvImage"
         ></ng-container>
         <ng-template #movieImage>
-          <img class="w-3 h-3" src="../../../assets/icon-category-movie.svg" />
+          <img
+            class="w-3 h-3"
+            src="../../../assets/icon-category-movie.svg"
+            aria-hidden="true"
+          />
         </ng-template>
         <ng-template #tvImage>
           <img src="../../../assets/icon-category-tv.svg" />

@@ -55,39 +55,59 @@
     class="wrapper flex items-center flex-col justify-between bg-semiDarkBlue rounded-[20px] min-h-full py-8 px-7"
   >
     <div class="content flex justify-start flex-col items-center h-full">
-      <img src="../../../assets//logo.svg" class="logo mb-[75px]" />
-      <nav>
+      <img src="../../../assets//logo.svg" class="logo mb-[75px]" alt="logo" />
+      <nav aria-label="nav">
         <ul class="flex flex-col items-center gap-10">
           <li>
             <button
               routerLink="/home"
               [ngClass]="{ active: activeRoute === 'home' }"
+              aria-label="go to home page"
             >
-              <img src="../../../assets/icon-nav-home.svg" alt="" />
+              <img
+                src="../../../assets/icon-nav-home.svg"
+                alt=""
+                aria-hidden="true"
+              />
             </button>
           </li>
           <li>
             <button
               routerLink="/movies"
               [ngClass]="{ active: activeRoute === 'movies' }"
+              aria-label="go to movies page"
             >
-              <img src="../../../assets/icon-nav-movies.svg" alt="" />
+              <img
+                src="../../../assets/icon-nav-movies.svg"
+                alt=""
+                aria-hidden="true"
+              />
             </button>
           </li>
           <li>
             <button
               routerLink="/series"
               [ngClass]="{ active: activeRoute === 'series' }"
+              aria-label="go to series page"
             >
-              <img src="../../../assets/icon-nav-tv-series.svg" alt="" />
+              <img
+                src="../../../assets/icon-nav-tv-series.svg"
+                alt=""
+                aria-hidden="true"
+              />
             </button>
           </li>
           <li>
             <button
               routerLink="/bookmarked"
               [ngClass]="{ active: activeRoute === 'bookmarked' }"
+              aria-label="go to bookmarked page"
             >
-              <img src="../../../assets/icon-nav-bookmark.svg" alt="" />
+              <img
+                src="../../../assets/icon-nav-bookmark.svg"
+                alt=""
+                aria-hidden="true"
+              />
             </button>
           </li>
         </ul>

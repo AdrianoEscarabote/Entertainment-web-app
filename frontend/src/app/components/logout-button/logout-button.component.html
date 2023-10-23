@@ -50,9 +50,15 @@
 </style>
 
 <div class="relative flex items-center">
-  <button (click)="handleClickOpenOptions()" class="cursor-pointer">
+  <button
+    (click)="handleClickOpenOptions()"
+    class="cursor-pointer"
+    [attr.aria-label]="
+      logoutOptionOpen ? 'close logout option' : 'open logout option'
+    "
+  >
     <div class="avatar-wrapper border-2 w-10 h-10 rounded-full border-white">
-      <img src="../../../assets/image-avatar.png" alt="" />
+      <img src="../../../assets/image-avatar.png" alt="" aria-hidden="true" />
     </div>
   </button>
 
@@ -65,6 +71,7 @@
       *ngIf="!loading"
       (click)="logoutFn()"
       class="button cursor-pointer HeadingS text-white"
+      aria-label="click to logout"
     >
       Logout
     </button>
