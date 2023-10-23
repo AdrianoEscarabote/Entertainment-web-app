@@ -5,6 +5,7 @@ import { MovieState, MovieTypes } from 'src/app/ngrx/movie.reducer';
 import { selectMovies, selectSearchTerm } from 'src/app/ngrx/movie.selectors';
 import { SearchTermService } from 'src/app/service/search-term.service';
 import { Store } from '@ngrx/store';
+import { MovieService } from 'src/app/service/movie.service';
 
 @Component({
   selector: 'home-component',
@@ -18,10 +19,12 @@ export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
     private store: Store<MovieState>,
-    private searchTermService: SearchTermService
+    private searchTermService: SearchTermService,
+    private movieService: MovieService
   ) {}
 
   ngOnInit(): void {
+    this.movieService.getMovies();
     this.store.select(selectSearchTerm).subscribe((searchTerm) => {
       this.searchTerm = searchTerm;
       this.filterShows();
