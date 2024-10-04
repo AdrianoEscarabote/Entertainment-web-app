@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import axios from 'axios';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'login-page',
@@ -22,7 +23,7 @@ export class LoginPage implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       axios
-        .get('https://real-erin-cow-boot.cyclic.app/auth/checktoken', {
+        .get(`${environment.apiUrl}/auth/checktoken`, {
           withCredentials: true,
         })
         .then((response) => {
@@ -53,7 +54,7 @@ export class LoginPage implements OnInit {
 
       axios
         .post(
-          'https://real-erin-cow-boot.cyclic.app/auth/login',
+          `${environment.apiUrl}/auth/login`,
           {
             email,
             password,

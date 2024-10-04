@@ -5,6 +5,7 @@ import axios from 'axios';
 import { MovieState, MovieTypes } from 'src/app/ngrx/movie.reducer';
 import { selectMovies, selectSearchTerm } from 'src/app/ngrx/movie.selectors';
 import { SearchTermService } from 'src/app/service/search-term.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'series-component',
@@ -38,7 +39,7 @@ export class SeriesComponent implements OnInit {
       this.filterSeries();
     });
     axios
-      .get('https://real-erin-cow-boot.cyclic.app/auth/checktoken', {
+      .get(`${environment.apiUrl}/auth/checktoken`, {
         withCredentials: true,
       })
       .then((response) => {

@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import axios from 'axios';
 import { setBookmarkedShow } from 'src/app/ngrx/movie.actions';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'bookmarkbutton-component',
@@ -16,7 +17,7 @@ export class BookmarkButtonComponent {
   async bookmarkFn() {
     const response = await axios
       .post(
-        'https://real-erin-cow-boot.cyclic.app/bookmark/set',
+        `${environment.apiUrl}/bookmark/set`,
         {
           title: this.showTitle,
         },

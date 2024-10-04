@@ -4,14 +4,14 @@ import { Store } from '@ngrx/store';
 import { mergeMap } from 'rxjs/operators';
 import { loadMoviesSuccess } from '../ngrx/movie.actions';
 import { forkJoin, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MovieService {
   private movieDataUrl = '../../assets/data.json';
-  private getBookmarkedShowsUrl =
-    'https://real-erin-cow-boot.cyclic.app/bookmark/get';
+  private getBookmarkedShowsUrl = `${environment.apiUrl}/bookmark/get`;
 
   constructor(private http: HttpClient, private store: Store) {}
 

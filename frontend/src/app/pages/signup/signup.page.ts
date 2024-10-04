@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { MovieService } from 'src/app/service/movie.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'signup-page',
@@ -25,7 +26,7 @@ export class SignupPage implements OnInit {
 
   ngOnInit(): void {
     axios
-      .get('https://real-erin-cow-boot.cyclic.app/auth/checktoken', {
+      .get(`${environment.apiUrl}/auth/checktoken`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -65,7 +66,7 @@ export class SignupPage implements OnInit {
       this.loading = true;
       axios
         .post(
-          'https://real-erin-cow-boot.cyclic.app/auth/signup',
+          `${environment.apiUrl}/auth/signup`,
           {
             email,
             password,

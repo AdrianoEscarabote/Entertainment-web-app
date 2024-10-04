@@ -6,6 +6,7 @@ import { selectMovies, selectSearchTerm } from 'src/app/ngrx/movie.selectors';
 import { SearchTermService } from 'src/app/service/search-term.service';
 import { Store } from '@ngrx/store';
 import { MovieService } from 'src/app/service/movie.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'home-component',
@@ -46,7 +47,7 @@ export class HomeComponent implements OnInit {
     });
 
     axios
-      .get('https://real-erin-cow-boot.cyclic.app/auth/checktoken', {
+      .get(`${environment.apiUrl}/auth/checktoken`, {
         withCredentials: true,
       })
       .then((response) => {

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import axios from 'axios';
 import { resetMovies } from 'src/app/ngrx/movie.actions';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'logout-button-component',
@@ -26,7 +27,7 @@ export class LogoutButtonComponent {
     this.loading = true;
     axios
       .post(
-        'https://real-erin-cow-boot.cyclic.app/auth/logout',
+        `${environment.apiUrl}/auth/logout`,
         {},
         {
           withCredentials: true,
