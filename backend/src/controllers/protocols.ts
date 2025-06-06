@@ -27,3 +27,10 @@ export interface IController {
     res: Response<unknown>,
   ): Promise<HttpResponse<unknown>>
 }
+
+export interface IGetMoviesController {
+  getMovies(
+    httpRequest: HttpRequest<unknown>,
+    res: Response<unknown>,
+  ): Promise<HttpResponse<unknown>>
+}
