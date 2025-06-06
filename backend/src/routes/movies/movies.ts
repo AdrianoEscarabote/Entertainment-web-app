@@ -1,8 +1,8 @@
 import * as express from "express"
-import getMoviesRouter from "./get-movies"
+import getMoviesRoute from "./get-movies"
 
 const moviesRouter = express.Router()
 
-moviesRouter.use("/", getMoviesRouter)
+moviesRouter.use("/", getMoviesRoute)
 
 export default moviesRouter
