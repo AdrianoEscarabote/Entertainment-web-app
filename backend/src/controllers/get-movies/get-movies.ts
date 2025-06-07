@@ -12,6 +12,7 @@ export class GetMoviesController implements IGetMoviesController {
 
   async getMovies(
     httpRequest: HttpRequest<GetMoviesParam>,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     res: Response<unknown>,
   ): Promise<HttpResponse<GetMoviesReturn | string>> {
     try {
@@ -23,13 +24,25 @@ export class GetMoviesController implements IGetMoviesController {
 
       let movies: GetMoviesReturn
 
-      if (type === "popular") {
+      if (type === "now playing") {
+        movies = await this.GetMoviesRepository.getNowPlayingMovies(
+          httpRequest.params,
+        )
+      } else if (type === "popular") {
         movies = await this.GetMoviesRepository.getPopularMovies(
           httpRequest.params,
         )
-      } else if (type === "recommended") {
-        movies = await this.GetMoviesRepository.getRecommendedMovies(
+      } else if (type === "top rated") {
+        movies = await this.GetMoviesRepository.getTopRatedMovies(
           httpRequest.params,
+        )
+      } else if (type === "trending") {
+        movies = await this.GetMoviesRepository.getTrendingMovies(
+          httpRequest.params,
+        )
+      } else if (type === "movie details" && httpRequest.body) {
+        movies = await this.GetMoviesRepository.getMovieDetails(
+          httpRequest.body,
         )
       } else {
         return badRequest("Invalid type parameter")
