@@ -4,9 +4,10 @@ import {
   GetMoviesReturn,
   IGetMoviesRepository,
 } from "@/controllers/get-movies/protocols"
+import { ShowType } from "@/models/Show"
 
 export class GetMoviesRepository implements IGetMoviesRepository {
-  async getPopularMovies(params: GetMoviesParam): Promise<GetMoviesReturn> {
+  async getPopularMovies(params: GetMoviesParam): Promise<ShowType[]> {
     const response = await fetch("https://api.themoviedb.org/3/movie/popular", {
       method: "GET",
       headers: {
@@ -26,13 +27,10 @@ export class GetMoviesRepository implements IGetMoviesRepository {
       throw new Error("Failed to fetch popular movies")
     }
 
-    return {
-      movies: response.results,
-      success: true,
-    }
+    return response.results
   }
 
-  async getNowPlayingMovies(params: GetMoviesParam): Promise<GetMoviesReturn> {
+  async getNowPlayingMovies(params: GetMoviesParam): Promise<ShowType[]> {
     const response = await fetch(
       "https://api.themoviedb.org/3/movie/now_playing",
       {
@@ -55,13 +53,10 @@ export class GetMoviesRepository implements IGetMoviesRepository {
       throw new Error("Failed to fetch now playing movies")
     }
 
-    return {
-      movies: response.results,
-      success: true,
-    }
+    return response.results
   }
 
-  async getTopRatedMovies(params: GetMoviesParam): Promise<GetMoviesReturn> {
+  async getTopRatedMovies(params: GetMoviesParam): Promise<ShowType[]> {
     const response = await fetch(
       "https://api.themoviedb.org/3/movie/top_rated",
       {
@@ -84,13 +79,10 @@ export class GetMoviesRepository implements IGetMoviesRepository {
       throw new Error("Failed to fetch top rated movies")
     }
 
-    return {
-      movies: response.results,
-      success: true,
-    }
+    return response.results
   }
 
-  async getTrendingMovies(params: GetMoviesParam): Promise<GetMoviesReturn> {
+  async getTrendingMovies(params: GetMoviesParam): Promise<ShowType[]> {
     const response = await fetch(
       `https://api.themoviedb.org/3/trending/movie/week?language=en-US`,
       {
@@ -113,10 +105,7 @@ export class GetMoviesRepository implements IGetMoviesRepository {
       throw new Error("Failed to fetch trending movies")
     }
 
-    return {
-      movies: response.results,
-      success: true,
-    }
+    return response.results
   }
 
   async getMovieDetails(params: GetMoviesParam): Promise<GetMoviesReturn> {
