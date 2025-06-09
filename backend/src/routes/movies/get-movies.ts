@@ -6,11 +6,12 @@ import * as express from "express"
 
 const getMoviesRoute = express.Router()
 
-getMoviesRoute.get("/", checkToken, async (req, res) => {
+getMoviesRoute.post("/", checkToken, async (req, res) => {
   const bodyFormated = {
     id: req.cookies.id,
     token: req.cookies.token,
     type: req.body.type,
+    ...req.body,
   }
 
   const getMoviesRepository = new GetMoviesRepository()
