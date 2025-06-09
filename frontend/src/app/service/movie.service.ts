@@ -1,19 +1,48 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
-import { mergeMap } from 'rxjs/operators';
-import { loadMoviesSuccess } from '../ngrx/movie.actions';
-import { forkJoin, of } from 'rxjs';
+import {
+  loadNowPlayingSuccess,
+  loadPopularSuccess,
+  loadTrendingSuccess,
+} from '../ngrx/movie.actions';
 import { environment } from 'src/environments/environment';
+import { MovieTypes } from '../ngrx/movie.reducer';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MovieService {
-  private movieDataUrl = '../../assets/data.json';
+  private movieDataUrl = `${environment.apiUrl}/movies`;
   private getBookmarkedShowsUrl = `${environment.apiUrl}/bookmark/get`;
 
   constructor(private http: HttpClient, private store: Store) {}
+
+  getMoviesByType(type: 'popular' | 'trending' | 'now-playing') {
+    return this.http.post<{ movies: MovieTypes[]; success: boolean }>(
+      `${this.movieDataUrl}`,
+      { type },
+      { withCredentials: true }
+    );
+  }
+
+  loadPopularMovies(): void {
+    this.getMoviesByType('popular').subscribe(({ movies }) => {
+      this.store.dispatch(loadPopularSuccess({ movies }));
+    });
+  }
+
+  loadTrendingMovies(): void {
+    this.getMoviesByType('trending').subscribe(({ movies }) => {
+      this.store.dispatch(loadTrendingSuccess({ movies }));
+    });
+  }
+
+  loadNowPlayingMovies(): void {
+    this.getMoviesByType('now-playing').subscribe(({ movies }) => {
+      this.store.dispatch(loadNowPlayingSuccess({ movies }));
+    });
+  }
 
   async getMovies(): Promise<void> {
     const bookmarkedShowsRequest = this.http.get<string[]>(
@@ -22,23 +51,5 @@ export class MovieService {
         withCredentials: true,
       }
     );
-    const moviesDataRequest = this.http.get<any[]>(this.movieDataUrl);
-
-    forkJoin([bookmarkedShowsRequest, moviesDataRequest])
-      .pipe(
-        mergeMap(([bookmarkedShows, moviesData]) => {
-          const moviesWithBookmark = moviesData.map((movie) => ({
-            ...movie,
-            isBookmarked: bookmarkedShows.includes(movie.title),
-          }));
-
-          // Dispatch the action and return it as an Observable
-          this.store.dispatch(
-            loadMoviesSuccess({ movies: moviesWithBookmark })
-          );
-          return of(null);
-        })
-      )
-      .subscribe();
   }
 }
