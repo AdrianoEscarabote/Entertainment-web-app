@@ -11,44 +11,57 @@ export class GetMoviesController implements IGetMoviesController {
   constructor(private readonly GetMoviesRepository: IGetMoviesRepository) {}
 
   async getMovies(
-    httpRequest: HttpRequest<GetMoviesParam>,
+    httpRequest: HttpRequest<{ types: string[] }>,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     res: Response<unknown>,
   ): Promise<HttpResponse<GetMoviesReturn | string>> {
     try {
-      const { type } = httpRequest.body!
+      const { types } = httpRequest.body!
 
-      if (!type) {
-        return badRequest("Type parameter is required")
+      if (!types || !Array.isArray(types)) {
+        return badRequest("Types parameter must be an array")
       }
 
-      let movies: GetMoviesReturn
+      const promises = types.map(async (type) => {
+        switch (type) {
+          case "popular":
+            return [
+              "popular",
+              await this.GetMoviesRepository.getPopularMovies(
+                httpRequest.params as GetMoviesParam,
+              ),
+            ]
+          case "trending":
+            return [
+              "trending",
+              await this.GetMoviesRepository.getTrendingMovies(
+                httpRequest.params as GetMoviesParam,
+              ),
+            ]
+          case "now playing":
+            return [
+              "nowPlaying",
+              await this.GetMoviesRepository.getNowPlayingMovies(
+                httpRequest.params as GetMoviesParam,
+              ),
+            ]
+            break
+          case "top rated":
+            return [
+              "topRated",
+              await this.GetMoviesRepository.getTopRatedMovies(
+                httpRequest.params as GetMoviesParam,
+              ),
+            ]
+          default:
+            throw new Error(`Unknown type: ${type}`)
+        }
+      })
 
-      if (type === "now playing") {
-        movies = await this.GetMoviesRepository.getNowPlayingMovies(
-          httpRequest.params,
-        )
-      } else if (type === "popular") {
-        movies = await this.GetMoviesRepository.getPopularMovies(
-          httpRequest.params,
-        )
-      } else if (type === "top rated") {
-        movies = await this.GetMoviesRepository.getTopRatedMovies(
-          httpRequest.params,
-        )
-      } else if (type === "trending") {
-        movies = await this.GetMoviesRepository.getTrendingMovies(
-          httpRequest.params,
-        )
-      } else if (type === "movie details" && httpRequest.body) {
-        movies = await this.GetMoviesRepository.getMovieDetails(
-          httpRequest.body,
-        )
-      } else {
-        return badRequest("Invalid type parameter")
-      }
+      const entries = await Promise.all(promises)
+      const result = Object.fromEntries(entries)
 
-      return ok(movies)
+      return ok(result)
     } catch (error) {
       return notFound()
     }
