@@ -108,7 +108,7 @@ export class GetMoviesRepository implements IGetMoviesRepository {
     return response.results
   }
 
-  async getMovieDetails(params: GetMoviesParam): Promise<GetMoviesReturn> {
+  async getMovieDetails(params: GetMoviesParam): Promise<ShowType> {
     const response = await fetch(
       `https://api.themoviedb.org/3/movie/${params.movie_id}`,
       {
@@ -131,9 +131,6 @@ export class GetMoviesRepository implements IGetMoviesRepository {
       throw new Error("Failed to fetch movie details")
     }
 
-    return {
-      movies: response,
-      success: true,
-    }
+    return response
   }
 }
