@@ -11,7 +11,7 @@ export class GetMoviesController implements IGetMoviesController {
   constructor(private readonly GetMoviesRepository: IGetMoviesRepository) {}
 
   async getMovies(
-    httpRequest: HttpRequest<{ types: string[] }>,
+    httpRequest: HttpRequest<GetMoviesParam>,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     res: Response<unknown>,
   ): Promise<HttpResponse<GetMoviesReturn | string>> {
@@ -45,12 +45,18 @@ export class GetMoviesController implements IGetMoviesController {
                 httpRequest.params as GetMoviesParam,
               ),
             ]
-            break
           case "top rated":
             return [
               "topRated",
               await this.GetMoviesRepository.getTopRatedMovies(
-                httpRequest.params as GetMoviesParam,
+                httpRequest.body as GetMoviesParam,
+              ),
+            ]
+          case "movie details":
+            return [
+              "movieDetails",
+              await this.GetMoviesRepository.getMovieDetails(
+                httpRequest.body as GetMoviesParam,
               ),
             ]
           default:
@@ -60,6 +66,11 @@ export class GetMoviesController implements IGetMoviesController {
 
       const entries = await Promise.all(promises)
       const result = Object.fromEntries(entries)
+
+      if (types.includes("movie details")) {
+        const { movieDetails } = result
+        return ok(movieDetails)
+      }
 
       return ok(result)
     } catch (error) {
