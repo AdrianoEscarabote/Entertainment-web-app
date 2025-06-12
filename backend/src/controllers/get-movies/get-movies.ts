@@ -38,21 +38,21 @@ export class GetMoviesController implements IGetMoviesController {
                 httpRequest.params as GetMoviesParam,
               ),
             ]
-          case "now playing":
+          case "nowPlaying":
             return [
               "nowPlaying",
               await this.GetMoviesRepository.getNowPlayingMovies(
                 httpRequest.params as GetMoviesParam,
               ),
             ]
-          case "top rated":
+          case "topRated":
             return [
               "topRated",
               await this.GetMoviesRepository.getTopRatedMovies(
                 httpRequest.body as GetMoviesParam,
               ),
             ]
-          case "movie details":
+          case "movieDetails":
             return [
               "movieDetails",
               await this.GetMoviesRepository.getMovieDetails(
@@ -67,7 +67,7 @@ export class GetMoviesController implements IGetMoviesController {
       const entries = await Promise.all(promises)
       const result = Object.fromEntries(entries)
 
-      if (types.includes("movie details")) {
+      if (types.includes("movieDetails")) {
         const { movieDetails } = result
         return ok(movieDetails)
       }
