@@ -52,6 +52,13 @@ export class GetMoviesController implements IGetMoviesController {
                 httpRequest.body as GetMoviesParam,
               ),
             ]
+          case "upcoming":
+            return [
+              "upcoming",
+              await this.GetMoviesRepository.getUpcomingMovies(
+                httpRequest.body as GetMoviesParam,
+              ),
+            ]
           case "movieDetails":
             return [
               "movieDetails",
