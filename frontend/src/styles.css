@@ -76,6 +76,14 @@ select {
   }
 }
 
+.HeadingXL {
+  font-size: 3rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.0313rem;
+}
+
 .HeadingL {
   font-size: 2rem;
   font-style: normal;
