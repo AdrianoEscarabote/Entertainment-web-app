@@ -28,6 +28,11 @@ export const selectNowPlayingMovies = createSelector(
   (state) => state.movies.trending
 );
 
+export const selectUpcomingMovies = createSelector(
+  selectMovieState,
+  (state) => state.movies.upcoming
+);
+
 export const selectTopRatedMovies = createSelector(
   selectMovieState,
   (state) => state.movies.topRated
