@@ -1,44 +1,34 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { AppState } from '../types';
+import { MovieState } from '../types';
 
-export const selectMovieState = createFeatureSelector<AppState>('movie');
-
-export const selectMovies = createSelector(
-  selectMovieState,
-  (state: AppState) => state.movies
-);
-
-export const selectSearchTerm = createSelector(
-  selectMovieState,
-  (state) => state.searchTerm
-);
+export const selectMovieState = createFeatureSelector<MovieState>('movies');
 
 export const selectPopularMovies = createSelector(
   selectMovieState,
-  (state) => state.movies.popular
+  (state) => state.popular
 );
 
 export const selectTrendingMovies = createSelector(
   selectMovieState,
-  (state) => state.movies.trending
+  (state) => state.trending
 );
 
 export const selectNowPlayingMovies = createSelector(
   selectMovieState,
-  (state) => state.movies.trending
+  (state) => state.trending
 );
 
 export const selectUpcomingMovies = createSelector(
   selectMovieState,
-  (state) => state.movies.upcoming
+  (state) => state.upcoming
 );
 
 export const selectTopRatedMovies = createSelector(
   selectMovieState,
-  (state) => state.movies.topRated
+  (state) => state.topRated
 );
 
 export const selectMovieDetails = createSelector(
   selectMovieState,
-  (state) => state.movies.movieDetails
+  (state) => state.movieDetails
 );
