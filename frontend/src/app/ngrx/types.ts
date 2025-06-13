@@ -33,14 +33,25 @@ export interface MediaItem {
   category: string;
 }
 
+export interface MovieState {
+  popular: MediaItem[];
+  trending: MediaItem[];
+  nowPlaying: MediaItem[];
+  upcoming: MediaItem[];
+  topRated: MediaItem[];
+  movieDetails: MediaItem | null;
+}
+
+export interface TvSeriesState {
+  popular: MediaItem[];
+  trending: MediaItem[];
+  onTheAir: MediaItem[];
+  topRated: MediaItem[];
+  airingToday: MediaItem[];
+  tvSeriesDetails: MediaItem | null;
+}
+
 export interface AppState {
-  movies: {
-    popular: MediaItem[];
-    trending: MediaItem[];
-    nowPlaying: MediaItem[];
-    upcoming: MediaItem[];
-    topRated: MediaItem[];
-    movieDetails: MediaItem | null;
-  };
-  searchTerm: string;
+  movies: MovieState;
+  tvSeries: TvSeriesState;
 }
