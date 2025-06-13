@@ -1,8 +1,34 @@
 import { createAction, props } from '@ngrx/store';
+import { MediaItem } from './movie.reducer';
 
-export const loadMoviesSuccess = createAction(
-  '[Movie API] Load Movies Success',
-  props<{ movies: any[] }>()
+export const loadPopularSuccess = createAction(
+  '[Movie] Load Popular Success',
+  props<{ popular: MediaItem[] }>()
+);
+
+export const loadTrendingSuccess = createAction(
+  '[Movie] Load Trending Success',
+  props<{ trending: MediaItem[] }>()
+);
+
+export const loadNowPlayingSuccess = createAction(
+  '[Movie] Load Now Playing Success',
+  props<{ nowPlaying: MediaItem[] }>()
+);
+
+export const loadUpcomingMovies = createAction(
+  '[Movie] Load Upcoming Movies',
+  props<{ upcoming: MediaItem[] }>()
+);
+
+export const loadTopRatedMovies = createAction(
+  '[Movie] Load Top Rated Movies',
+  props<{ topRated: MediaItem[] }>()
+);
+
+export const loadMovieDetailsSuccess = createAction(
+  '[Movie API] Load Movie Details Success',
+  props<{ movieDetails: MediaItem }>()
 );
 
 export const setSearchTerm = createAction(
