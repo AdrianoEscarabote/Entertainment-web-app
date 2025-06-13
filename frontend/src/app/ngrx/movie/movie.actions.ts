@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { MediaItem } from './movie.reducer';
+import { MediaItem } from '../types';
 
 export const loadPopularMovies = createAction(
   '[Movie] Load Popular Success',

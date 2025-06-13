@@ -1,5 +1,5 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { AppState } from './movie.reducer';
+import { AppState } from '../types';
 
 export const selectMovieState = createFeatureSelector<AppState>('movie');
 
