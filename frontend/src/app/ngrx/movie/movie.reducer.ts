@@ -7,62 +7,41 @@ import {
   loadTrendingMovies,
   loadUpcomingMovies,
 } from './movie.actions';
-import { AppState } from '../types';
+import { MovieState } from '../types';
 
-export const initialState: AppState = {
-  movies: {
-    popular: [],
-    trending: [],
-    nowPlaying: [],
-    upcoming: [],
-    topRated: [],
-    movieDetails: null,
-  },
-  searchTerm: '',
+export const initialState: MovieState = {
+  popular: [],
+  trending: [],
+  nowPlaying: [],
+  upcoming: [],
+  topRated: [],
+  movieDetails: null,
 };
 
 export const movieReducer = createReducer(
   initialState,
   on(loadPopularMovies, (state, { popular }) => ({
     ...state,
-    movies: {
-      ...state.movies,
-      popular: popular,
-    },
+    popular: popular,
   })),
   on(loadTrendingMovies, (state, { trending }) => ({
     ...state,
-    movies: {
-      ...state.movies,
-      trending: trending,
-    },
+    trending: trending,
   })),
   on(loadNowPlayingMovies, (state, { nowPlaying }) => ({
     ...state,
-    movies: {
-      ...state.movies,
-      nowPlaying: nowPlaying,
-    },
+    nowPlaying: nowPlaying,
   })),
   on(loadTopRatedMovies, (state, { topRated }) => ({
     ...state,
-    movies: {
-      ...state.movies,
-      topRated: topRated,
-    },
+    topRated: topRated,
   })),
   on(loadMovieDetails, (state, { movieDetails }) => ({
     ...state,
-    movies: {
-      ...state.movies,
-      movieDetails: movieDetails,
-    },
+    movieDetails: movieDetails,
   })),
   on(loadUpcomingMovies, (state, { upcoming }) => ({
     ...state,
-    movies: {
-      ...state.movies,
-      upcoming: upcoming,
-    },
+    upcoming: upcoming,
   }))
 );
