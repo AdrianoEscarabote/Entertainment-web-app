@@ -1,10 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 import {
-  loadMovieDetailsSuccess,
-  loadNowPlayingSuccess,
-  loadPopularSuccess,
+  loadMovieDetails,
+  loadNowPlayingMovies,
+  loadPopularMovies,
   loadTopRatedMovies,
-  loadTrendingSuccess,
+  loadTrendingMovies,
   loadUpcomingMovies,
 } from './movie.actions';
 
@@ -68,21 +68,21 @@ export const initialState: AppState = {
 
 export const movieReducer = createReducer(
   initialState,
-  on(loadPopularSuccess, (state, { popular }) => ({
+  on(loadPopularMovies, (state, { popular }) => ({
     ...state,
     movies: {
       ...state.movies,
       popular: popular,
     },
   })),
-  on(loadTrendingSuccess, (state, { trending }) => ({
+  on(loadTrendingMovies, (state, { trending }) => ({
     ...state,
     movies: {
       ...state.movies,
       trending: trending,
     },
   })),
-  on(loadNowPlayingSuccess, (state, { nowPlaying }) => ({
+  on(loadNowPlayingMovies, (state, { nowPlaying }) => ({
     ...state,
     movies: {
       ...state.movies,
@@ -96,7 +96,7 @@ export const movieReducer = createReducer(
       topRated: topRated,
     },
   })),
-  on(loadMovieDetailsSuccess, (state, { movieDetails }) => ({
+  on(loadMovieDetails, (state, { movieDetails }) => ({
     ...state,
     movies: {
       ...state.movies,

@@ -1,17 +1,17 @@
 import { createAction, props } from '@ngrx/store';
 import { MediaItem } from './movie.reducer';
 
-export const loadPopularSuccess = createAction(
+export const loadPopularMovies = createAction(
   '[Movie] Load Popular Success',
   props<{ popular: MediaItem[] }>()
 );
 
-export const loadTrendingSuccess = createAction(
+export const loadTrendingMovies = createAction(
   '[Movie] Load Trending Success',
   props<{ trending: MediaItem[] }>()
 );
 
-export const loadNowPlayingSuccess = createAction(
+export const loadNowPlayingMovies = createAction(
   '[Movie] Load Now Playing Success',
   props<{ nowPlaying: MediaItem[] }>()
 );
@@ -26,7 +26,7 @@ export const loadTopRatedMovies = createAction(
   props<{ topRated: MediaItem[] }>()
 );
 
-export const loadMovieDetailsSuccess = createAction(
+export const loadMovieDetails = createAction(
   '[Movie API] Load Movie Details Success',
   props<{ movieDetails: MediaItem }>()
 );
