@@ -84,4 +84,21 @@ export class GetMoviesController implements IGetMoviesController {
       return notFound()
     }
   }
+
+  async getMovieGenreList(
+    httpRequest: HttpRequest<GetMoviesParam>,
+    res: Response<unknown>,
+  ): Promise<HttpResponse<unknown>> {
+    try {
+      if (!httpRequest.body) {
+        return badRequest("Body parameter is required")
+      }
+
+      const genreList = await this.GetMoviesRepository.getMovieGenreList()
+
+      return ok(genreList)
+    } catch (error) {
+      return notFound()
+    }
+  }
 }

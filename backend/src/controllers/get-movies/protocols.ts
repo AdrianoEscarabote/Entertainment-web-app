@@ -1,4 +1,5 @@
 import { ShowType } from "@/models/Show"
+import { GenreList } from "../protocols"
 
 export interface GetMoviesParam {
   id: string
@@ -22,4 +23,5 @@ export interface IGetMoviesRepository {
   getTrendingMovies(params: GetMoviesParam): Promise<ShowType[]>
   getUpcomingMovies(params: GetMoviesParam): Promise<ShowType[]>
   getMovieDetails(params: GetMoviesParam): Promise<ShowType>
+  getMovieGenreList(): Promise<GenreList[]>
 }
