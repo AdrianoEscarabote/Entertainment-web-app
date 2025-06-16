@@ -32,3 +32,8 @@ export const selectMovieDetails = createSelector(
   selectMovieState,
   (state) => state.movieDetails
 );
+
+export const selectMoviesGenresList = createSelector(
+  selectMovieState,
+  (state) => state.genresList
+);

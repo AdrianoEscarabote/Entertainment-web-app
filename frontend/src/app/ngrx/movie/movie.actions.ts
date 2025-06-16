@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { MediaItem } from '../types';
+import { Genre, MediaItem } from '../types';
 
 export const loadPopularMovies = createAction(
   '[Movie] Load Popular Success',
@@ -39,6 +39,11 @@ export const setSearchTerm = createAction(
 export const setBookmarkedShow = createAction(
   '[Show] set bookmarked show',
   props<{ title: string; isBookmarked: boolean }>()
+);
+
+export const loadMoviesGenresList = createAction(
+  '[Movie API] Load Genres List Success',
+  props<{ genresList: Genre[] }>()
 );
 
 export const resetMovies = createAction('[Movies] Reset Movies');

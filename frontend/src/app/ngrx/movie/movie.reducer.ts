@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import {
+  loadMoviesGenresList,
   loadMovieDetails,
   loadNowPlayingMovies,
   loadPopularMovies,
@@ -15,6 +16,7 @@ export const initialState: MovieState = {
   nowPlaying: [],
   upcoming: [],
   topRated: [],
+  genresList: [],
   movieDetails: null,
 };
 
@@ -43,5 +45,9 @@ export const movieReducer = createReducer(
   on(loadUpcomingMovies, (state, { upcoming }) => ({
     ...state,
     upcoming: upcoming,
+  })),
+  on(loadMoviesGenresList, (state, { genresList }) => ({
+    ...state,
+    genresList: genresList,
   }))
 );
