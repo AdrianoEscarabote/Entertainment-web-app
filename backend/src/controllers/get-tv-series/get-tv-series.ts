@@ -1,5 +1,5 @@
 import { Response } from "express"
-import { HttpRequest, HttpResponse, IController } from "../protocols"
+import { HttpRequest, HttpResponse, IGetTvSeriesController } from "../protocols"
 import {
   GetTvSeriesParam,
   GetTvSeriesReturn,
@@ -7,10 +7,27 @@ import {
 } from "./protocols"
 import { badRequest, ok } from "../helpers"
 
-export class GetTvSeriesController implements IController {
+export class GetTvSeriesController implements IGetTvSeriesController {
   constructor(private readonly GetTvSeriesRepository: IGetTvSeriesRepository) {}
 
-  async handle(
+  async getTvSeriesGenreList(
+    httpRequest: HttpRequest<unknown>,
+    res: Response<unknown>,
+  ): Promise<HttpResponse<unknown>> {
+    try {
+      if (!httpRequest.body) {
+        return badRequest("Body is required")
+      }
+
+      const genreList = await this.GetTvSeriesRepository.getTvSeriesGenreList()
+
+      return ok(genreList)
+    } catch (error) {
+      return badRequest("error")
+    }
+  }
+
+  async getTvSeries(
     httpRequest: HttpRequest<GetTvSeriesParam>,
     res: Response<unknown>,
   ): Promise<HttpResponse<GetTvSeriesReturn | string>> {

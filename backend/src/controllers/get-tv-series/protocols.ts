@@ -1,4 +1,5 @@
 import { ShowType } from "@/models/Show"
+import { GenreList } from "../protocols"
 
 export interface GetTvSeriesParam {
   id: string
@@ -22,4 +23,5 @@ export interface IGetTvSeriesRepository {
   getOnTheAirTvSeries(params: GetTvSeriesParam): Promise<ShowType[]>
   getTopRatedTvSeries(params: GetTvSeriesParam): Promise<ShowType[]>
   getTvSeriesDetails(params: GetTvSeriesParam): Promise<ShowType>
+  getTvSeriesGenreList(): Promise<GenreList[]>
 }
