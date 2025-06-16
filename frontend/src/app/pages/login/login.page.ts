@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'login-page',
@@ -14,13 +15,15 @@ export class LoginPage implements OnInit {
   email: string = '';
   password: string = '';
   passwordVisible: boolean = false;
-  constructor(private router: Router) {}
+
+  constructor(private router: Router, private Title: Title) {}
 
   navigateToSignupRoute() {
     this.router.navigate(['/signup']);
   }
 
   ngOnInit(): void {
+    this.Title.setTitle('Login | Entertainment web App');
     setTimeout(() => {
       axios
         .get(`${environment.apiUrl}/auth/checktoken`, {

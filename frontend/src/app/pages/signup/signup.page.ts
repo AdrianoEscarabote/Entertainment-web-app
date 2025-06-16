@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { MovieService } from 'src/app/service/movie.service';
@@ -18,13 +19,19 @@ export class SignupPage implements OnInit {
   confirmpassword: string = '';
   passwordVisible: boolean = false;
   confirmpasswordVisible: boolean = false;
-  constructor(private router: Router, private movieService: MovieService) {}
+
+  constructor(
+    private router: Router,
+    private movieService: MovieService,
+    private Title: Title
+  ) {}
 
   navigateToLoginRoute() {
     this.router.navigate(['/login']);
   }
 
   ngOnInit(): void {
+    this.Title.setTitle('Signup | Entertainment web App');
     axios
       .get(`${environment.apiUrl}/auth/checktoken`, {
         withCredentials: true,
@@ -78,7 +85,6 @@ export class SignupPage implements OnInit {
         )
         .then((response) => {
           if (response.status === 201) {
-            this.movieService.getMovies();
             this.router.navigate(['/home']);
           }
         })
