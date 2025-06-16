@@ -21,6 +21,11 @@ export enum HttpStatusCode {
   CONFLICT = 409,
 }
 
+export interface GenreList {
+  id: number
+  name: string
+}
+
 export interface IController {
   handle(
     httpRequest: HttpRequest<unknown>,
@@ -28,8 +33,23 @@ export interface IController {
   ): Promise<HttpResponse<unknown>>
 }
 
+export interface IGetTvSeriesController {
+  getTvSeries(
+    httpRequest: HttpRequest<unknown>,
+    res: Response<unknown>,
+  ): Promise<HttpResponse<unknown>>
+  getTvSeriesGenreList(
+    httpRequest: HttpRequest<unknown>,
+    res: Response<unknown>,
+  ): Promise<HttpResponse<unknown>>
+}
+
 export interface IGetMoviesController {
   getMovies(
+    httpRequest: HttpRequest<unknown>,
+    res: Response<unknown>,
+  ): Promise<HttpResponse<unknown>>
+  getMovieGenreList(
     httpRequest: HttpRequest<unknown>,
     res: Response<unknown>,
   ): Promise<HttpResponse<unknown>>
