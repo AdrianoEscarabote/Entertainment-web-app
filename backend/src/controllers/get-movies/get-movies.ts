@@ -28,21 +28,21 @@ export class GetMoviesController implements IGetMoviesController {
             return [
               "popular",
               await this.GetMoviesRepository.getPopularMovies(
-                httpRequest.params as GetMoviesParam,
+                httpRequest.body as GetMoviesParam,
               ),
             ]
           case "trending":
             return [
               "trending",
               await this.GetMoviesRepository.getTrendingMovies(
-                httpRequest.params as GetMoviesParam,
+                httpRequest.body as GetMoviesParam,
               ),
             ]
           case "nowPlaying":
             return [
               "nowPlaying",
               await this.GetMoviesRepository.getNowPlayingMovies(
-                httpRequest.params as GetMoviesParam,
+                httpRequest.body as GetMoviesParam,
               ),
             ]
           case "topRated":

@@ -11,6 +11,7 @@ export interface GetMoviesParam {
     | "trending"
     | "upcoming"
     | "movie details"
+  page?: number
   movie_id?: number
 }
 
