@@ -11,6 +11,7 @@ export interface GetTvSeriesParam {
     | "onTheAir"
     | "topRated"
     | "tvSeriesDetails"
+  page?: number
   tv_series_id?: number
 }
 
