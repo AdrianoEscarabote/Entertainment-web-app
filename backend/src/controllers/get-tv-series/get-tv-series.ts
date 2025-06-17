@@ -54,28 +54,28 @@ export class GetTvSeriesController implements IGetTvSeriesController {
                 httpRequest.body as GetTvSeriesParam,
               ),
             ]
-          case "airingToday":
+          case "airing-today":
             return [
               "airingToday",
               await this.GetTvSeriesRepository.getAiringTodayTvSeries(
                 httpRequest.body as GetTvSeriesParam,
               ),
             ]
-          case "onTheAir":
+          case "on-the-air":
             return [
               "onTheAir",
               await this.GetTvSeriesRepository.getOnTheAirTvSeries(
                 httpRequest.body as GetTvSeriesParam,
               ),
             ]
-          case "topRated":
+          case "top-rated":
             return [
               "topRated",
               await this.GetTvSeriesRepository.getTopRatedTvSeries(
                 httpRequest.body as GetTvSeriesParam,
               ),
             ]
-          case "tvSeriesDetails":
+          case "tv-series-details":
             return [
               "tvSeriesDetails",
               await this.GetTvSeriesRepository.getTvSeriesDetails(

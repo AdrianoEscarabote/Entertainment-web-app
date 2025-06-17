@@ -6,8 +6,8 @@ export interface GetMoviesParam {
   token: string
   types:
     | "popular"
-    | "top rated"
-    | "now playing"
+    | "top-rated"
+    | "now-playing"
     | "trending"
     | "upcoming"
     | "movie details"

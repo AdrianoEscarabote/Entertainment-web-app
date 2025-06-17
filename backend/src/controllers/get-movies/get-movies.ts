@@ -38,14 +38,14 @@ export class GetMoviesController implements IGetMoviesController {
                 httpRequest.body as GetMoviesParam,
               ),
             ]
-          case "nowPlaying":
+          case "now-playing":
             return [
               "nowPlaying",
               await this.GetMoviesRepository.getNowPlayingMovies(
                 httpRequest.body as GetMoviesParam,
               ),
             ]
-          case "topRated":
+          case "top-rated":
             return [
               "topRated",
               await this.GetMoviesRepository.getTopRatedMovies(
@@ -59,7 +59,7 @@ export class GetMoviesController implements IGetMoviesController {
                 httpRequest.body as GetMoviesParam,
               ),
             ]
-          case "movieDetails":
+          case "movie-details":
             return [
               "movieDetails",
               await this.GetMoviesRepository.getMovieDetails(
