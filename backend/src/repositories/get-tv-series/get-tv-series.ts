@@ -2,18 +2,42 @@ import {
   GetTvSeriesParam,
   IGetTvSeriesRepository,
 } from "@/controllers/get-tv-series/protocols"
+import { GenreList } from "@/controllers/protocols"
 import { ShowType } from "@/models/Show"
 import axios from "axios"
 
 export class GetTvSeriesRepository implements IGetTvSeriesRepository {
-  async getTrendingTvSeries(params: GetTvSeriesParam): Promise<ShowType[]> {
+  async getTvSeriesGenreList(): Promise<GenreList[]> {
     const response = await axios
-      .get("https://api.themoviedb.org/3/trending/tv/week", {
+      .get("https://api.themoviedb.org/3/genre/tv/list", {
         headers: {
           accept: "application/json",
           Authorization: `${process.env.TMDB_API_KEY}`,
         },
       })
+      .then((response) => response.data)
+      .catch((error) => {
+        console.error("Error fetching TV series genre list:", error)
+      })
+
+    if (response === undefined) {
+      throw new Error("Failed to fetch TV series genre list")
+    }
+
+    return response.genres
+  }
+
+  async getTrendingTvSeries(params: GetTvSeriesParam): Promise<ShowType[]> {
+    const response = await axios
+      .get(
+        `https://api.themoviedb.org/3/trending/tv/week?language=en-US${params.page ? `&page=${params.page}` : ""}`,
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `${process.env.TMDB_API_KEY}`,
+          },
+        },
+      )
       .then((response) => response.data)
       .catch((error) => {
         console.error("Error fetching trending TV series:", error)
@@ -28,12 +52,15 @@ export class GetTvSeriesRepository implements IGetTvSeriesRepository {
 
   async getPopularTvSeries(params: GetTvSeriesParam): Promise<ShowType[]> {
     const response = await axios
-      .get("https://api.themoviedb.org/3/tv/popular", {
-        headers: {
-          accept: "application/json",
-          Authorization: `${process.env.TMDB_API_KEY}`,
+      .get(
+        `https://api.themoviedb.org/3/tv/popular?language=en-US${params.page ? `&page=${params.page}` : ""}`,
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `${process.env.TMDB_API_KEY}`,
+          },
         },
-      })
+      )
       .then((response) => response.data)
       .catch((error) => {
         console.error("Error fetching popular TV series:", error)
@@ -48,12 +75,15 @@ export class GetTvSeriesRepository implements IGetTvSeriesRepository {
 
   async getAiringTodayTvSeries(params: GetTvSeriesParam): Promise<ShowType[]> {
     const response = await axios
-      .get("https://api.themoviedb.org/3/tv/airing_today", {
-        headers: {
-          accept: "application/json",
-          Authorization: `${process.env.TMDB_API_KEY}`,
+      .get(
+        `https://api.themoviedb.org/3/tv/airing_today?language=en-US${params.page ? `&page=${params.page}` : ""}`,
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `${process.env.TMDB_API_KEY}`,
+          },
         },
-      })
+      )
       .then((response) => response.data)
       .catch((error) => {
         console.error("Error fetching airing today TV series:", error)
@@ -68,12 +98,15 @@ export class GetTvSeriesRepository implements IGetTvSeriesRepository {
 
   async getOnTheAirTvSeries(params: GetTvSeriesParam): Promise<ShowType[]> {
     const response = await axios
-      .get("https://api.themoviedb.org/3/tv/on_the_air", {
-        headers: {
-          accept: "application/json",
-          Authorization: `${process.env.TMDB_API_KEY}`,
+      .get(
+        `https://api.themoviedb.org/3/tv/on_the_air?language=en-US${params.page ? `&page=${params.page}` : ""}`,
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `${process.env.TMDB_API_KEY}`,
+          },
         },
-      })
+      )
       .then((response) => response.data)
       .catch((error) => {
         console.error("Error fetching on the air TV series:", error)
@@ -88,12 +121,15 @@ export class GetTvSeriesRepository implements IGetTvSeriesRepository {
 
   async getTopRatedTvSeries(params: GetTvSeriesParam): Promise<ShowType[]> {
     const response = await axios
-      .get("https://api.themoviedb.org/3/tv/top_rated", {
-        headers: {
-          accept: "application/json",
-          Authorization: `${process.env.TMDB_API_KEY}`,
+      .get(
+        `https://api.themoviedb.org/3/tv/top_rated?language=en-US${params.page ? `&page=${params.page}` : ""}`,
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `${process.env.TMDB_API_KEY}`,
+          },
         },
-      })
+      )
       .then((response) => response.data)
       .catch((error) => {
         console.error("Error fetching top rated TV series:", error)
