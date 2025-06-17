@@ -10,7 +10,7 @@ getMoviesRoute.post("/", checkToken, async (req, res) => {
   const bodyFormated = {
     id: req.cookies.id,
     token: req.cookies.token,
-    type: req.body.type,
+    types: req.body.types,
     ...req.body,
   }
 
@@ -21,6 +21,20 @@ getMoviesRoute.post("/", checkToken, async (req, res) => {
   const { body, statusCode } = await getMoviesController.getMovies(
     {
       body: bodyFormated,
+    },
+    res,
+  )
+
+  res.status(statusCode).send(body)
+})
+
+getMoviesRoute.get("/genre-list", checkToken, async (req, res) => {
+  const getMoviesRepository = new GetMoviesRepository()
+  const getMoviesController = new GetMoviesController(getMoviesRepository)
+
+  const { body, statusCode } = await getMoviesController.getMovieGenreList(
+    {
+      body: req.body,
     },
     res,
   )
