@@ -10,7 +10,7 @@ export class AppComponent implements OnInit {
   constructor(private router: Router, private movieService: MovieService) {}
 
   ngOnInit(): void {
-    this.movieService.getMovies();
+    this.movieService.getAllMedia();
   }
 
   // Checks whether the current route should use the authentication layout

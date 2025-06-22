@@ -17,8 +17,9 @@
 <ng-template #defaultLayout>
   <div class="wrapper-content flex bg-darkBlue">
     <header-component></header-component>
-    <main class="w-full pt-16">
+    <div class="w-full pt-16">
       <router-outlet></router-outlet>
-    </main>
+      <footer-component></footer-component>
+    </div>
   </div>
 </ng-template>
