@@ -90,7 +90,7 @@ export class GetTvSeriesController implements IGetTvSeriesController {
       const entries = await Promise.all(promise)
       const result = Object.fromEntries(entries)
 
-      if (types.includes("tvSeriesDetails")) {
+      if (types.includes("tv-series-details")) {
         const { tvSeriesDetails } = result
         return ok(tvSeriesDetails)
       }

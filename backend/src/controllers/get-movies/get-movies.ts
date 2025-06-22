@@ -74,7 +74,7 @@ export class GetMoviesController implements IGetMoviesController {
       const entries = await Promise.all(promises)
       const result = Object.fromEntries(entries)
 
-      if (types.includes("movieDetails")) {
+      if (types.includes("movie-details")) {
         const { movieDetails } = result
         return ok(movieDetails)
       }
