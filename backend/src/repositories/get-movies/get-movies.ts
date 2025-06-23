@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
+  GetMoviesByGenreParam,
+  GetMoviesByGenreReturn,
   GetMoviesParam,
   IGetMoviesRepository,
 } from "@/controllers/get-movies/protocols"
@@ -8,6 +10,35 @@ import { ShowType } from "@/models/Show"
 import axios from "axios"
 
 export class GetMoviesRepository implements IGetMoviesRepository {
+  async getMoviesByGenre(
+    params: GetMoviesByGenreParam,
+  ): Promise<GetMoviesByGenreReturn> {
+    const response = await axios
+      .get(
+        `https://api.themoviedb.org/3/discover/movie?with_genres=${params.genre}`,
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `${process.env.TMDB_API_KEY}`,
+          },
+        },
+      )
+      .then((response) => response.data)
+      .catch((error) => {
+        console.error("Error fetching movies by genre:", error)
+      })
+
+    if (response === undefined) {
+      throw new Error("Failed to fetch movies by genre")
+    }
+
+    return {
+      currentPage: response.page,
+      totalPages: response.total_pages,
+      movies: response.results,
+    }
+  }
+
   async getMovieGenreList(): Promise<GenreList[]> {
     const response = await axios
       .get("https://api.themoviedb.org/3/genre/movie/list", {
