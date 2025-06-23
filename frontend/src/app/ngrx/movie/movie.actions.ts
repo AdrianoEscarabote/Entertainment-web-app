@@ -46,4 +46,19 @@ export const loadMoviesGenresList = createAction(
   props<{ genresList: Genre[] }>()
 );
 
+export const loadMoviesByGenre = createAction(
+  '[Movie] Load Movies By Genre',
+  props<{ genre: string; page: number }>()
+);
+
+export const loadMoviesByGenreSuccess = createAction(
+  '[Movie] Load Movies By Genre Success',
+  props<{
+    genre: string;
+    page: number;
+    totalPages: number;
+    movies: MediaItem[];
+  }>()
+);
+
 export const resetMovies = createAction('[Movies] Reset Movies');
