@@ -15,9 +15,22 @@ export interface GetMoviesParam {
   movie_id?: number
 }
 
+export interface GetMoviesByGenreReturn {
+  currentPage: number
+  totalPages: number
+  movies: ShowType[]
+}
+
 export interface GetMoviesReturn {}
 
+export interface GetMoviesByGenreParam {
+  genre: string
+}
+
 export interface IGetMoviesRepository {
+  getMoviesByGenre(
+    params: GetMoviesByGenreParam,
+  ): Promise<GetMoviesByGenreReturn>
   getNowPlayingMovies(params: GetMoviesParam): Promise<ShowType[]>
   getPopularMovies(params: GetMoviesParam): Promise<ShowType[]>
   getTopRatedMovies(params: GetMoviesParam): Promise<ShowType[]>

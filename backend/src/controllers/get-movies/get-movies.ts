@@ -1,6 +1,7 @@
 import { Response } from "express"
 import { HttpRequest, HttpResponse, IGetMoviesController } from "../protocols"
 import {
+  GetMoviesByGenreParam,
   GetMoviesParam,
   GetMoviesReturn,
   IGetMoviesRepository,
@@ -80,6 +81,27 @@ export class GetMoviesController implements IGetMoviesController {
       }
 
       return ok(result)
+    } catch (error) {
+      return notFound()
+    }
+  }
+
+  async getMoviesByGenre(
+    httpRequest: HttpRequest<GetMoviesByGenreParam>,
+    res: Response<unknown>,
+  ): Promise<HttpResponse<unknown>> {
+    try {
+      const { genre } = httpRequest.body!
+
+      if (!genre) {
+        return badRequest("Genre is required")
+      }
+
+      const movies = await this.GetMoviesRepository.getMoviesByGenre(
+        httpRequest.body as GetMoviesByGenreParam,
+      )
+
+      return ok(movies)
     } catch (error) {
       return notFound()
     }
