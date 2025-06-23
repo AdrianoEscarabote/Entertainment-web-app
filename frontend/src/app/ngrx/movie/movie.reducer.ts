@@ -7,6 +7,7 @@ import {
   loadTopRatedMovies,
   loadTrendingMovies,
   loadUpcomingMovies,
+  loadMoviesByGenreSuccess,
 } from './movie.actions';
 import { MovieState } from '../types';
 
@@ -18,6 +19,7 @@ export const initialState: MovieState = {
   topRated: [],
   genresList: [],
   movieDetails: null,
+  moviesByGenre: {},
 };
 
 export const movieReducer = createReducer(
@@ -49,5 +51,19 @@ export const movieReducer = createReducer(
   on(loadMoviesGenresList, (state, { genresList }) => ({
     ...state,
     genresList: genresList,
-  }))
+  })),
+  on(
+    loadMoviesByGenreSuccess,
+    (state, { genre, page, totalPages, movies }) => ({
+      ...state,
+      moviesByGenre: {
+        ...state.moviesByGenre,
+        [genre]: {
+          currentPage: page,
+          totalPages,
+          movies,
+        },
+      },
+    })
+  )
 );
