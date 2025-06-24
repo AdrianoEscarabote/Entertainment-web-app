@@ -4,14 +4,25 @@ import { LoginPage } from './pages/login/login.page';
 import { SignupPage } from './pages/signup/signup.page';
 import { MoviesComponent } from './components/movies/movies.component';
 import { SeriesComponent } from './components/series/series.component';
-import { BookmarkedComponent } from './components/bookmarked/bookmarked.component';
 import { HomeComponent } from './components/home/home.component';
+import { MoviePage } from './pages/movie/movie.page';
+import { TvPage } from './pages/tv/tv.page';
+import { MediaGenrePage } from './pages/media-genre-page/media-genre.page';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'movies', component: MoviesComponent },
-  { path: 'series', component: SeriesComponent },
-  { path: 'bookmarked', component: BookmarkedComponent },
+  { path: 'tv-series', component: SeriesComponent },
+  {
+    path: 'movies/genre/:genre-name/:genre-id/:page',
+    component: MediaGenrePage,
+  },
+  {
+    path: 'tv-series/genre/:genre-name/:genre-id/:page',
+    component: MediaGenrePage,
+  },
+  { path: 'movie/:id', component: MoviePage },
+  { path: 'tv/:id', component: TvPage },
   {
     path: 'login',
     component: LoginPage,
