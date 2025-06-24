@@ -1,4 +1,6 @@
 import {
+  GetTvSeriesByGenreParam,
+  GetTvSeriesByGenreReturn,
   GetTvSeriesParam,
   IGetTvSeriesRepository,
 } from "@/controllers/get-tv-series/protocols"
@@ -7,6 +9,35 @@ import { ShowType } from "@/models/Show"
 import axios from "axios"
 
 export class GetTvSeriesRepository implements IGetTvSeriesRepository {
+  async getTvSeriesByGenre(
+    params: GetTvSeriesByGenreParam,
+  ): Promise<GetTvSeriesByGenreReturn> {
+    const response = await axios
+      .get(
+        `https://api.themoviedb.org/3/discover/tv?with_genres=${params.genre}`,
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `${process.env.TMDB_API_KEY}`,
+          },
+        },
+      )
+      .then((response) => response.data)
+      .catch((error) => {
+        console.error("Error fetching tvSeries by genre:", error)
+      })
+
+    if (response === undefined) {
+      throw new Error("Failed to fetch tvSeries by genre")
+    }
+
+    return {
+      currentPage: response.page,
+      totalPages: response.total_pages,
+      tvSeries: response.results,
+    }
+  }
+
   async getTvSeriesGenreList(): Promise<GenreList[]> {
     const response = await axios
       .get("https://api.themoviedb.org/3/genre/tv/list", {
