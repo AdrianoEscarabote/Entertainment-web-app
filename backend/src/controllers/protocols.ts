@@ -38,6 +38,10 @@ export interface IGetTvSeriesController {
     httpRequest: HttpRequest<unknown>,
     res: Response<unknown>,
   ): Promise<HttpResponse<unknown>>
+  getTvSeriesByGenre(
+    httpRequest: HttpRequest<unknown>,
+    res: Response<unknown>,
+  ): Promise<HttpResponse<unknown>>
   getTvSeriesGenreList(
     httpRequest: HttpRequest<unknown>,
     res: Response<unknown>,
@@ -46,6 +50,10 @@ export interface IGetTvSeriesController {
 
 export interface IGetMoviesController {
   getMovies(
+    httpRequest: HttpRequest<unknown>,
+    res: Response<unknown>,
+  ): Promise<HttpResponse<unknown>>
+  getMoviesByGenre(
     httpRequest: HttpRequest<unknown>,
     res: Response<unknown>,
   ): Promise<HttpResponse<unknown>>
