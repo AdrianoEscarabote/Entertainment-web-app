@@ -43,12 +43,12 @@ getMoviesRoute.get("/genre-list", checkToken, async (req, res) => {
   res.status(statusCode).send(body)
 })
 
-getMoviesRoute.post("/with-genre", checkToken, async (req, res) => {
+getMoviesRoute.post("/by-genre", checkToken, async (req, res) => {
   const getMoviesRepository = new GetMoviesRepository()
 
   const getMoviesController = new GetMoviesController(getMoviesRepository)
 
-  const { body, statusCode } = await getMoviesController.getMoviesByCategory(
+  const { body, statusCode } = await getMoviesController.getMoviesByGenre(
     {
       body: req.body,
     },
