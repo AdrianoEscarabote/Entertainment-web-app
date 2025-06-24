@@ -1,6 +1,8 @@
 import { Response } from "express"
 import { HttpRequest, HttpResponse, IGetTvSeriesController } from "../protocols"
 import {
+  GetTvSeriesByGenreParam,
+  GetTvSeriesByGenreReturn,
   GetTvSeriesParam,
   GetTvSeriesReturn,
   IGetTvSeriesRepository,
@@ -22,6 +24,28 @@ export class GetTvSeriesController implements IGetTvSeriesController {
       const genreList = await this.GetTvSeriesRepository.getTvSeriesGenreList()
 
       return ok(genreList)
+    } catch (error) {
+      return badRequest("error")
+    }
+  }
+
+  async getTvSeriesByGenre(
+    httpRequest: HttpRequest<GetTvSeriesByGenreParam>,
+    res: Response<unknown>,
+  ): Promise<HttpResponse<GetTvSeriesByGenreReturn | string>> {
+    try {
+      const { genre } = httpRequest.body!
+
+      if (!genre) {
+        return badRequest("Genre ID is required")
+      }
+
+      const tvSeriesByGenre =
+        await this.GetTvSeriesRepository.getTvSeriesByGenre(
+          httpRequest.body as GetTvSeriesByGenreParam,
+        )
+
+      return ok(tvSeriesByGenre)
     } catch (error) {
       return badRequest("error")
     }

@@ -15,6 +15,16 @@ export interface GetTvSeriesParam {
   tv_series_id?: number
 }
 
+export interface GetTvSeriesByGenreParam {
+  genre: number
+}
+
+export interface GetTvSeriesByGenreReturn {
+  currentPage: number
+  totalPages: number
+  tvSeries: ShowType[]
+}
+
 export interface GetTvSeriesReturn {}
 
 export interface IGetTvSeriesRepository {
@@ -25,4 +35,7 @@ export interface IGetTvSeriesRepository {
   getTopRatedTvSeries(params: GetTvSeriesParam): Promise<ShowType[]>
   getTvSeriesDetails(params: GetTvSeriesParam): Promise<ShowType>
   getTvSeriesGenreList(): Promise<GenreList[]>
+  getTvSeriesByGenre(
+    params: GetTvSeriesByGenreParam,
+  ): Promise<GetTvSeriesByGenreReturn>
 }
