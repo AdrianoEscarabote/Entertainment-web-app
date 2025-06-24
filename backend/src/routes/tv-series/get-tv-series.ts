@@ -40,4 +40,18 @@ getTvSeriesRoute.get("/genre-list", checkToken, async (req, res) => {
   return res.status(statusCode).send(body)
 })
 
+getTvSeriesRoute.post("/by-genre", checkToken, async (req, res) => {
+  const getTvSeriesRepository = new GetTvSeriesRepository()
+  const getTvSeriesController = new GetTvSeriesController(getTvSeriesRepository)
+
+  const { body, statusCode } = await getTvSeriesController.getTvSeriesByGenre(
+    {
+      body: req.body,
+    },
+    res,
+  )
+
+  return res.status(statusCode).send(body)
+})
+
 export default getTvSeriesRoute
