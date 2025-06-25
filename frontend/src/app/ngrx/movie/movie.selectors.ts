@@ -5,27 +5,27 @@ export const selectMovieState = createFeatureSelector<MovieState>('movies');
 
 export const selectPopularMovies = createSelector(
   selectMovieState,
-  (state) => state.popular
+  (state) => state.popular.movies
 );
 
 export const selectTrendingMovies = createSelector(
   selectMovieState,
-  (state) => state.trending
+  (state) => state.trending.movies
 );
 
 export const selectNowPlayingMovies = createSelector(
   selectMovieState,
-  (state) => state.trending
+  (state) => state.nowPlaying.movies
 );
 
 export const selectUpcomingMovies = createSelector(
   selectMovieState,
-  (state) => state.upcoming
+  (state) => state.upcoming.movies
 );
 
 export const selectTopRatedMovies = createSelector(
   selectMovieState,
-  (state) => state.topRated
+  (state) => state.topRated.movies
 );
 
 export const selectMovieDetails = createSelector(
@@ -36,4 +36,9 @@ export const selectMovieDetails = createSelector(
 export const selectMoviesGenresList = createSelector(
   selectMovieState,
   (state) => state.genresList
+);
+
+export const selectMoviesByGenre = createSelector(
+  selectMovieState,
+  (state) => state.moviesByGenre
 );
