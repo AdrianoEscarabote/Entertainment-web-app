@@ -25,14 +25,18 @@ export interface GetTvSeriesByGenreReturn {
   tvSeries: ShowType[]
 }
 
-export interface GetTvSeriesReturn {}
+export interface GetTvSeriesReturn {
+  page: number
+  total_pages: number
+  tvSeries: ShowType[]
+}
 
 export interface IGetTvSeriesRepository {
-  getTrendingTvSeries(params: GetTvSeriesParam): Promise<ShowType[]>
-  getPopularTvSeries(params: GetTvSeriesParam): Promise<ShowType[]>
-  getAiringTodayTvSeries(params: GetTvSeriesParam): Promise<ShowType[]>
-  getOnTheAirTvSeries(params: GetTvSeriesParam): Promise<ShowType[]>
-  getTopRatedTvSeries(params: GetTvSeriesParam): Promise<ShowType[]>
+  getTrendingTvSeries(params: GetTvSeriesParam): Promise<GetTvSeriesReturn>
+  getPopularTvSeries(params: GetTvSeriesParam): Promise<GetTvSeriesReturn>
+  getAiringTodayTvSeries(params: GetTvSeriesParam): Promise<GetTvSeriesReturn>
+  getOnTheAirTvSeries(params: GetTvSeriesParam): Promise<GetTvSeriesReturn>
+  getTopRatedTvSeries(params: GetTvSeriesParam): Promise<GetTvSeriesReturn>
   getTvSeriesDetails(params: GetTvSeriesParam): Promise<ShowType>
   getTvSeriesGenreList(): Promise<GenreList[]>
   getTvSeriesByGenre(
