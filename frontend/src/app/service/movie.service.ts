@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
-import {
-  loadNowPlayingSuccess,
-  loadPopularSuccess,
-  loadTrendingSuccess,
-} from '../ngrx/movie.actions';
+
 import { environment } from 'src/environments/environment';
-import { MovieTypes } from '../ngrx/movie.reducer';
+import { loadAllMovieCategoriesSuccess } from '../ngrx/movie/movie.actions';
+import { MediaItem } from '../ngrx/types';
+import { MovieResponse } from './service.interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -18,38 +16,70 @@ export class MovieService {
 
   constructor(private http: HttpClient, private store: Store) {}
 
-  getMoviesByType(type: 'popular' | 'trending' | 'now-playing') {
-    return this.http.post<{ movies: MovieTypes[]; success: boolean }>(
-      `${this.movieDataUrl}`,
-      { type },
+  async getAllMedia(): Promise<void> {
+    const movieTypes = [
+      'popular',
+      'trending',
+      'now-playing',
+      'upcoming',
+      'top-rated',
+    ];
+
+    const movieRequest$ = this.http.post<MovieResponse>(
+      this.movieDataUrl,
+      { types: movieTypes, page: 1 },
+      { withCredentials: true }
+    );
+
+    movieRequest$.subscribe(
+      (movies) => {
+        this.store.dispatch(
+          loadAllMovieCategoriesSuccess({ data: movies as any })
+        );
+      },
+      (error: any) => {
+        console.error('Error fetching movies:', error);
+      }
+    );
+  }
+
+  getMoviesByGenre(genreId: number, page: number) {
+    return this.http.get<{ results: MediaItem[]; total_pages: number }>(
+      `${this.movieDataUrl}/genre/${genreId}?page=${page}`,
       { withCredentials: true }
     );
   }
 
-  loadPopularMovies(): void {
-    this.getMoviesByType('popular').subscribe(({ movies }) => {
-      this.store.dispatch(loadPopularSuccess({ movies }));
-    });
-  }
-
-  loadTrendingMovies(): void {
-    this.getMoviesByType('trending').subscribe(({ movies }) => {
-      this.store.dispatch(loadTrendingSuccess({ movies }));
-    });
-  }
-
-  loadNowPlayingMovies(): void {
-    this.getMoviesByType('now-playing').subscribe(({ movies }) => {
-      this.store.dispatch(loadNowPlayingSuccess({ movies }));
-    });
-  }
-
-  async getMovies(): Promise<void> {
-    const bookmarkedShowsRequest = this.http.get<string[]>(
-      this.getBookmarkedShowsUrl,
+  getMoviesWithGenre(genre: string, page: number) {
+    return this.http.post(
+      `${this.movieDataUrl}/by-genre`,
       {
-        withCredentials: true,
-      }
+        genre: [genre],
+        page: page,
+      },
+      { withCredentials: true }
     );
+  }
+
+  getMoviesByType(types: string[], page: number) {
+    return this.http.post<{
+      movies: MovieResponse;
+      page: number;
+      total_pages: number;
+    }>(`${this.movieDataUrl}`, { types, page }, { withCredentials: true });
+  }
+
+  getMovieDetails(id: string) {
+    return this.http.post(
+      this.movieDataUrl,
+      { movie_id: id, types: ['movie-details'] },
+      { withCredentials: true }
+    );
+  }
+
+  getMoviesGenreList() {
+    return this.http.get(`${this.movieDataUrl}/genre-list`, {
+      withCredentials: true,
+    });
   }
 }
