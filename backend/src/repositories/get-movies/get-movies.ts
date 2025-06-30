@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   GetMoviesByGenreParam,
-  GetMoviesByGenreReturn,
   GetMoviesParam,
+  GetMoviesReturn,
   IGetMoviesRepository,
 } from "@/controllers/get-movies/protocols"
 import { GenreList } from "@/controllers/protocols"
@@ -12,7 +12,7 @@ import axios from "axios"
 export class GetMoviesRepository implements IGetMoviesRepository {
   async getMoviesByGenre(
     params: GetMoviesByGenreParam,
-  ): Promise<GetMoviesByGenreReturn> {
+  ): Promise<GetMoviesReturn> {
     const response = await axios
       .get(
         `https://api.themoviedb.org/3/discover/movie?with_genres=${params.genre}`,
@@ -33,8 +33,8 @@ export class GetMoviesRepository implements IGetMoviesRepository {
     }
 
     return {
-      currentPage: response.page,
-      totalPages: response.total_pages,
+      page: response.page,
+      total_pages: response.total_pages,
       movies: response.results,
     }
   }
@@ -59,10 +59,11 @@ export class GetMoviesRepository implements IGetMoviesRepository {
     return response.genres
   }
 
-  async getPopularMovies(params: GetMoviesParam): Promise<ShowType[]> {
+  async getPopularMovies(params: GetMoviesParam): Promise<GetMoviesReturn> {
+    /* https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc */
     const response = await axios
       .get(
-        `https://api.themoviedb.org/3/movie/popular?language=en-US${params.page ? `&page=${params.page}` : ""}`,
+        `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${params.page}&sort_by=popularity.desc`,
         {
           headers: {
             accept: "application/json",
@@ -80,13 +81,17 @@ export class GetMoviesRepository implements IGetMoviesRepository {
       throw new Error("Failed to fetch popular movies")
     }
 
-    return response.results
+    return {
+      movies: response.results,
+      page: response.page,
+      total_pages: response.total_pages,
+    }
   }
 
-  async getNowPlayingMovies(params: GetMoviesParam): Promise<ShowType[]> {
+  async getNowPlayingMovies(params: GetMoviesParam): Promise<GetMoviesReturn> {
     const response = await axios
       .get(
-        `https://api.themoviedb.org/3/movie/now_playing?language=en-US${params.page ? `&page=${params.page}` : ""}`,
+        `https://api.themoviedb.org/3/movie/now_playing?language=en-US&include_adult=false&include_video=false&page=${params.page}`,
         {
           headers: {
             accept: "application/json",
@@ -103,13 +108,17 @@ export class GetMoviesRepository implements IGetMoviesRepository {
       throw new Error("Failed to fetch now playing movies")
     }
 
-    return response.results
+    return {
+      movies: response.results,
+      page: response.page,
+      total_pages: response.total_pages,
+    }
   }
 
-  async getTopRatedMovies(params: GetMoviesParam): Promise<ShowType[]> {
+  async getTopRatedMovies(params: GetMoviesParam): Promise<GetMoviesReturn> {
     const response = await axios
       .get(
-        `https://api.themoviedb.org/3/movie/top_rated?language=en-US${params.page ? `&page=${params.page}` : ""}`,
+        `https://api.themoviedb.org/3/movie/top_rated?language=en-US&include_adult=false&include_video=false&page=${params.page}`,
         {
           headers: {
             accept: "application/json",
@@ -126,10 +135,14 @@ export class GetMoviesRepository implements IGetMoviesRepository {
       throw new Error("Failed to fetch top rated movies")
     }
 
-    return response.results
+    return {
+      movies: response.results,
+      page: response.page,
+      total_pages: response.total_pages,
+    }
   }
 
-  async getTrendingMovies(params: GetMoviesParam): Promise<ShowType[]> {
+  async getTrendingMovies(params: GetMoviesParam): Promise<GetMoviesReturn> {
     const response = await axios
       .get(
         `https://api.themoviedb.org/3/trending/movie/week?language=en-US${params.page ? `&page=${params.page}` : ""}`,
@@ -149,10 +162,14 @@ export class GetMoviesRepository implements IGetMoviesRepository {
       throw new Error("Failed to fetch trending movies")
     }
 
-    return response.results
+    return {
+      movies: response.results,
+      page: response.page,
+      total_pages: response.total_pages,
+    }
   }
 
-  async getUpcomingMovies(params: GetMoviesParam): Promise<ShowType[]> {
+  async getUpcomingMovies(params: GetMoviesParam): Promise<GetMoviesReturn> {
     const response = await axios
       .get(
         `https://api.themoviedb.org/3/movie/upcoming?language=en-US${params.page ? `&page=${params.page}` : ""}`,
@@ -172,7 +189,11 @@ export class GetMoviesRepository implements IGetMoviesRepository {
       throw new Error("Failed to fetch trending movies")
     }
 
-    return response.results
+    return {
+      movies: response.results,
+      page: response.page,
+      total_pages: response.total_pages,
+    }
   }
 
   async getMovieDetails(params: GetMoviesParam): Promise<ShowType> {

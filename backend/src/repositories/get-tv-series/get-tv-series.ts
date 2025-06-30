@@ -2,6 +2,7 @@ import {
   GetTvSeriesByGenreParam,
   GetTvSeriesByGenreReturn,
   GetTvSeriesParam,
+  GetTvSeriesReturn,
   IGetTvSeriesRepository,
 } from "@/controllers/get-tv-series/protocols"
 import { GenreList } from "@/controllers/protocols"
@@ -58,7 +59,9 @@ export class GetTvSeriesRepository implements IGetTvSeriesRepository {
     return response.genres
   }
 
-  async getTrendingTvSeries(params: GetTvSeriesParam): Promise<ShowType[]> {
+  async getTrendingTvSeries(
+    params: GetTvSeriesParam,
+  ): Promise<GetTvSeriesReturn> {
     const response = await axios
       .get(
         `https://api.themoviedb.org/3/trending/tv/week?language=en-US${params.page ? `&page=${params.page}` : ""}`,
@@ -78,10 +81,16 @@ export class GetTvSeriesRepository implements IGetTvSeriesRepository {
       throw new Error("Failed to fetch trending movies")
     }
 
-    return response.results
+    return {
+      page: response.page,
+      total_pages: response.total_pages,
+      tvSeries: response.results,
+    }
   }
 
-  async getPopularTvSeries(params: GetTvSeriesParam): Promise<ShowType[]> {
+  async getPopularTvSeries(
+    params: GetTvSeriesParam,
+  ): Promise<GetTvSeriesReturn> {
     const response = await axios
       .get(
         `https://api.themoviedb.org/3/tv/popular?language=en-US${params.page ? `&page=${params.page}` : ""}`,
@@ -101,10 +110,16 @@ export class GetTvSeriesRepository implements IGetTvSeriesRepository {
       throw new Error("Failed to fetch popular movies")
     }
 
-    return response.results
+    return {
+      page: response.page,
+      total_pages: response.total_pages,
+      tvSeries: response.results,
+    }
   }
 
-  async getAiringTodayTvSeries(params: GetTvSeriesParam): Promise<ShowType[]> {
+  async getAiringTodayTvSeries(
+    params: GetTvSeriesParam,
+  ): Promise<GetTvSeriesReturn> {
     const response = await axios
       .get(
         `https://api.themoviedb.org/3/tv/airing_today?language=en-US${params.page ? `&page=${params.page}` : ""}`,
@@ -124,10 +139,16 @@ export class GetTvSeriesRepository implements IGetTvSeriesRepository {
       throw new Error("Failed to fetch airing today movies")
     }
 
-    return response.results
+    return {
+      page: response.page,
+      total_pages: response.total_pages,
+      tvSeries: response.results,
+    }
   }
 
-  async getOnTheAirTvSeries(params: GetTvSeriesParam): Promise<ShowType[]> {
+  async getOnTheAirTvSeries(
+    params: GetTvSeriesParam,
+  ): Promise<GetTvSeriesReturn> {
     const response = await axios
       .get(
         `https://api.themoviedb.org/3/tv/on_the_air?language=en-US${params.page ? `&page=${params.page}` : ""}`,
@@ -147,10 +168,16 @@ export class GetTvSeriesRepository implements IGetTvSeriesRepository {
       throw new Error("Failed to fetch on the air movies")
     }
 
-    return response.results
+    return {
+      page: response.page,
+      total_pages: response.total_pages,
+      tvSeries: response.results,
+    }
   }
 
-  async getTopRatedTvSeries(params: GetTvSeriesParam): Promise<ShowType[]> {
+  async getTopRatedTvSeries(
+    params: GetTvSeriesParam,
+  ): Promise<GetTvSeriesReturn> {
     const response = await axios
       .get(
         `https://api.themoviedb.org/3/tv/top_rated?language=en-US${params.page ? `&page=${params.page}` : ""}`,
@@ -170,7 +197,11 @@ export class GetTvSeriesRepository implements IGetTvSeriesRepository {
       throw new Error("Failed to fetch top rated movies")
     }
 
-    return response.results
+    return {
+      page: response.page,
+      total_pages: response.total_pages,
+      tvSeries: response.results,
+    }
   }
 
   async getTvSeriesDetails(params: GetTvSeriesParam): Promise<ShowType> {
