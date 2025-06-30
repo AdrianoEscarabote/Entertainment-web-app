@@ -1,4 +1,10 @@
 <style>
+  .info-overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 1), transparent);
+    padding: 1rem;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+  }
   .dot {
     display: none;
   }
@@ -30,16 +36,19 @@
   }
 </style>
 
-<div class="flex flex-col self-end">
-  <ul class="opacity-75 flex gap-6 list-disc BodyS text-pureWhite">
+<div
+  [ngClass]="{ 'info-overlay': show_shadow }"
+  class="flex flex-col self-end w-full"
+>
+  <ul class="opacity-75 flex gap-6 list-disc BodyM text-pureWhite w-full">
     <li class="list-none">
-      <p class="year">{{ movieData.year }}</p>
+      <p class="year">{{ release_date | date : "yyyy" }}</p>
     </li>
     <li>
       <div class="relative flex gap-[6px] items-center">
         <div class="dot"></div>
         <ng-container
-          *ngIf="movieData.category === 'Movie'; then movieImage; else tvImage"
+          *ngIf="media_type === 'movie'; then movieImage; else tvImage"
         ></ng-container>
         <ng-template #movieImage>
           <img
@@ -52,18 +61,10 @@
           <img src="../../../assets/icon-category-tv.svg" />
         </ng-template>
         <p class="category">
-          {{ movieData.category }}
-        </p>
-      </div>
-    </li>
-    <li class="relative">
-      <div class="flex items-center">
-        <div class="dot"></div>
-        <p class="rating">
-          {{ movieData.rating }}
+          {{ media_type === "movie" ? "Movie" : "TV Series" }}
         </p>
       </div>
     </li>
   </ul>
-  <h4 class="HeadingS text-pureWhite">{{ movieData.title }}</h4>
+  <h4 class="HeadingXS text-pureWhite">{{ title }}</h4>
 </div>

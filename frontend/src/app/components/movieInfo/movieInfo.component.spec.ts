@@ -23,12 +23,9 @@ describe('MovieInfoComponent', () => {
   });
 
   it('should render movie details correctly', () => {
-    component.movieData = {
-      category: 'Movie',
-      rating: 'PG',
-      title: 'Beyond Earth',
-      year: '2019',
-    };
+    component.title = 'Beyond Earth';
+    component.media_type = 'Movie';
+    component.release_date = '2023-05-15';
 
     fixture.detectChanges();
 

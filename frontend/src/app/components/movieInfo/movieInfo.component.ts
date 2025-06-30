@@ -12,14 +12,14 @@ interface MovieType {
   templateUrl: './movieInfo.component.html',
 })
 export class MovieInfoComponent {
-  @Input() movieData: MovieType;
+  @Input() title: string = '';
+  @Input() media_type: string = '';
+  @Input() release_date: string = '';
+  @Input() show_shadow: boolean = true;
 
-  constructor() {
-    this.movieData = {
-      title: '',
-      year: '',
-      category: '',
-      rating: '',
-    };
+  get year(): string {
+    return this.release_date
+      ? new Date(this.release_date).getFullYear().toString()
+      : '';
   }
 }
