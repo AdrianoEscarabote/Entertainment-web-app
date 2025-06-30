@@ -13,6 +13,11 @@ export interface ProductionCompany {
 export interface MediaItem {
   id: string;
   title: string;
+  name: string;
+  number_of_seasons: number;
+  number_of_episodes: number;
+  first_air_date: string;
+  last_air_date: string;
   tagline: string;
   is_bookmarked: boolean;
   rating: string;
@@ -34,21 +39,77 @@ export interface MediaItem {
 }
 
 export interface MovieState {
-  popular: MediaItem[];
-  trending: MediaItem[];
-  nowPlaying: MediaItem[];
-  upcoming: MediaItem[];
-  topRated: MediaItem[];
+  popular: {
+    page: number;
+    total_pages: number;
+    movies: MediaItem[];
+  };
+  trending: {
+    page: number;
+    total_pages: number;
+    movies: MediaItem[];
+  };
+  nowPlaying: {
+    page: number;
+    total_pages: number;
+    movies: MediaItem[];
+  };
+  upcoming: {
+    page: number;
+    total_pages: number;
+    movies: MediaItem[];
+  };
+  topRated: {
+    page: number;
+    total_pages: number;
+    movies: MediaItem[];
+  };
+  genresList: Genre[];
   movieDetails: MediaItem | null;
+
+  moviesByGenre: {
+    genre: string;
+    currentPage: number;
+    totalPages: number;
+    movies: MediaItem[];
+  };
 }
 
 export interface TvSeriesState {
-  popular: MediaItem[];
-  trending: MediaItem[];
-  onTheAir: MediaItem[];
-  topRated: MediaItem[];
-  airingToday: MediaItem[];
+  popular: {
+    page: number;
+    total_pages: number;
+    tvSeries: MediaItem[];
+  };
+  trending: {
+    page: number;
+    total_pages: number;
+    tvSeries: MediaItem[];
+  };
+  onTheAir: {
+    page: number;
+    total_pages: number;
+    tvSeries: MediaItem[];
+  };
+  topRated: {
+    page: number;
+    total_pages: number;
+    tvSeries: MediaItem[];
+  };
+  airingToday: {
+    page: number;
+    total_pages: number;
+    tvSeries: MediaItem[];
+  };
+  genresList: Genre[];
   tvSeriesDetails: MediaItem | null;
+
+  tvSeriesByGenre: {
+    genre: string;
+    currentPage: number;
+    totalPages: number;
+    tvSeries: MediaItem[];
+  };
 }
 
 export interface AppState {
