@@ -1,0 +1,18 @@
+<a
+  class="cursor-pointer w-full max-w-[330px] flex flex-col gap-2"
+  [routerLink]="['/', isTv ? 'tv' : 'movie', item.id]"
+>
+  <img
+    [src]="'https://image.tmdb.org/t/p/original/' + item.backdrop_path"
+    [alt]="item.title || item.name"
+    class="w-full rounded-md"
+  />
+
+  <movieInfo-component
+    class="self-end w-full"
+    [title]="isTv ? item.name : item.title"
+    [media_type]="isTv ? 'tv-series' : 'movie'"
+    [release_date]="isTv ? item.first_air_date : item.release_date"
+    [show_shadow]="false"
+  ></movieInfo-component>
+</a>
