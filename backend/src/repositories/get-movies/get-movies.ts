@@ -15,7 +15,7 @@ export class GetMoviesRepository implements IGetMoviesRepository {
   ): Promise<GetMoviesReturn> {
     const response = await axios
       .get(
-        `https://api.themoviedb.org/3/discover/movie?with_genres=${params.genre}`,
+        `https://api.themoviedb.org/3/discover/movie?with_genres=${params.genre}?include_adult=false&include_video=false&language=en-US&page=${params.page || 1}`,
         {
           headers: {
             accept: "application/json",
@@ -60,7 +60,6 @@ export class GetMoviesRepository implements IGetMoviesRepository {
   }
 
   async getPopularMovies(params: GetMoviesParam): Promise<GetMoviesReturn> {
-    /* https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc */
     const response = await axios
       .get(
         `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${params.page}&sort_by=popularity.desc`,

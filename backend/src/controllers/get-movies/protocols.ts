@@ -23,6 +23,7 @@ export interface GetMoviesReturn {
 
 export interface GetMoviesByGenreParam {
   genre: string
+  page?: number
 }
 
 export interface IGetMoviesRepository {
