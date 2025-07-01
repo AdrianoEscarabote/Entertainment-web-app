@@ -21,7 +21,7 @@ export interface GetTvSeriesByGenreParam {
 
 export interface GetTvSeriesByGenreReturn {
   currentPage: number
-  totalPages: number
+  total_pages: number
   tvSeries: ShowType[]
 }
 

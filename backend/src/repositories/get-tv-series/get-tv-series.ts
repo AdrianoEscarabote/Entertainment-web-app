@@ -34,7 +34,7 @@ export class GetTvSeriesRepository implements IGetTvSeriesRepository {
 
     return {
       currentPage: response.page,
-      totalPages: response.total_pages,
+      total_pages: response.total_pages,
       tvSeries: response.results,
     }
   }
