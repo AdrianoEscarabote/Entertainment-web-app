@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { BookmarkState } from '../types';
-import { addBookmark, removeBookmark } from './bookmark.actions';
+import { addBookmark, LoadBookmarks, removeBookmark } from './bookmark.actions';
 
 const initialState: BookmarkState = {
   movies: [],
@@ -9,6 +9,13 @@ const initialState: BookmarkState = {
 
 export const bookmarkReducer = createReducer(
   initialState,
+  on(LoadBookmarks, (state, { movies, tvSeries }) => {
+    return {
+      ...state,
+      movies: movies || [],
+      tvSeries: tvSeries || [],
+    };
+  }),
   on(addBookmark, (state, { mediaType, id }) => {
     if (mediaType === 'movies') {
       return {
