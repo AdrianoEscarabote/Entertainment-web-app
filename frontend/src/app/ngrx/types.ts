@@ -112,7 +112,13 @@ export interface TvSeriesState {
   };
 }
 
+export interface BookmarkState {
+  movies: number[];
+  tvSeries: number[];
+}
+
 export interface AppState {
   movies: MovieState;
   tvSeries: TvSeriesState;
+  bookmarks: BookmarkState;
 }
