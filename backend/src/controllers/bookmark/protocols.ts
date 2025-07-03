@@ -6,13 +6,15 @@ export interface BookmarkParams {
 }
 
 export interface setBookmarkParams {
-  title: string
+  show_type: "movie" | "tv"
+  show_id: string
   id: string
   token: string
 }
 
 export interface BookmarkReturn {
-  data: string[]
+  movies: string[]
+  tvSeries: string[]
 }
 
 export interface setBookmarkReturn {

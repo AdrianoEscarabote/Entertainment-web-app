@@ -16,15 +16,15 @@ export class BookmarkController implements IBookmarkController {
     httpRequest: HttpRequest<BookmarkParams>,
   ): Promise<HttpResponse<BookmarkReturn | string>> {
     try {
-      const { data } = await this.BookmarkRepository.getBookmarkedShows(
-        httpRequest.body,
-      )
+      const { movies, tvSeries } =
+        await this.BookmarkRepository.getBookmarkedShows(httpRequest.body)
 
-      return ok<BookmarkReturn>(data)
+      return ok<BookmarkReturn>({ movies, tvSeries })
     } catch (error) {
       return badRequest("server error")
     }
   }
+
   async setBookmarkShows(
     httpRequest: HttpRequest<setBookmarkParams>,
   ): Promise<HttpResponse<setBookmarkReturn | string>> {
