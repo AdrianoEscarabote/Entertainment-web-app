@@ -20,58 +20,66 @@ export class BookmarkRepository implements IBookmarkRepository {
     }
 
     return {
-      data: user.bookmarkedShows,
+      movies: user.bookmarkedShows.movies,
+      tvSeries: user.bookmarkedShows.tvSeries,
     }
   }
+
   async setBookmarkedShows(
     params: setBookmarkParams,
   ): Promise<setBookmarkReturn> {
+    const { id, show_type, show_id } = params
+
     const user = await MongoClient.db.collection<MongoUser>("users").findOne({
-      _id: new ObjectId(params.id),
+      _id: new ObjectId(id),
     })
 
     if (!user) {
       throw new Error("user not found!")
     }
 
-    if (user.bookmarkedShows.includes(params.title)) {
-      const bookmarkedShows = user.bookmarkedShows.filter(
-        (shows) => shows !== params.title,
-      )
-      await MongoClient.db.collection<MongoUser>("users").findOneAndUpdate(
-        {
-          _id: new ObjectId(params.id),
-        },
-        {
-          $set: {
-            bookmarkedShows: bookmarkedShows,
-          },
-        },
-      )
-      return {
-        bookmarked: false,
+    if (show_type !== "movies" && show_type !== "tv-series") {
+      throw new Error("show_type must be 'movies' or 'tv-series'")
+    }
+
+    const isBookmarked =
+      (show_type === "movies" &&
+        user.bookmarkedShows.movies.includes(show_id)) ||
+      (show_type === "tv-series" &&
+        user.bookmarkedShows.tvSeries.includes(show_id))
+
+    let update: Partial<MongoUser["bookmarkedShows"]> = {}
+
+    if (isBookmarked) {
+      if (show_type === "movies") {
+        update.movies = user.bookmarkedShows.movies.filter(
+          (id) => id !== show_id,
+        )
+      } else {
+        update.tvSeries = user.bookmarkedShows.tvSeries.filter(
+          (id) => id !== show_id,
+        )
+      }
+    } else {
+      if (show_type === "movies") {
+        update.movies = [...user.bookmarkedShows.movies, show_id]
+      } else {
+        update.tvSeries = [...user.bookmarkedShows.tvSeries, show_id]
       }
     }
 
-    const updateUser = await MongoClient.db
-      .collection<MongoUser>("users")
-      .findOneAndUpdate(
-        {
-          _id: new ObjectId(params.id),
+    await MongoClient.db.collection<MongoUser>("users").updateOne(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          [`bookmarkedShows.${show_type === "movies" ? "movies" : "tvSeries"}`]:
+            update[show_type === "movies" ? "movies" : "tvSeries"],
         },
-        {
-          $set: {
-            bookmarkedShows: [...user.bookmarkedShows, params.title],
-          },
-        },
-      )
-
-    if (!updateUser) {
-      throw new Error()
-    }
+      },
+    )
 
     return {
-      bookmarked: true,
+      bookmarked: !isBookmarked,
     }
   }
 }
