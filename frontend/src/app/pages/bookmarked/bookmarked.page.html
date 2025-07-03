@@ -1,0 +1,15 @@
+<div class="pl-20 text-white">
+  <h2 class="text-2xl mb-4">Favorite Movies</h2>
+  <div class="flex flex-wrap gap-4">
+    <media-card *ngFor="let movie of movieItems" [item]="movie" />
+  </div>
+
+  <h2 class="text-2xl mt-8 mb-4">Favorite Series</h2>
+  <div class="flex flex-wrap gap-4">
+    <media-card
+      *ngFor="let series of seriesItems"
+      [item]="series"
+      [isTv]="true"
+    />
+  </div>
+</div>
