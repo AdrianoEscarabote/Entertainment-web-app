@@ -7,9 +7,10 @@ const setBookmarkRoute = express.Router()
 
 setBookmarkRoute.post("/", checkToken, async (req, res) => {
   const bodyFormated = {
+    show_type: req.body.show_type,
     id: req.cookies.id,
     token: req.cookies.token,
-    title: req.body.title,
+    show_id: req.body.show_id,
   }
   const bookmarkRepository = new BookmarkRepository()
 
