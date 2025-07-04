@@ -15,7 +15,7 @@ export class GetTvSeriesRepository implements IGetTvSeriesRepository {
   ): Promise<GetTvSeriesByGenreReturn> {
     const response = await axios
       .get(
-        `https://api.themoviedb.org/3/discover/tv?with_genres=${params.genre}`,
+        `https://api.themoviedb.org/3/discover/tv?with_genres=${params.genre}&include_adult=false&include_video=false&language=en-US&page=${params.page || 1}`,
         {
           headers: {
             accept: "application/json",

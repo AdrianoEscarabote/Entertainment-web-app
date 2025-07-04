@@ -17,6 +17,7 @@ export interface GetTvSeriesParam {
 
 export interface GetTvSeriesByGenreParam {
   genre: number
+  page?: number
 }
 
 export interface GetTvSeriesByGenreReturn {
