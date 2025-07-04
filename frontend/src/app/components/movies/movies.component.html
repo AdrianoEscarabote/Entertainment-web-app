@@ -50,38 +50,24 @@
   }
 </style>
 
-<div class="wrapper">
+<div
+  class="wrapper flex flex-col gap-8 w-full max-w-[1440px] lg:px-[40px] mx-auto"
+>
   <input-component [placeholderText]="'Search for movies'"></input-component>
 
-  <p class="result HeadingL my-8 text-white" *ngIf="searchTerm.length !== 0">
-    Found {{ filteredMovies.length }} results for '{{ searchTerm }}'
-  </p>
-
-  <h2 *ngIf="searchTerm.length === 0" class="HeadingL text-white my-8">
-    Movies
-  </h2>
   <div class="wrapper-content flex flex-wrap gap-10">
     <div
-      *ngFor="let movie of filteredMovies"
+      *ngFor="let genre of genres | async"
       class="card relative rounded-lg flex gap-2 flex-col"
     >
-      <div
-        class="image w-[280px] h-[174px] rounded-lg bg-center bg-cover"
-        [style.background-image]="'url(' + movie.thumbnail.regular.large + ')'"
+      <button
+        routerLink="/{{ basePath }}/genre/{{ genre.name.toLowerCase() }}/{{
+          genre.id
+        }}/1"
+        class="card w-[160px] h-[140px] rounded-md bg-greyishBlue flex items-center justify-center text-center"
       >
-        <bookmarkbutton-component
-          [showTitle]="movie.title"
-          [showBookmarkedImg]="movie.isBookmarked"
-        ></bookmarkbutton-component>
-      </div>
-      <movieInfo-component
-        [movieData]="{ 
-          title: movie.title, 
-          year: movie.year.toString(), 
-          category: movie.category,
-          rating: movie.rating, 
-        }"
-      ></movieInfo-component>
+        <h4 class="HeadingXS text-pureWhite">{{ genre.name }}</h4>
+      </button>
     </div>
   </div>
 </div>

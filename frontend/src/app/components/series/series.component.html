@@ -50,38 +50,20 @@
   }
 </style>
 
-<div class="wrapper">
+<div class="wrapper max-w-[1440px] mx-auto space-y-8">
   <input-component [placeholderText]="'Search for TV series'"></input-component>
 
-  <p class="result HeadingL my-8 text-white" *ngIf="searchTerm.length !== 0">
-    Found {{ filteredSeries.length }} results for '{{ searchTerm }}'
-  </p>
-
-  <h2 *ngIf="searchTerm.length === 0" class="HeadingL text-white my-8">
-    TV Series
-  </h2>
   <div class="wrapper-content flex flex-wrap gap-10">
     <div
-      *ngFor="let series of filteredSeries"
+      *ngFor="let genre of genres | async"
       class="card relative rounded-lg flex gap-2 flex-col"
     >
-      <div
-        class="image w-[280px] h-[174px] rounded-lg bg-center bg-cover"
-        [style.background-image]="'url(' + series.thumbnail.regular.large + ')'"
+      <button
+        routerLink="/tv-series/genre/{{ genre.name }}/{{ genre.id }}/1"
+        class="card w-[160px] h-[140px] rounded-md bg-greyishBlue flex items-center justify-center text-center"
       >
-        <bookmarkbutton-component
-          [showTitle]="series.title"
-          [showBookmarkedImg]="series.isBookmarked"
-        ></bookmarkbutton-component>
-      </div>
-      <movieInfo-component
-        [movieData]="{ 
-          title: series.title, 
-          year: series.year.toString(), 
-          category: series.category,
-          rating: series.rating, 
-        }"
-      ></movieInfo-component>
+        <h4 class="HeadingXS text-pureWhite">{{ genre.name }}</h4>
+      </button>
     </div>
   </div>
 </div>

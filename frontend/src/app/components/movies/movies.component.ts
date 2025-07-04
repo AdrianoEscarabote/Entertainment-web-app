@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import axios from 'axios';
-import { MovieState, MovieTypes } from 'src/app/ngrx/movie.reducer';
-import { selectMovies, selectSearchTerm } from 'src/app/ngrx/movie.selectors';
-import { SearchTermService } from 'src/app/service/search-term.service';
+import { loadMoviesGenresList } from 'src/app/ngrx/movie/movie.actions';
+import { selectMoviesGenresList } from 'src/app/ngrx/movie/movie.selectors';
+import { AppState } from 'src/app/ngrx/types';
+import { MovieService } from 'src/app/service/movie.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -12,31 +14,22 @@ import { environment } from 'src/environments/environment';
   templateUrl: './movies.component.html',
 })
 export class MoviesComponent implements OnInit {
-  searchTerm: string = '';
-  movies: MovieTypes[] = [];
-  filteredMovies: MovieTypes[] = [];
+  basePath: string = 'movies';
+  genres = this.store.select(selectMoviesGenresList);
 
   constructor(
-    private store: Store<MovieState>,
+    private store: Store<AppState>,
     private router: Router,
-    private searchTermService: SearchTermService
+    private route: ActivatedRoute,
+    private titleService: Title,
+    private movieService: MovieService
   ) {}
 
   ngOnInit(): void {
-    this.store.select(selectSearchTerm).subscribe((searchTerm) => {
-      this.searchTerm = searchTerm;
-      this.filterMovies();
-    });
-
-    // Retrieve the initial value of the service's searchTerm
-    this.searchTermService.getSearchTerm().subscribe((searchTerm) => {
-      this.searchTerm = searchTerm;
-      this.filterMovies();
-    });
-
-    this.store.select(selectMovies).subscribe((movies) => {
-      this.movies = movies;
-      this.filterMovies();
+    this.titleService.setTitle(`Movies Genres | Entertainment web App`);
+    this.basePath = this.route.snapshot.url[0]?.path || 'movies';
+    this.movieService.getMoviesGenreList().subscribe((genresList: any) => {
+      this.store.dispatch(loadMoviesGenresList({ genresList }));
     });
 
     axios
@@ -51,13 +44,5 @@ export class MoviesComponent implements OnInit {
       .catch((error) => {
         this.router.navigate(['/login']);
       });
-  }
-
-  filterMovies(): void {
-    this.filteredMovies = this.movies.filter(
-      (movie) =>
-        movie.category === 'Movie' &&
-        movie.title.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
   }
 }

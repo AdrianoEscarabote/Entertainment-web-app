@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import axios from 'axios';
-import { MovieState, MovieTypes } from 'src/app/ngrx/movie.reducer';
-import { selectMovies, selectSearchTerm } from 'src/app/ngrx/movie.selectors';
-import { SearchTermService } from 'src/app/service/search-term.service';
+import { loadTvSeriesGenresList } from 'src/app/ngrx/tv-series/tv-series.actions';
+import { selectTvSeriesGenresList } from 'src/app/ngrx/tv-series/tv-series.selectors';
+import { AppState } from 'src/app/ngrx/types';
+import { TvSeriesService } from 'src/app/service/tv-series.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -12,32 +14,21 @@ import { environment } from 'src/environments/environment';
   templateUrl: './series.component.html',
 })
 export class SeriesComponent implements OnInit {
-  searchTerm: string = '';
-  filteredSeries: MovieTypes[] = [];
-  movies: MovieTypes[] = [];
+  genres = this.store.select(selectTvSeriesGenresList);
 
   constructor(
-    private store: Store<MovieState>,
+    private store: Store<AppState>,
     private router: Router,
-    private searchTermService: SearchTermService
+    private titleService: Title,
+    private tvSeriesService: TvSeriesService
   ) {}
 
   ngOnInit(): void {
-    this.store.select(selectSearchTerm).subscribe((searchTerm) => {
-      this.searchTerm = searchTerm;
-      this.filterSeries();
+    this.titleService.setTitle(`Series Genres | Entertainment web App`);
+    this.tvSeriesService.getGenreList().subscribe((genresList: any) => {
+      this.store.dispatch(loadTvSeriesGenresList({ genresList }));
     });
 
-    // Retrieve the initial value of the service's searchTerm
-    this.searchTermService.getSearchTerm().subscribe((searchTerm) => {
-      this.searchTerm = searchTerm;
-      this.filterSeries();
-    });
-
-    this.store.select(selectMovies).subscribe((movies) => {
-      this.movies = movies;
-      this.filterSeries();
-    });
     axios
       .get(`${environment.apiUrl}/auth/checktoken`, {
         withCredentials: true,
@@ -50,13 +41,5 @@ export class SeriesComponent implements OnInit {
       .catch((error) => {
         this.router.navigate(['/login']);
       });
-  }
-
-  filterSeries(): void {
-    this.filteredSeries = this.movies.filter(
-      (movie) =>
-        movie.category === 'TV Series' &&
-        movie.title.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
   }
 }
