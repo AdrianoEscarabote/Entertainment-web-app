@@ -1,0 +1,79 @@
+<div class="wrapper flex flex-col gap-6 px-5">
+  <div class="flex items-center justify-between w-full">
+    <h2 class="HeadingL text-white md:mb-3 flex items-center gap-3">
+      {{ title }}
+      <ng-container *ngIf="mediaType === 'movie' || mediaType === 'tv'">
+        <div
+          class="flex items-center gap-2 px-2 py-1 border border-gray border-solid rounded-md mt-1"
+        >
+          <span class="text-gray BodyM">{{ mediaType | titlecase }}</span>
+          <img
+            [src]="'../../../assets/icon-category-' + mediaType + '.svg'"
+            [alt]="mediaType"
+            class="w-4 h-4"
+          />
+        </div>
+      </ng-container>
+    </h2>
+    <see-more-button
+      [routerLink]="linkTo"
+      [ariaLabel]="'see all ' + title.toLowerCase()"
+    ></see-more-button>
+  </div>
+
+  <section class="grid md:grid-rows-2 gap-4">
+    <div class="grid md:grid-cols-3 gap-4">
+      <a
+        *ngFor="let item of (items$ | async)?.slice(0, 3)"
+        class="card-item bg-center bg-no-repeat bg-cover w-full md:h-[230px] h-[180px] rounded-lg relative flex"
+        [style.background-image]="
+          'url(https://image.tmdb.org/t/p/original/' + item.backdrop_path + ')'
+        "
+        [href]="'/' + mediaType + '/' + item.id"
+        [attr.aria-label]="
+          'Open details for ' +
+          item.title +
+          (item.release_date
+            ? ' (' + (item.release_date | date : 'yyyy') + ')'
+            : '')
+        "
+      >
+        <movieInfo-component
+          class="self-end w-full"
+          [title]="mediaType === 'movie' ? item.title : item.name"
+          [media_type]="item.media_type"
+          [release_date]="
+            mediaType === 'movie' ? item.release_date : item.first_air_date
+          "
+        ></movieInfo-component>
+      </a>
+    </div>
+
+    <div class="grid md:grid-cols-4 gap-4">
+      <a
+        *ngFor="let item of (items$ | async)?.slice(3, 7)"
+        class="card-item bg-center bg-no-repeat bg-cover flex w-full h-[230px] rounded-lg relative"
+        [style.background-image]="
+          'url(https://image.tmdb.org/t/p/original/' + item.backdrop_path + ')'
+        "
+        [href]="'/' + mediaType + '/' + item.id"
+        [attr.aria-label]="
+          'Open details for ' +
+          item.title +
+          (item.release_date
+            ? ' (' + (item.release_date | date : 'yyyy') + ')'
+            : '')
+        "
+      >
+        <movieInfo-component
+          class="self-end w-full"
+          [title]="mediaType === 'movie' ? item.title : item.name"
+          [media_type]="item.media_type"
+          [release_date]="
+            mediaType === 'movie' ? item.release_date : item.first_air_date
+          "
+        ></movieInfo-component>
+      </a>
+    </div>
+  </section>
+</div>
