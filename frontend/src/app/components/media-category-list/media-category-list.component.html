@@ -1,0 +1,37 @@
+<div class="ml-20">
+  <h2 class="text-white text-2xl mb-4 capitalize">
+    {{ formattedCategory }} ({{ mediaType }})
+  </h2>
+
+  <div *ngIf="items$ | async as items">
+    <div class="flex flex-wrap gap-y-6 gap-x-4">
+      <media-card
+        *ngFor="let item of items"
+        [item]="item"
+        [isTv]="isTvSeries"
+      />
+    </div>
+
+    <div class="flex justify-center items-center gap-2 mt-6 text-white text-sm">
+      <button
+        class="flex items-center gap-1 px-4 py-2 border border-white rounded-l hover:bg-white hover:text-black disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="page <= 1"
+        (click)="goToPage(page - 1)"
+      >
+        <span class="text-lg">←</span> Prev
+      </button>
+
+      <div class="px-4 py-2 bg-white text-black">
+        Page {{ page }} of {{ totalPages }}
+      </div>
+
+      <button
+        class="flex items-center gap-1 px-4 py-2 border border-white rounded-r hover:bg-white hover:text-black disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="page >= totalPages"
+        (click)="goToPage(page + 1)"
+      >
+        Next <span class="text-lg">→</span>
+      </button>
+    </div>
+  </div>
+</div>
