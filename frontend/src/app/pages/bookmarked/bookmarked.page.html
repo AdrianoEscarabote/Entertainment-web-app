@@ -1,15 +1,31 @@
-<div class="pl-20 text-white">
-  <h2 class="text-2xl mb-4">Favorite Movies</h2>
-  <div class="flex flex-wrap gap-4">
-    <media-card *ngFor="let movie of movieItems" [item]="movie" />
-  </div>
+<div class="md:pl-20 text-white">
+  <div class="flex flex-col md:items-start items-center gap-4 md:px-0 px-5">
+    <h2 class="text-2xl mb-3 flex items-center gap-3">
+      Favorite Movies
+      <img
+        alt="icon series"
+        src="../../../assets/icon-nav-movies.svg"
+        style="filter: brightness(200%)"
+      />
+    </h2>
+    <div class="flex flex-wrap gap-4 md:justify-start justify-center">
+      <media-card *ngFor="let movie of movieItems" [item]="movie" />
+    </div>
 
-  <h2 class="text-2xl mt-8 mb-4">Favorite Series</h2>
-  <div class="flex flex-wrap gap-4">
-    <media-card
-      *ngFor="let series of seriesItems"
-      [item]="series"
-      [isTv]="true"
-    />
+    <h2 class="text-2xl mt-8 mb-3 flex items-center gap-3">
+      Favorite Series
+      <img
+        alt="icon series"
+        src="../../../assets/icon-nav-tv-series.svg"
+        style="filter: brightness(200%)"
+      />
+    </h2>
+    <div class="flex flex-wrap gap-4 md:justify-start justify-center">
+      <media-card
+        *ngFor="let series of seriesItems"
+        [item]="series"
+        [isTv]="true"
+      />
+    </div>
   </div>
 </div>
