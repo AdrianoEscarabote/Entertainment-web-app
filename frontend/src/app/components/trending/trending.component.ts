@@ -1,33 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { selectMovies } from 'src/app/ngrx/movie.selectors';
-import { map } from 'rxjs/operators';
+import { Component, Input } from '@angular/core';
+import { Observable } from 'rxjs';
+import { MediaItem } from 'src/app/ngrx/types';
 
 @Component({
   selector: 'trending-component',
   templateUrl: './trending.component.html',
 })
-export class TrendingComponent implements OnInit {
-  movies$ = this.store.select(selectMovies).pipe(
-    map((movies) =>
-      movies
-        .filter((movie) => movie.isTrending === true)
-        .map((movie) => ({
-          movieData: {
-            title: movie.title,
-            year: movie.year.toString(),
-            category: movie.category,
-            rating: movie.rating,
-          },
-          isBookmarked: movie.isBookmarked,
-          isTrending: movie.isTrending,
-          thumbnailLarge: movie.thumbnail.trending.large,
-          thumbnailSmall: movie.thumbnail.trending.small,
-        }))
-    )
-  );
+export class TrendingComponent {
+  private _items$!: Observable<MediaItem[]>;
 
-  constructor(private store: Store) {}
+  @Input() set items$(value: Observable<MediaItem[]>) {
+    this._items$ = value;
+  }
+  get items$() {
+    return this._items$;
+  }
 
-  ngOnInit(): void {}
+  @Input() title: string = 'Trending';
+  @Input() mediaType: 'movies' | 'tv-series' = 'movies';
+  @Input() linkTo: string = '/';
+
+  hasSpecificMediaType$!: Observable<boolean>;
 }
