@@ -6,7 +6,7 @@ export interface BookmarkParams {
 }
 
 export interface setBookmarkParams {
-  show_type: "movie" | "tv"
+  show_type: "movies" | "tv-series"
   show_id: string
   id: string
   token: string
