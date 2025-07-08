@@ -1,6 +1,9 @@
-<a
+<button
   class="cursor-pointer w-full md:max-w-[20.625rem] max-w-[25rem] flex flex-col gap-2"
-  [routerLink]="['/', isTv ? 'tv' : 'movie', item.id]"
+  [routerLink]="['/media', isTv ? 'tv' : 'movie', item.id]"
+  [attr.aria-label]="
+    'Navigate to ' + (isTv ? item.name : item.title) + ' details'
+  "
 >
   <img
     [src]="'https://image.tmdb.org/t/p/original/' + item.backdrop_path"
@@ -9,10 +12,10 @@
   />
 
   <movieInfo-component
-    class="self-end w-full"
+    class="self-end text-start w-full"
     [title]="isTv ? item.name : item.title"
     [media_type]="isTv ? 'tv-series' : 'movie'"
     [release_date]="isTv ? item.first_air_date : item.release_date"
     [show_shadow]="false"
   ></movieInfo-component>
-</a>
+</button>
