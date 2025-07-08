@@ -8,5 +8,27 @@
         [isTv]="isTvSeries"
       />
     </div>
+
+    <div class="flex justify-center items-center gap-2 mt-6 text-white text-sm">
+      <button
+        class="flex items-center gap-1 px-4 py-2 border border-white rounded-l hover:bg-white hover:text-black disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="mediaList.currentPage <= 1"
+        (click)="goToPage(mediaList.currentPage - 1)"
+      >
+        <span class="text-lg">←</span> Prev
+      </button>
+
+      <div class="px-4 py-2 bg-white text-black">
+        Page {{ mediaList.currentPage }} of {{ mediaList.totalPages }}
+      </div>
+
+      <button
+        class="flex items-center gap-1 px-4 py-2 border border-white rounded-r hover:bg-white hover:text-black disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="mediaList.currentPage >= mediaList.totalPages"
+        (click)="goToPage(mediaList.currentPage + 1)"
+      >
+        Next <span class="text-lg">→</span>
+      </button>
+    </div>
   </div>
 </section>
