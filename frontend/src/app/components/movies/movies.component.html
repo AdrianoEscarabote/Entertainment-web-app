@@ -50,9 +50,7 @@
   }
 </style>
 
-<div
-  class="wrapper flex flex-col gap-8 w-full max-w-[1440px] lg:px-[40px] mx-auto"
->
+<div class="wrapper flex flex-col gap-8 w-full max-w-[1288px] mx-auto">
   <input-component [placeholderText]="'Search for movies'"></input-component>
 
   <div class="wrapper-content flex flex-wrap gap-10">
@@ -61,12 +59,10 @@
       class="card relative rounded-lg flex gap-2 flex-col"
     >
       <button
-        routerLink="/{{ basePath }}/genre/{{ genre.name.toLowerCase() }}/{{
-          genre.id
-        }}/1"
-        class="card w-[160px] h-[140px] rounded-md bg-greyishBlue flex items-center justify-center text-center"
+        routerLink="/{{ basePath }}/genre/{{ genre.name }}/{{ genre.id }}/1"
+        class="card w-[160px] md:h-[140px] h-[80px] rounded-md bg-semiDarkBlue flex items-center justify-center text-center"
       >
-        <h4 class="HeadingXS text-pureWhite">{{ genre.name }}</h4>
+        <h4 class="HeadingXS text-pureWhite opacity-70">{{ genre.name }}</h4>
       </button>
     </div>
   </div>
