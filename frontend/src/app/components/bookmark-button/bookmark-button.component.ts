@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import axios from 'axios';
-import { setBookmarkedShow } from 'src/app/ngrx/movie.actions';
+import { setBookmarkedShow } from 'src/app/ngrx/movie/movie.actions';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'bookmarkbutton-component',
-  templateUrl: './bookmarkButton.component.html',
+  selector: 'bookmark-button-component',
+  templateUrl: './bookmark-button.component.html',
 })
 export class BookmarkButtonComponent {
   @Input() showBookmarkedImg: boolean = false;

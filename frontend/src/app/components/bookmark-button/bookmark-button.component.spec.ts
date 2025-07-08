@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BookmarkButtonComponent } from './BookmarkButton.component';
+import { BookmarkButtonComponent } from './bookmark-button.component';
 import { AppModule } from 'src/app/app.module';
 
 describe('BookmarkButtonComponent', () => {
