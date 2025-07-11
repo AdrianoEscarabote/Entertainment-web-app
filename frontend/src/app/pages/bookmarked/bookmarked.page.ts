@@ -7,6 +7,7 @@ import { forkJoin, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { MediaItem } from 'src/app/ngrx/types';
 import { BookmarkService } from 'src/app/service/bookmark.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'bookmarked-page',
@@ -20,10 +21,12 @@ export class BookmarkedPage implements OnInit {
     private store: Store,
     private movieService: MovieService,
     private tvService: TvSeriesService,
-    private bookmarkService: BookmarkService
+    private bookmarkService: BookmarkService,
+    private TitleService: Title
   ) {}
 
   ngOnInit() {
+    this.TitleService.setTitle('Bookmarked | Movies & TV Series');
     this.bookmarkService.getBookmarkedShows().then(() => {
       this.store
         .select(selectBookmarks)
