@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs';
@@ -26,6 +27,7 @@ export class MediaGenrePage implements OnInit {
     private router: Router,
     private movieService: MovieService,
     private tvSeriesService: TvSeriesService,
+    private TitleService: Title,
     private store: Store
   ) {}
 
@@ -48,35 +50,53 @@ export class MediaGenrePage implements OnInit {
           }))
         );
   }
+
   ngOnInit() {
-    this.genre = this.route.snapshot.paramMap.get('genre-name')!;
-    this.genreId = this.route.snapshot.paramMap.get('genre-id')!;
-    this.page = Number(this.route.snapshot.paramMap.get('page')) || 1;
-
-    const request$ = this.isTvSeries
-      ? this.tvSeriesService.getTvByGenre(this.genreId, this.page)
-      : this.movieService.getMoviesWithGenre(this.genreId, this.page);
-
-    request$.subscribe((data: any) => {
-      if (this.isTvSeries) {
-        this.store.dispatch(
-          loadTvSeriesByGenreSuccess({
-            genre: this.genre,
-            currentPage: this.page,
-            totalPages: data.totalPages,
-            tvSeries: data.tvSeries,
-          })
-        );
-        return;
-      }
-      this.store.dispatch(
-        loadMoviesByGenreSuccess({
-          genre: this.genre,
-          currentPage: this.page,
-          totalPages: data.totalPages,
-          movies: data.movies,
-        })
+    this.route.paramMap.subscribe((params) => {
+      this.TitleService.setTitle(
+        `${params.get('genre-name')} | ${
+          this.isTvSeries ? 'TV Series' : 'Movies'
+        }`
       );
+      this.genre = params.get('genre-name')!;
+      this.genreId = params.get('genre-id')!;
+      this.page = Number(params.get('page')) || 1;
+
+      const request$ = this.isTvSeries
+        ? this.tvSeriesService.getTvByGenre(this.genreId, this.page)
+        : this.movieService.getMoviesWithGenre(this.genreId, this.page);
+
+      request$.subscribe((data: any) => {
+        if (this.isTvSeries) {
+          this.store.dispatch(
+            loadTvSeriesByGenreSuccess({
+              genre: this.genre,
+              currentPage: this.page,
+              totalPages: data.total_pages,
+              tvSeries: data.tvSeries,
+            })
+          );
+        } else {
+          this.store.dispatch(
+            loadMoviesByGenreSuccess({
+              genre: this.genre,
+              currentPage: this.page,
+              totalPages: data.total_pages,
+              movies: data.movies,
+            })
+          );
+        }
+      });
     });
+  }
+
+  goToPage(targetPage: number) {
+    const mediaType = this.isTvSeries ? 'tv-series' : 'movies';
+
+    this.router.navigate([
+      `/${mediaType}/genre/${this.genre}/${this.genreId}/${targetPage}`,
+    ]);
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

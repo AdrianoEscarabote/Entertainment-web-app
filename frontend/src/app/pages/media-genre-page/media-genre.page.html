@@ -1,7 +1,9 @@
 <section *ngIf="mediaList$ | async as mediaList">
-  <div class="max-w-[1110px] mx-auto lg:pl-12">
-    <h1 class="text-2xl text-white mb-4">{{ genre }}</h1>
-    <div class="flex flex-wrap gap-y-6 gap-x-4">
+  <div class="w-full max-w-[80.5rem] mx-auto md:px-0 px-4">
+    <h1 class="text-2xl text-white mb-4 md:text-start text-center">
+      {{ genre }}
+    </h1>
+    <div class="flex flex-wrap gap-y-6 gap-x-3 md:justify-start justify-center">
       <media-card
         *ngFor="let item of mediaList.items"
         [item]="item"
