@@ -1,31 +1,5 @@
 <style>
-  @media (max-width: 48rem) {
-    .header {
-      min-height: auto !important;
-      padding: 1.5625rem;
-      flex-direction: column;
-    }
-    .wrapper {
-      height: auto !important;
-    }
-    header div {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-direction: row;
-    }
-    .content {
-      justify-content: space-between !important;
-      width: 100% !important;
-    }
-    .content img {
-      margin: 0rem !important;
-    }
-    .header ul {
-      flex-direction: row;
-    }
-  }
-  @media (max-width: 26.25rem) {
+  @media (max-width: 29.6875rem) {
     .header {
       padding: 0px !important;
     }
@@ -50,14 +24,22 @@
   }
 </style>
 
-<header class="header flex p-8 min-h-screen">
+<header
+  class="header flex md:p-8 p-4 relative z-10 min-h-full flex-col md:flex-row"
+>
   <div
-    class="wrapper flex items-center flex-col justify-between bg-semiDarkBlue rounded-[20px] min-h-full py-8 px-7"
+    class="wrapper md:fixed flex items-center md:flex-col justify-between bg-semiDarkBlue rounded-[20px] md:min-h-[calc(100vh-64px)] md:mb-6 mb-4 md:py-8 md:px-7 px-6 py-7"
   >
-    <div class="content flex justify-start flex-col items-center h-full">
-      <img src="../../../assets//logo.svg" class="logo mb-[75px]" alt="logo" />
+    <div
+      class="content flex md:justify-start justify-between md:flex-col items-center h-full w-full"
+    >
+      <img
+        src="../../../assets//logo.svg"
+        class="logo md:mb-[75px]"
+        alt="logo"
+      />
       <nav aria-label="nav">
-        <ul class="flex flex-col items-center gap-10">
+        <ul class="flex md:flex-col items-center gap-10">
           <li>
             <button
               routerLink="/home"
@@ -86,9 +68,9 @@
           </li>
           <li>
             <button
-              routerLink="/series"
-              [ngClass]="{ active: activeRoute === 'series' }"
-              aria-label="go to series page"
+              routerLink="/tv-series"
+              [ngClass]="{ active: activeRoute === 'tv-series' }"
+              aria-label="go to tv series page"
             >
               <img
                 src="../../../assets/icon-nav-tv-series.svg"
@@ -113,7 +95,7 @@
         </ul>
       </nav>
       <logout-button-component
-        class="flex items-end h-full"
+        class="flex items-end md:absolute bottom-8"
       ></logout-button-component>
     </div>
   </div>
