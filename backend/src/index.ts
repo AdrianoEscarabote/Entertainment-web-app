@@ -17,6 +17,7 @@ import * as cors from "cors"
 import bookmarkRouter from "./routes/bookmark/bookmark"
 import moviesRouter from "./routes/movies/movies"
 import tvSeriesRouter from "./routes/tv-series/tv-series"
+import searchRouter from "./routes/search/search"
 
 // configures the cors to allow only one origin
 const corsOptions = {
@@ -46,6 +47,7 @@ const main = async () => {
   app.use("/bookmark", bookmarkRouter)
   app.use("/movies", moviesRouter)
   app.use("/tv-series", tvSeriesRouter)
+  app.use("/search", searchRouter)
 
   await MongoClient.connect()
 
