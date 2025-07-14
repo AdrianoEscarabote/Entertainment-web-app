@@ -4,7 +4,7 @@
   }
 </style>
 
-<div class="flex flex-col gap-6 pl-5 md:pl-4">
+<div class="flex flex-col gap-6 pl-4 md:pl-0">
   <div class="flex items-center justify-between w-full pr-5 md:pr-0">
     <h2 class="HeadingL text-white md:mb-3 flex items-center gap-3">
       {{ title }}
@@ -31,13 +31,13 @@
     class="custom_scrollbar rounded-lg flex flex-col items-start gap-6 w-full md:h-[254px] h-[200px] relative overflow-x-auto"
   >
     <div class="card flex gap-6 absolute pr-4">
-      <a
+      <button
         *ngFor="let item of items$ | async"
         class="card-item cursor-pointer flex relative bg-center bg-no-repeat bg-cover w-[300px] md:w-[470px] h-[180px] md:h-[230px] rounded-lg draggable-item"
         [style.background-image]="
           'url(https://image.tmdb.org/t/p/original/' + item.backdrop_path + ')'
         "
-        [href]="'/' + item.media_type + '/' + item.id"
+        [routerLink]="'/media/' + item.media_type + '/' + item.id"
         [attr.aria-label]="
           'Open details for ' +
           item.title +
@@ -47,14 +47,14 @@
         "
       >
         <movieInfo-component
-          class="self-end w-full"
+          class="self-end text-start w-full"
           [title]="mediaType === 'movies' ? item.title : item.name"
           [media_type]="item.media_type"
           [release_date]="
             mediaType === 'movies' ? item.release_date : item.first_air_date
           "
         ></movieInfo-component>
-      </a>
+      </button>
     </div>
   </section>
 </div>

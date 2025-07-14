@@ -1,10 +1,10 @@
-<div class="ml-20">
-  <h2 class="text-white text-2xl mb-4 capitalize">
+<div class="w-full max-w-[80.5rem] mx-auto md:px-0 px-4">
+  <h2 class="text-white text-2xl mb-4 capitalize md:text-start text-center">
     {{ formattedCategory }} ({{ mediaType }})
   </h2>
 
   <div *ngIf="items$ | async as items">
-    <div class="flex flex-wrap gap-y-6 gap-x-4">
+    <div class="flex flex-wrap gap-y-6 gap-x-3 md:justify-start justify-center">
       <media-card
         *ngFor="let item of items"
         [item]="item"
