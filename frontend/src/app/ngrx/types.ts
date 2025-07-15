@@ -113,12 +113,23 @@ export interface TvSeriesState {
 }
 
 export interface BookmarkState {
-  movies: number[];
-  tvSeries: number[];
+  movies: string[];
+  tvSeries: string[];
+}
+
+export interface SearchState {
+  searchTerm: string;
+  results: {
+    results: MediaItem[];
+    page: number;
+    totalPages: number;
+  };
+  loading: boolean;
 }
 
 export interface AppState {
   movies: MovieState;
   tvSeries: TvSeriesState;
   bookmarks: BookmarkState;
+  search: SearchState;
 }
