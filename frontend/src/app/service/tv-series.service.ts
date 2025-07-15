@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { loadAllTvSeriesSuccess } from '../ngrx/tv-series/tv-series.actions';
 import { TvSeriesResponse } from './service.interfaces';
+import { MediaItem } from '../ngrx/types';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +32,14 @@ export class TvSeriesService {
     tvSeriesRequest$.subscribe((response) => {
       this.store.dispatch(loadAllTvSeriesSuccess({ data: response as any }));
     });
+  }
+
+  getTvByType(types: string[], page: number) {
+    return this.http.post<{
+      tvSeries: MediaItem[];
+      page: number;
+      total_pages: number;
+    }>(`${this.tvSeriesDataUrl}`, { types, page }, { withCredentials: true });
   }
 
   getTvByGenre(genre: string, page: number) {
