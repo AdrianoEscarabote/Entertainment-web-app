@@ -1,0 +1,170 @@
+<main *ngIf="media$ | async as media">
+  <div class="max-w-[1288px] mx-auto md:py-10 py-4 md:px-0 px-4">
+    <div
+      class="flex md:flex-row flex-col justify-center md:gap-16 w-full md:max-w-none max-w-[520px] items-start md:mx-0 mx-auto"
+    >
+      <picture>
+        <source
+          media="(min-width: 768px)"
+          [srcset]="'https://image.tmdb.org/t/p/original/' + media.poster_path"
+        />
+        <img
+          *ngIf="media.backdrop_path"
+          [src]="'https://image.tmdb.org/t/p/original/' + media.backdrop_path"
+          alt="{{ media.title }}"
+          class="md:w-[400px] md:h-full h-[300px] object-cover rounded-lg mb-6"
+        />
+      </picture>
+
+      <div class="text-pureWhite md:max-w-[560px]">
+        <button
+          (click)="toggleBookmark()"
+          [class.bookmarked]="isBookmarked$ | async"
+          class="bg-gray-800 p-2 rounded"
+        >
+          <ng-container *ngIf="isBookmarked$ | async; else notBookmarked">
+            🔖
+          </ng-container>
+          <ng-template #notBookmarked>📑</ng-template>
+        </button>
+        <h1 class="HeadingXL font-semibold mb-2">
+          {{ media.title || media.name }}
+        </h1>
+        <p class="HeadingXS text-gray">{{ media.tagline }}</p>
+
+        <div class="flex items-center gap-3 my-6">
+          <ng-container
+            *ngIf="media.vote_average && media.vote_average > 0; else noRating"
+          >
+            <img
+              src="../../../assets/icon-star.svg"
+              alt="star"
+              class="w-5 h-5"
+            />
+            <div class="flex items-center gap-1">
+              <span class="font-bold text-lg text-white"
+                >{{ media.vote_average | number : "1.1-1" }}</span
+              >
+              <span class="text-gray-400 text-sm">/10</span>
+            </div>
+          </ng-container>
+          <ng-template #noRating>
+            <img
+              src="../../../assets/icon-star-outline.svg"
+              alt="star"
+              class="w-5 h-5 opacity-50"
+            />
+            <span class="text-gray-400 text-sm">No rating</span>
+          </ng-template>
+        </div>
+
+        <div class="flex flex-col gap-2 mt-6">
+          <h2 class="HeadingXS">Synopsis</h2>
+          <p class="BodyM text-gray">{{ media.overview }}</p>
+        </div>
+
+        <div class="flex flex-col gap-4 my-6 text-pureWhite">
+          <h2 class="font-semibold HeadingXS">Genres</h2>
+          <div class="flex flex-wrap gap-2">
+            <span
+              *ngFor="let genre of media.genres"
+              class="bg-white text-black text-sm px-3 py-1 rounded-md font-medium"
+            >
+              {{ genre.name }}
+            </span>
+          </div>
+        </div>
+
+        <div class="flex my-6 w-full items-center justify-between HeadingXS">
+          <p class="flex flex-col gap-4">
+            Language
+
+            <span class="BodyM text-gray"
+              >{{ media.original_language | languageName }}</span
+            >
+          </p>
+
+          <p class="flex flex-col gap-4" *ngIf="media.media_type === 'movie'">
+            Length <span class="BodyM text-gray">{{ media.runtime }} min.</span>
+          </p>
+
+          <p *ngIf="media.media_type === 'movie'" class="flex flex-col gap-4">
+            Year
+
+            <span class="BodyM text-gray"
+              >{{ media.release_date | date : "yyyy" }}</span
+            >
+          </p>
+
+          <p *ngIf="media.media_type !== 'movie'" class="flex flex-col gap-4">
+            First Air
+
+            <span class="BodyM text-gray"
+              >{{ media.first_air_date | date : "d MMM yyyy" }}</span
+            >
+          </p>
+
+          <p *ngIf="media.media_type !== 'movie'" class="flex flex-col gap-4">
+            Last Air
+
+            <span class="BodyM text-gray">
+              {{ media.last_air_date | date : "d MMM yyyy" }}
+            </span>
+          </p>
+
+          <p class="flex flex-col gap-4">
+            Status
+
+            <span class="BodyM text-gray">{{ media.status }}</span>
+          </p>
+        </div>
+
+        <div class="mt-7 flex items-center gap-4">
+          <a
+            *ngIf="media.homepage"
+            [href]="media.homepage"
+            target="_blank"
+            aria-label="Website"
+            class="bg-greyishBlue py-2 px-4 flex items-center justify-between w-[128px] h-[44px] rounded-md hover:opacity-60 focus:opacity-60"
+            >Website
+            <img
+              src="../../../assets/icon-link.svg"
+              alt="icon link"
+              class="w-6 h-6"
+            />
+          </a>
+          <a
+            *ngIf="media.imdb_id"
+            [href]="'https://www.imdb.com/title/' + media.imdb_id"
+            target="_blank"
+            aria-label="IMDb"
+            class="bg-[#E6B91E] flex items-center justify-center w-[128px] h-[44px] rounded-md hover:opacity-60 focus:opacity-60"
+          >
+            <img
+              src="../../../assets/icon-imdb.png"
+              class="object-cover w-[92px] h-[44px] self-center"
+              alt="icon imdb"
+            />
+          </a>
+        </div>
+
+        <div class="flex flex-col gap-4 mt-8">
+          <h3 class="HeadingXS">Companies</h3>
+
+          <div class="flex flex-wrap gap-3">
+            <ng-container *ngFor="let company of media.production_companies">
+              <img
+                *ngIf="company.logo_path"
+                class="h-8"
+                [src]="
+                  'https://image.tmdb.org/t/p/original/' + company.logo_path
+                "
+                [alt]="company.name"
+              />
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
