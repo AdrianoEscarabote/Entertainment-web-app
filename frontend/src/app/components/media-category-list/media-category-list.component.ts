@@ -2,8 +2,20 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { combineLatest, filter, map, Observable, switchMap } from 'rxjs';
+import {
+  combineLatest,
+  combineLatestWith,
+  filter,
+  map,
+  Observable,
+  switchMap,
+} from 'rxjs';
 import { loadAllMovieCategoriesSuccess } from 'src/app/ngrx/movie/movie.actions';
+import { clearSearchResults } from 'src/app/ngrx/search/search.actions';
+import {
+  selectSearchResults,
+  selectSearchTerm,
+} from 'src/app/ngrx/search/search.selectors';
 import { loadAllTvSeriesSuccess } from 'src/app/ngrx/tv-series/tv-series.actions';
 import { MediaItem } from 'src/app/ngrx/types';
 import { MovieService } from 'src/app/service/movie.service';
@@ -42,96 +54,93 @@ export class MediaCategoryListComponent implements OnInit {
     private TitleService: Title
   ) {}
 
+  searchTerm$ = this.store.select(selectSearchTerm);
+  searchResults$ = this.store.select(selectSearchResults);
+
+  categoryItems$!: Observable<MediaItem[]>;
+
   ngOnInit(): void {
-    combineLatest([this.route.url, this.route.paramMap])
-      .pipe(
-        filter(([url]) => url.length > 0),
-        switchMap(([url, params]) => {
-          this.mediaType = url[0].path as 'movies' | 'tv-series';
-          this.category = params.get('category') as string;
-          this.page = Number(params.get('page')) || 1;
+    this.categoryItems$ = combineLatest([
+      this.route.url,
+      this.route.paramMap,
+    ]).pipe(
+      filter(([url]) => url.length > 0),
+      switchMap(([url, params]) => {
+        this.mediaType = url[0].path as 'movies' | 'tv-series';
+        this.category = params.get('category') as string;
+        this.page = Number(params.get('page')) || 1;
 
-          const camelCategory =
-            this.categoryMap[this.category] || this.category;
+        const camelCategory = this.categoryMap[this.category] || this.category;
+        this.formattedCategory = this.capitalizeWords(this.category);
+        this.isTvSeries = this.mediaType === 'tv-series';
 
-          if (this.mediaType === 'movies') {
-            return this.movieService
-              .getMoviesByType([this.category], this.page)
-              .pipe(
-                map((response: any) => {
-                  const categoryData = response[camelCategory];
-                  this.totalPages = categoryData.total_pages;
-                  return {
-                    type: 'movies' as const,
+        this.TitleService.setTitle(
+          `${this.formattedCategory} | ${
+            this.isTvSeries ? 'TV Series' : 'Movies'
+          }`
+        );
+
+        if (this.mediaType === 'movies') {
+          return this.movieService
+            .getMoviesByType([this.category], this.page)
+            .pipe(
+              map((response: any) => {
+                const categoryData = response[camelCategory];
+                this.totalPages = categoryData.total_pages;
+
+                this.store.dispatch(
+                  loadAllMovieCategoriesSuccess({
                     data: {
-                      movies: categoryData.movies,
-                      page: categoryData.page,
-                      total_pages: categoryData.total_pages,
+                      [camelCategory]: {
+                        movies: categoryData.movies,
+                        page: categoryData.page,
+                        total_pages: categoryData.total_pages,
+                      },
                     },
-                    camelCategory,
-                  };
-                })
-              );
-          } else {
-            return this.tvSeriesService
-              .getTvByType([this.category], this.page)
-              .pipe(
-                map((response: any) => {
-                  const categoryData = response[camelCategory];
-                  this.totalPages = categoryData.total_pages;
-                  return {
-                    type: 'tv-series' as const,
+                  })
+                );
+
+                return categoryData.movies;
+              })
+            );
+        } else {
+          return this.tvSeriesService
+            .getTvByType([this.category], this.page)
+            .pipe(
+              map((response: any) => {
+                const categoryData = response[camelCategory];
+                this.totalPages = categoryData.total_pages;
+
+                this.store.dispatch(
+                  loadAllTvSeriesSuccess({
                     data: {
-                      tvSeries: categoryData.tvSeries,
-                      page: categoryData.page,
-                      total_pages: categoryData.total_pages,
+                      [camelCategory]: {
+                        tvSeries: categoryData.tvSeries,
+                        page: categoryData.page,
+                        total_pages: categoryData.total_pages,
+                      },
                     },
-                    camelCategory,
-                  };
-                })
-              );
-          }
-        })
-      )
-      .subscribe(({ type, data, camelCategory }) => {
-        if (type === 'movies' && data?.movies) {
-          this.store.dispatch(
-            loadAllMovieCategoriesSuccess({
-              data: {
-                [camelCategory]: {
-                  movies: Array.isArray(data.movies) ? data.movies : [],
-                  page: data.page,
-                  total_pages: data.total_pages,
-                },
-              },
-            })
-          );
+                  })
+                );
 
-          this.items$ = this.store.select(
-            (state: any) => state.movies[camelCategory]?.movies || []
-          );
-        } else if (type === 'tv-series' && data?.tvSeries) {
-          this.store.dispatch(
-            loadAllTvSeriesSuccess({
-              data: {
-                [camelCategory]: {
-                  tvSeries: Array.isArray(data.tvSeries) ? data.tvSeries : [],
-                  page: data.page,
-                  total_pages: data.total_pages,
-                },
-              },
-            })
-          );
-
-          this.items$ = this.store.select(
-            (state: any) => state.tvSeries[camelCategory]?.tvSeries || []
-          );
+                return categoryData.tvSeries;
+              })
+            );
         }
-      });
-    this.formattedCategory = this.capitalizeWords(this.category);
+      })
+    );
 
-    this.TitleService.setTitle(
-      `${this.formattedCategory} | ${this.isTvSeries ? 'TV Series' : 'Movies'}`
+    this.items$ = this.searchResults$.pipe(
+      combineLatestWith(this.searchTerm$, this.categoryItems$),
+      map(([results, term, categoryItems]) => {
+        if (term.trim().length > 0 && results.length > 0) {
+          return results;
+        }
+        if (term.trim().length === 0 && results.length > 0) {
+          this.store.dispatch(clearSearchResults());
+        }
+        return categoryItems;
+      })
     );
   }
 
