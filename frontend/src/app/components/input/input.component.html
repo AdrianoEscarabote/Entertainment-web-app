@@ -19,16 +19,41 @@
 
 <label
   for="search"
-  class="cursor-pointer flex items-start justify-center gap-6 w-full"
+  class="cursor-pointer flex items-start justify-center gap-6 w-full relative"
 >
-  <img class="w-8 h-8" src="../../../assets/icon-search.svg" />
+  <img
+    class="w-8 h-8"
+    [src]="'../../../assets/icon-search.svg'"
+    [ngStyle]="
+      error
+        ? {
+            filter:
+              'invert(27%) sepia(93%) saturate(7493%) hue-rotate(356deg) brightness(101%) contrast(107%)'
+          }
+        : {}
+    "
+  />
   <input
     type="text"
     class="caret-red placeholder:text-white placeholder:opacity-50 cursor-pointer border-b border-transparent mr-8 w-full pb-4 bg-transparent text-white HeadingM outline-none focus:border-greyishBlue"
+    [ngClass]="{ 'placeholder:text-red': error, 'text-white': !error }"
     placeholder="{{ placeholderText }}"
     id="search"
     [(ngModel)]="searchTerm"
     (ngModelChange)="onInputChange()"
     aria-label="search for a show"
   />
+  <div
+    *ngIf="error"
+    class="text-red opacity-80 text-sm absolute left-0 md:top-12 top-9"
+  >
+    {{ error }}
+  </div>
+  <button
+    class="bg-greyishBlue text-white px-4 py-2 rounded-md hover:opacity-80 focus:opacity-80"
+    (click)="onSearch()"
+    aria-label="search button"
+  >
+    Search
+  </button>
 </label>
