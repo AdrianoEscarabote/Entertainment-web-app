@@ -41,6 +41,7 @@
     id="search"
     [(ngModel)]="searchTerm"
     (ngModelChange)="onInputChange()"
+    (keydown.enter)="onSearch()"
     aria-label="search for a show"
   />
   <div

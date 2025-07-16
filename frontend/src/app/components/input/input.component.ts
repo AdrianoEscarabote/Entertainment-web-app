@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import {
   setSearchTerm,
@@ -17,7 +18,17 @@ export class InputComponent {
 
   error: string = '';
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private router: Router) {}
+
+  get mediaType(): 'movie' | 'tv' {
+    if (this.router.url.startsWith('/movies')) {
+      return 'movie';
+    }
+    if (this.router.url.startsWith('/tv-series')) {
+      return 'tv';
+    }
+    return 'movie';
+  }
 
   onInputChange() {
     this.error = '';
@@ -31,6 +42,12 @@ export class InputComponent {
       return;
     }
     this.search.emit(this.searchTerm);
-    this.store.dispatch(loadSearchResults({ searchTerm: this.searchTerm }));
+
+    this.store.dispatch(
+      loadSearchResults({
+        searchTerm: this.searchTerm,
+        mediaType: this.mediaType,
+      })
+    );
   }
 }
