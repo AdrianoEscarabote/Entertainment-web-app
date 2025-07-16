@@ -1,10 +1,8 @@
 import { ShowType } from "@/models/Show"
 
 export interface SearchParam {
-  type: "movie" | "tv"
-  genre: number[]
+  type: "movie" | "tv" | "multi"
   query: string
-  category: string
 }
 
 export interface SeachReturn {
@@ -14,7 +12,5 @@ export interface SeachReturn {
 }
 
 export interface ISearchRepository {
-  getSearchByGenre(params: SearchParam): Promise<SeachReturn>
-  getSearchByQuery(params: SearchParam): Promise<SeachReturn>
-  getSearchByCategory(params: SearchParam): Promise<SeachReturn>
+  search(params: SearchParam): Promise<SeachReturn>
 }
