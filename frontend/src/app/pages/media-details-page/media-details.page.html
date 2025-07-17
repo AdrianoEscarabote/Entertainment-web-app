@@ -1,33 +1,49 @@
 <main *ngIf="media$ | async as media">
-  <div class="max-w-[1288px] mx-auto md:py-10 py-4 md:px-0 px-4">
+  <div class="max-w-[80.5rem] mx-auto md:py-10 py-4 md:px-0 px-4">
     <div
-      class="flex md:flex-row flex-col justify-center md:gap-16 w-full md:max-w-none max-w-[520px] items-start md:mx-0 mx-auto"
+      class="flex md:flex-row flex-col justify-center md:gap-16 w-full md:max-w-none max-w-[32.5rem] items-start md:mx-0 mx-auto"
     >
       <picture>
         <source
-          media="(min-width: 768px)"
+          media="(min-width: 48rem)"
           [srcset]="'https://image.tmdb.org/t/p/original/' + media.poster_path"
         />
         <img
           *ngIf="media.backdrop_path"
           [src]="'https://image.tmdb.org/t/p/original/' + media.backdrop_path"
           alt="{{ media.title }}"
-          class="md:w-[400px] md:h-full h-[300px] object-cover rounded-lg mb-6"
+          class="md:w-[400px] md:h-full h-[18.75rem] object-cover rounded-lg mb-6"
         />
       </picture>
 
-      <div class="text-pureWhite md:max-w-[560px]">
+      <div class="text-pureWhite md:max-w-[35rem]">
         <button
           (click)="toggleBookmark()"
           [class.bookmarked]="isBookmarked$ | async"
-          class="bg-gray-800 p-2 rounded"
+          class="bookmark-btn bg-pureWhite py-2 px-4 rounded-md flex items-center gap-2"
+          aria-label="Toggle bookmark"
         >
           <ng-container *ngIf="isBookmarked$ | async; else notBookmarked">
-            🔖
+            <svg width="24" height="24" fill="#fc4747" viewBox="0 0 24 24">
+              <path
+                d="M6 2a2 2 0 0 0-2 2v18l8-5.333L20 22V4a2 2 0 0 0-2-2H6z"
+              />
+            </svg>
           </ng-container>
-          <ng-template #notBookmarked>📑</ng-template>
+          <ng-template #notBookmarked>
+            <svg width="24" height="24" fill="#161D2F" viewBox="0 0 24 24">
+              <path
+                d="M6 2a2 2 0 0 0-2 2v18l8-5.333L20 22V4a2 2 0 0 0-2-2H6z"
+              />
+            </svg>
+          </ng-template>
+          <span
+            class="HeadingXS"
+            [ngClass]="{ 'text-[#fc4747]': isBookmarked$ | async, 'text-semiDarkBlue': !(isBookmarked$ | async) }"
+            >Bookmark</span
+          >
         </button>
-        <h1 class="HeadingXL font-semibold mb-2">
+        <h1 class="HeadingXL font-semibold mb-2 mt-1">
           {{ media.title || media.name }}
         </h1>
         <p class="HeadingXS text-gray">{{ media.tagline }}</p>
@@ -84,11 +100,11 @@
             >
           </p>
 
-          <p class="flex flex-col gap-4" *ngIf="media.media_type === 'movie'">
+          <p class="flex flex-col gap-4" *ngIf="mediaType === 'movie'">
             Length <span class="BodyM text-gray">{{ media.runtime }} min.</span>
           </p>
 
-          <p *ngIf="media.media_type === 'movie'" class="flex flex-col gap-4">
+          <p *ngIf="mediaType === 'movie'" class="flex flex-col gap-4">
             Year
 
             <span class="BodyM text-gray"
@@ -96,7 +112,7 @@
             >
           </p>
 
-          <p *ngIf="media.media_type !== 'movie'" class="flex flex-col gap-4">
+          <p *ngIf="mediaType !== 'movie'" class="flex flex-col gap-4">
             First Air
 
             <span class="BodyM text-gray"
@@ -104,7 +120,7 @@
             >
           </p>
 
-          <p *ngIf="media.media_type !== 'movie'" class="flex flex-col gap-4">
+          <p *ngIf="mediaType !== 'movie'" class="flex flex-col gap-4">
             Last Air
 
             <span class="BodyM text-gray">
@@ -125,7 +141,7 @@
             [href]="media.homepage"
             target="_blank"
             aria-label="Website"
-            class="bg-greyishBlue py-2 px-4 flex items-center justify-between w-[128px] h-[44px] rounded-md hover:opacity-60 focus:opacity-60"
+            class="bg-greyishBlue py-2 px-4 flex items-center justify-between w-[8rem] h-[2.75rem] rounded-md hover:opacity-60 focus:opacity-60"
             >Website
             <img
               src="../../../assets/icon-link.svg"
@@ -138,11 +154,11 @@
             [href]="'https://www.imdb.com/title/' + media.imdb_id"
             target="_blank"
             aria-label="IMDb"
-            class="bg-[#E6B91E] flex items-center justify-center w-[128px] h-[44px] rounded-md hover:opacity-60 focus:opacity-60"
+            class="bg-[#E6B91E] flex items-center justify-center w-[8rem] h-[2.75rem] rounded-md hover:opacity-60 focus:opacity-60"
           >
             <img
               src="../../../assets/icon-imdb.png"
-              class="object-cover w-[92px] h-[44px] self-center"
+              class="object-cover w-[5.75rem] h-[2.75rem] self-center"
               alt="icon imdb"
             />
           </a>
