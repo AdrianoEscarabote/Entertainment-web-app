@@ -9,7 +9,6 @@
   }
 </style>
 
-<!-- Checks the current route and applies the appropriate layout -->
 <ng-container *ngIf="isAuthLayoutRoute(); else defaultLayout">
   <auth-layout></auth-layout>
 </ng-container>
@@ -17,7 +16,7 @@
 <ng-template #defaultLayout>
   <div class="wrapper-content flex bg-darkBlue">
     <header-component></header-component>
-    <div class="w-full pt-16">
+    <div class="w-full md:pt-16 md:pl-[90px] md:pr-5">
       <router-outlet></router-outlet>
       <footer-component></footer-component>
     </div>
