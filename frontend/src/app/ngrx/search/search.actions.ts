@@ -8,13 +8,17 @@ export const setSearchTerm = createAction(
 
 export const loadSearchResults = createAction(
   '[Search] Load Results',
-  props<{ searchTerm: string }>()
+  props<{
+    searchTerm: string;
+    mediaType: 'movie' | 'tv' | 'multi';
+    page?: number;
+  }>()
 );
 
 export const loadSearchResultsSuccess = createAction(
   '[Search] Load Results Success',
   props<{
-    results: { results: MediaItem[]; page: number; total_pages: number };
+    results: { results: MediaItem[]; page: number; totalPages: number };
   }>()
 );
 
