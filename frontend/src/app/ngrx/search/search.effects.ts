@@ -11,10 +11,11 @@ export class SearchEffects {
   search$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadSearchResults),
-      switchMap(({ searchTerm, mediaType }) => {
+      switchMap(({ searchTerm, mediaType, page }) => {
         const params: any = {
           searchTerm,
           type: mediaType,
+          page,
         };
 
         return this.tmdbService.searchMulti(params).pipe(
@@ -23,7 +24,7 @@ export class SearchEffects {
               results: {
                 page: response.page,
                 results: response.results,
-                total_pages: response.total_pages,
+                totalPages: response.total_pages,
               },
             })
           )
