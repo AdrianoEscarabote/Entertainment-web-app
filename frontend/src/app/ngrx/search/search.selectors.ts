@@ -13,6 +13,16 @@ export const selectSearchResults = createSelector(
   (state) => state.results.results
 );
 
+export const selectSearchPage = createSelector(
+  selectSearchState,
+  (state) => state.results.page
+);
+
+export const selectSearchTotalPages = createSelector(
+  selectSearchState,
+  (state) => state.results.totalPages
+);
+
 export const selectSearchLoading = createSelector(
   selectSearchState,
   (state) => state.loading
