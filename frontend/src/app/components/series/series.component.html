@@ -51,19 +51,34 @@
 </style>
 
 <div class="wrapper flex flex-col gap-8 w-full max-w-[1288px] mx-auto">
-  <input-component [placeholderText]="'Search for TV series'"></input-component>
+  <input-component
+    [placeholderText]="'Search for TV series'"
+    (search)="onSearch($event)"
+    (searchTermChange)="onClearSearch()"
+  ></input-component>
 
-  <div class="wrapper-content flex flex-wrap gap-10">
-    <div
-      *ngFor="let genre of genres | async"
-      class="card relative rounded-lg flex gap-2 flex-col"
-    >
-      <button
-        routerLink="/tv-series/genre/{{ genre.name }}/{{ genre.id }}/1"
-        class="card w-[160px] md:h-[140px] h-[80px] rounded-md bg-semiDarkBlue flex items-center justify-center text-center"
+  <ng-container *ngIf="showGenresList; else showSearchResults">
+    <div class="wrapper-content flex flex-wrap gap-10">
+      <div
+        *ngFor="let genre of genres | async"
+        class="card relative rounded-lg flex gap-2 flex-col"
       >
-        <h4 class="HeadingXS text-pureWhite opacity-70">{{ genre.name }}</h4>
-      </button>
+        <button
+          routerLink="/tv-series/genre/{{ genre.name }}/{{ genre.id }}/1"
+          class="card w-[160px] md:h-[140px] h-[80px] rounded-md bg-semiDarkBlue flex items-center justify-center text-center"
+        >
+          <h4 class="HeadingXS text-pureWhite opacity-70">{{ genre.name }}</h4>
+        </button>
+      </div>
     </div>
-  </div>
+  </ng-container>
+  <ng-template #showSearchResults>
+    <div class="wrapper-content flex flex-wrap gap-10">
+      <media-card
+        *ngFor="let item of searchResults$ | async"
+        [item]="item"
+        [isTv]="true"
+      ></media-card>
+    </div>
+  </ng-template>
 </div>

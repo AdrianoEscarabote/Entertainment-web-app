@@ -3,6 +3,10 @@ import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import axios from 'axios';
+import {
+  selectSearchResults,
+  selectSearchTerm,
+} from 'src/app/ngrx/search/search.selectors';
 import { loadTvSeriesGenresList } from 'src/app/ngrx/tv-series/tv-series.actions';
 import { selectTvSeriesGenresList } from 'src/app/ngrx/tv-series/tv-series.selectors';
 import { AppState } from 'src/app/ngrx/types';
@@ -15,6 +19,10 @@ import { environment } from 'src/environments/environment';
 })
 export class SeriesComponent implements OnInit {
   genres = this.store.select(selectTvSeriesGenresList);
+  showGenresList = true;
+
+  searchTerm$ = this.store.select(selectSearchTerm);
+  searchResults$ = this.store.select(selectSearchResults);
 
   constructor(
     private store: Store<AppState>,
@@ -22,6 +30,14 @@ export class SeriesComponent implements OnInit {
     private titleService: Title,
     private tvSeriesService: TvSeriesService
   ) {}
+
+  onSearch(term: string) {
+    this.showGenresList = false;
+  }
+
+  onClearSearch() {
+    this.showGenresList = true;
+  }
 
   ngOnInit(): void {
     this.titleService.setTitle(`Series Genres | Entertainment web App`);
