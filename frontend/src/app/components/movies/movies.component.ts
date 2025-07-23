@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import axios from 'axios';
 import { loadMoviesGenresList } from 'src/app/ngrx/movie/movie.actions';
 import { selectMoviesGenresList } from 'src/app/ngrx/movie/movie.selectors';
+import {
+  selectSearchResults,
+  selectSearchTerm,
+} from 'src/app/ngrx/search/search.selectors';
 import { AppState } from 'src/app/ngrx/types';
 import { MovieService } from 'src/app/service/movie.service';
 import { environment } from 'src/environments/environment';
@@ -16,18 +20,28 @@ import { environment } from 'src/environments/environment';
 export class MoviesComponent implements OnInit {
   basePath: string = 'movies';
   genres = this.store.select(selectMoviesGenresList);
+  showGenresList = true;
+
+  searchTerm$ = this.store.select(selectSearchTerm);
+  searchResults$ = this.store.select(selectSearchResults);
 
   constructor(
     private store: Store<AppState>,
     private router: Router,
-    private route: ActivatedRoute,
     private titleService: Title,
     private movieService: MovieService
   ) {}
 
+  onSearch(term: string) {
+    this.showGenresList = false;
+  }
+
+  onClearSearch() {
+    this.showGenresList = true;
+  }
+
   ngOnInit(): void {
     this.titleService.setTitle(`Movies Genres | Entertainment web App`);
-    this.basePath = this.route.snapshot.url[0]?.path || 'movies';
     this.movieService.getMoviesGenreList().subscribe((genresList: any) => {
       this.store.dispatch(loadMoviesGenresList({ genresList }));
     });
@@ -36,13 +50,6 @@ export class MoviesComponent implements OnInit {
       .get(`${environment.apiUrl}/auth/checktoken`, {
         withCredentials: true,
       })
-      .then((response) => {
-        if (response.status === 200) {
-          return;
-        }
-      })
-      .catch((error) => {
-        this.router.navigate(['/login']);
-      });
+      .catch(() => this.router.navigate(['/login']));
   }
 }
