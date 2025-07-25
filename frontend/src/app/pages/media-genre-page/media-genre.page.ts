@@ -2,9 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { map } from 'rxjs';
+import { map, take } from 'rxjs';
 import { loadMoviesByGenreSuccess } from 'src/app/ngrx/movie/movie.actions';
 import { selectMoviesByGenre } from 'src/app/ngrx/movie/movie.selectors';
+import { loadSearchResults } from 'src/app/ngrx/search/search.actions';
+import {
+  selectSearchPage,
+  selectSearchResults,
+  selectSearchTerm,
+  selectSearchTotalPages,
+} from 'src/app/ngrx/search/search.selectors';
 import { loadTvSeriesByGenreSuccess } from 'src/app/ngrx/tv-series/tv-series.actions';
 import { selectTvSeriesByGenre } from 'src/app/ngrx/tv-series/tv-series.selectors';
 import { MovieService } from 'src/app/service/movie.service';
@@ -21,6 +28,20 @@ export class MediaGenrePage implements OnInit {
   movies$ = this.store.select(selectMoviesByGenre);
   series$ = this.store.select(selectTvSeriesByGenre);
   isTvSeries = this.router.url.startsWith('/tv-series');
+  showItemsByGenre = true;
+  searchTerm$ = this.store.select(selectSearchTerm);
+  searchResults$ = this.store.select(selectSearchResults);
+
+  onSearch(term: string) {
+    this.showItemsByGenre = false;
+  }
+
+  onClearSearch() {
+    this.showItemsByGenre = true;
+  }
+
+  searchPage$ = this.store.select(selectSearchPage);
+  searchTotalPages$ = this.store.select(selectSearchTotalPages);
 
   constructor(
     private route: ActivatedRoute,
@@ -88,6 +109,19 @@ export class MediaGenrePage implements OnInit {
         }
       });
     });
+  }
+
+  onSearchPageChange(page: number) {
+    this.searchTerm$.pipe(take(1)).subscribe((searchTerm) => {
+      this.store.dispatch(
+        loadSearchResults({
+          searchTerm,
+          mediaType: this.isTvSeries ? 'tv' : 'movie',
+          page,
+        })
+      );
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   goToPage(targetPage: number) {

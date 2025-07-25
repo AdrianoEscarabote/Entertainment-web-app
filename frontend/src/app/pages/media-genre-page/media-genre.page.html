@@ -1,8 +1,22 @@
-<section *ngIf="mediaList$ | async as mediaList">
-  <div class="w-full max-w-[80.5rem] mx-auto md:px-0 px-4">
-    <h1 class="text-2xl text-white mb-4 md:text-start text-center">
+<section
+  *ngIf="mediaList$ | async as mediaList"
+  class="w-full max-w-[80.5rem] mx-auto md:px-0 px-4"
+>
+  <div class="flex flex-col gap-4 mb-2">
+    <input-component
+      [placeholderText]="'Search for ' + (isTvSeries ? 'TV Series' : 'Movies')"
+      (search)="onSearch($event)"
+      (searchTermChange)="onClearSearch()"
+    ></input-component>
+    <h1
+      *ngIf="showItemsByGenre"
+      class="text-2xl text-white mb-4 md:text-start text-center"
+    >
       {{ genre }}
     </h1>
+  </div>
+
+  <div *ngIf="showItemsByGenre; else  showSearchResults">
     <div class="flex flex-wrap gap-y-6 gap-x-3 md:justify-start justify-center">
       <media-card
         *ngFor="let item of mediaList.items"
@@ -33,4 +47,42 @@
       </button>
     </div>
   </div>
+  <ng-template #showSearchResults>
+    <ng-container *ngIf="searchPage$ | async as searchPage">
+      <ng-container *ngIf="searchTotalPages$ | async as searchTotalPages">
+        <div
+          class="wrapper-content flex flex-wrap gap-y-6 gap-x-3 md:justify-start justify-center"
+        >
+          <media-card
+            *ngFor="let item of searchResults$ | async"
+            [item]="item"
+            [isTv]="isTvSeries"
+          ></media-card>
+        </div>
+        <div
+          *ngIf="searchTotalPages > 1"
+          class="flex justify-center items-center gap-2 mt-6 text-white text-sm"
+        >
+          <button
+            class="flex items-center gap-1 px-4 py-2 border border-white rounded-l hover:bg-white hover:text-black disabled:opacity-50 disabled:cursor-not-allowed"
+            [disabled]="searchPage <= 1"
+            (click)="onSearchPageChange(searchPage - 1)"
+          >
+            <span class="text-lg">←</span> Prev
+          </button>
+          <div class="px-4 py-2 bg-white text-black">
+            Page {{ searchPage }} of {{ searchTotalPages }}
+          </div>
+
+          <button
+            class="flex items-center gap-1 px-4 py-2 border border-white rounded-r hover:bg-white hover:text-black disabled:opacity-50 disabled:cursor-not-allowed"
+            [disabled]="searchPage >= searchTotalPages"
+            (click)="onSearchPageChange(searchPage + 1)"
+          >
+            Next <span class="text-lg">→</span>
+          </button>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-template>
 </section>
