@@ -50,130 +50,105 @@
   }
 </style>
 
-<ng-container *ngIf="searchTerm$ | async as searchTerm">
-  <div class="wrapper-result" *ngIf="searchTerm.length > 0">
-    <p class="result HeadingL mb-6 text-white">
-      Found {{ (filteredShows$ | async)?.length }} results for '{{ searchTerm
-      }}'
-    </p>
-
-    <div class="wrapper-content flex flex-wrap gap-10">
-      <ng-container *ngFor="let show of filteredShows$ | async">
-        <media-card [title]="show.title" [id]="show.id"></media-card>
-      </ng-container>
-    </div>
-  </div>
-</ng-container>
-
-<div
-  class="wrapper flex flex-col gap-8 w-full max-w-[1440px] lg:px-[40px] mx-auto"
->
-  <div class="md:pl-0 pl-4">
+<div class="wrapper flex flex-col gap-8 w-full max-w-[1288px] mx-auto">
+  <div class="md:px-0 px-4">
     <input-component
       [placeholderText]="'Search for movies or TV series'"
+      (search)="onSearch($event)"
+      (searchTermChange)="onClearSearch()"
     ></input-component>
   </div>
 
-  <div class="wrapper-result" *ngIf="searchTerm.length !== 0">
-    <p class="result HeadingL mb-6 text-white">
-      Found {{ (filteredShows$ | async)?.length }} results for '{{ searchTerm$ |
-      async }}'
-    </p>
+  <ng-container *ngIf="showDefaultLists; else showSearchResults">
+    <trending-component
+      [items$]="trendingMovies$"
+      title="Trending"
+      mediaType="movies"
+      linkTo="/movies/trending/1"
+      *ngIf="searchTerm.length === 0"
+    ></trending-component>
 
-    <div class="wrapper-content flex flex-wrap gap-10">
-      <div
-        *ngFor="let show of filteredShows"
-        class="card relative rounded-lg flex gap-2 flex-col"
-      >
-        <div
-          class="image w-[280px] h-[174px] rounded-lg bg-center bg-cover"
-          [style.background-image]="'url(' + show.backdrop_path + ')'"
-        ></div>
-        <movieInfo-component
-          [title]="show.title"
-          [media_type]="show.media_type"
-        ></movieInfo-component>
+    <media-list
+      [items$]="popularMovies$"
+      title="Popular"
+      mediaType="movie"
+      linkTo="/movies/popular/1"
+      *ngIf="searchTerm.length === 0"
+    ></media-list>
+
+    <media-list
+      [items$]="nowPlayingMovies$"
+      title="Now Playing"
+      mediaType="movie"
+      linkTo="/movies/now-playing/1"
+      *ngIf="searchTerm.length === 0"
+    ></media-list>
+
+    <media-list
+      [items$]="upcomingMovies$"
+      title="Upcoming"
+      mediaType="movie"
+      linkTo="/movies/upcoming/1"
+      *ngIf="searchTerm.length === 0"
+    ></media-list>
+
+    <media-list
+      [items$]="topRatedMovies$"
+      title="Top Rated"
+      mediaType="movie"
+      linkTo="/movies/top-rated/1"
+      *ngIf="searchTerm.length === 0"
+    ></media-list>
+
+    <trending-component
+      [items$]="trendingTvSeries$"
+      title="Trending"
+      mediaType="tv-series"
+      linkTo="/tv-series/trending/1"
+      *ngIf="searchTerm.length === 0"
+    ></trending-component>
+
+    <media-list
+      [items$]="popularTvSeries$"
+      title="Popular"
+      mediaType="tv"
+      linkTo="/tv-series/popular/1"
+      *ngIf="searchTerm.length === 0"
+    ></media-list>
+
+    <media-list
+      [items$]="airingTodayTvSeries$"
+      title="Airing Today"
+      mediaType="tv"
+      linkTo="/tv-series/airing-today/1"
+      *ngIf="searchTerm.length === 0"
+    ></media-list>
+
+    <media-list
+      [items$]="onTheAirTvSeries$"
+      title="On The Air"
+      mediaType="tv"
+      linkTo="/tv-series/on-the-air/1"
+      *ngIf="searchTerm.length === 0"
+    ></media-list>
+
+    <media-list
+      [items$]="topRatedTvSeries$"
+      title="Top Rated"
+      mediaType="tv"
+      linkTo="/tv-series/top-rated/1"
+      *ngIf="searchTerm.length === 0"
+    ></media-list>
+  </ng-container>
+  <ng-template #showSearchResults>
+    <div class="wrapper-result">
+      <div class="wrapper-content flex flex-wrap gap-10">
+        <media-card
+          *ngFor="let show of filteredShows$ | async"
+          [item]="show"
+          [isTv]="show.media_type === 'tv'"
+        ></media-card>
       </div>
     </div>
-  </div>
-
-  <trending-component
-    [items$]="trendingMovies$"
-    title="Trending"
-    mediaType="movies"
-    linkTo="/movies/trending/1"
-    *ngIf="searchTerm.length === 0"
-  ></trending-component>
-
-  <media-list
-    [items$]="popularMovies$"
-    title="Popular"
-    mediaType="movie"
-    linkTo="/movies/popular/1"
-    *ngIf="searchTerm.length === 0"
-  ></media-list>
-
-  <media-list
-    [items$]="nowPlayingMovies$"
-    title="Now Playing"
-    mediaType="movie"
-    linkTo="/movies/now-playing/1"
-    *ngIf="searchTerm.length === 0"
-  ></media-list>
-
-  <media-list
-    [items$]="upcomingMovies$"
-    title="Upcoming"
-    mediaType="movie"
-    linkTo="/movies/upcoming/1"
-    *ngIf="searchTerm.length === 0"
-  ></media-list>
-
-  <media-list
-    [items$]="topRatedMovies$"
-    title="Top Rated"
-    mediaType="movie"
-    linkTo="/movies/top-rated/1"
-    *ngIf="searchTerm.length === 0"
-  ></media-list>
-
-  <trending-component
-    [items$]="trendingTvSeries$"
-    title="Trending"
-    mediaType="tv-series"
-    linkTo="/tv-series/trending/1"
-    *ngIf="searchTerm.length === 0"
-  ></trending-component>
-
-  <media-list
-    [items$]="popularTvSeries$"
-    title="Popular"
-    mediaType="tv"
-    linkTo="/tv-series/popular/1"
-    *ngIf="searchTerm.length === 0"
-  ></media-list>
-
-  <media-list
-    [items$]="airingTodayTvSeries$"
-    title="Airing Today"
-    mediaType="tv"
-    linkTo="/tv-series/airing-today/1"
-    *ngIf="searchTerm.length === 0"
-  ></media-list>
-
-  <media-list
-    [items$]="onTheAirTvSeries$"
-    title="On The Air"
-    mediaType="tv"
-    linkTo="/tv-series/on-the-air/1"
-    *ngIf="searchTerm.length === 0"
-  ></media-list>
-
-  <media-list
-    [items$]="topRatedTvSeries$"
-    title="Top Rated"
-    mediaType="tv"
-    linkTo="/tv-series/top-rated/1"
-    *ngIf="searchTerm.length === 0"
-  ></media-list>
+  </ng-template>
 </div>
