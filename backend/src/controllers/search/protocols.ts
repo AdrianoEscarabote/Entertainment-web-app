@@ -3,6 +3,7 @@ import { ShowType } from "@/models/Show"
 export interface SearchParam {
   type: "movie" | "tv" | "multi"
   query: string
+  page?: number
 }
 
 export interface SeachReturn {

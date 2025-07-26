@@ -22,6 +22,7 @@ export class SearchController implements IController {
       results = await this.SearchRepository.search({
         query,
         type,
+        page: httpRequest.body?.page || 1,
       })
 
       return ok(results)
