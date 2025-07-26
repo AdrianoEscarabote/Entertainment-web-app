@@ -12,7 +12,8 @@ export class SearchRepository implements ISearchRepository {
       throw new Error("Invalid search type")
     }
 
-    const url = `https://api.themoviedb.org/3/search/${type}`
+    const page = params.page || 1
+    const url = `https://api.themoviedb.org/3/search/${type}?page=${page}`
 
     const response = await axios
       .get(url, {
@@ -35,9 +36,12 @@ export class SearchRepository implements ISearchRepository {
       throw new Error("No results found")
     }
 
-    const filteredResults = response.results.filter(
-      (item: any) => item.backdrop_path,
-    )
+    const filteredResults = response.results.map((item: any) => {
+      if (!item.backdrop_path) {
+        return { ...item, backdrop_path: item.poster_path }
+      }
+      return item
+    })
 
     return {
       results: filteredResults,
