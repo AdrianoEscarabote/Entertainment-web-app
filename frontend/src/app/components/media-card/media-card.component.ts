@@ -8,4 +8,5 @@ import { MediaItem } from 'src/app/ngrx/types';
 export class MediaCardComponent {
   @Input() item!: MediaItem;
   @Input() isTv: boolean = false;
+  imageLoaded = false;
 }
