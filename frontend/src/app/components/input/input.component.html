@@ -19,11 +19,12 @@
 
 <label
   for="search"
-  class="cursor-pointer flex items-start justify-center gap-6 w-full relative"
+  class="cursor-pointer flex items-start justify-center gap-6 w-full relative md:mb-0 mb-2"
 >
   <img
     class="w-8 h-8"
     [src]="'../../../assets/icon-search.svg'"
+    alt="search icon"
     [ngStyle]="
       error
         ? {
@@ -51,7 +52,7 @@
     {{ error }}
   </div>
   <button
-    class="bg-greyishBlue text-white px-4 py-2 rounded-md hover:opacity-80 focus:opacity-80"
+    class="bg-greyishBlue text-white px-4 md:py-2 py-1 rounded-md hover:opacity-80 focus:opacity-80"
     (click)="onSearch()"
     aria-label="search button"
   >
