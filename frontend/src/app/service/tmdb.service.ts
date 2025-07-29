@@ -11,11 +11,13 @@ export class TmdbService {
   searchMulti(params: {
     searchTerm: string;
     type: string;
+    page?: number;
   }): Observable<{ results: MediaItem[]; page: number; total_pages: number }> {
-    const { searchTerm, type } = params;
+    const { searchTerm, type, page } = params;
 
     const requestBody: any = { query: searchTerm };
     if (type) requestBody.type = type;
+    if (page) requestBody.page = page;
 
     return from(
       axios
