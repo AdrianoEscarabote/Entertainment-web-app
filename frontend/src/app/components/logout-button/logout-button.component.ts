@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import axios from 'axios';
-import { resetMovies } from 'src/app/ngrx/movie.actions';
+import { resetMovies } from 'src/app/ngrx/movie/movie.actions';
 import { environment } from 'src/environments/environment';
 
 @Component({

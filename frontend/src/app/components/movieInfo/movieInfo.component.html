@@ -55,10 +55,15 @@
             class="w-3 h-3"
             src="../../../assets/icon-category-movie.svg"
             aria-hidden="true"
+            alt="movie icon"
           />
         </ng-template>
         <ng-template #tvImage>
-          <img src="../../../assets/icon-category-tv.svg" />
+          <img
+            src="../../../assets/icon-category-tv.svg"
+            alt="tv icon"
+            aria-hidden="true"
+          />
         </ng-template>
         <p class="category">
           {{ media_type === "movie" ? "Movie" : "TV Series" }}
