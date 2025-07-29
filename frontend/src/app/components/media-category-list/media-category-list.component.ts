@@ -60,6 +60,7 @@ export class MediaCategoryListComponent implements OnInit {
   categoryItems$!: Observable<MediaItem[]>;
 
   ngOnInit(): void {
+    this.store.dispatch(clearSearchResults());
     this.categoryItems$ = combineLatest([
       this.route.url,
       this.route.paramMap,
